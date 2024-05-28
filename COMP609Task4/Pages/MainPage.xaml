@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:COMP609Task4.Pages"
+             xmlns:models="clr-namespace:COMP609Task4.Models"
+             xmlns:viewmodels="clr-namespace:COMP609Task4.ViewModels"
+             x:Class="COMP609Task4.Pages.MainPage">
+
+    <Border Stroke="Black" StrokeThickness="1" Padding="10" Margin="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="1"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="1"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Grid Grid.Row="0" BackgroundColor="LightGray" Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Source="lms_icon.jpg" 
+                       WidthRequest="60" 
+                       HeightRequest="60" 
+                       VerticalOptions="Center" 
+                       HorizontalOptions="Start"/>
+                <Label Text="Livestock Management System" 
+                       FontSize="24" 
+                       FontAttributes="Bold"
+                       VerticalOptions="Center" 
+                       HorizontalOptions="Center" 
+                       Grid.Column="1"/>
+            </Grid>
+
+            <!-- Divider below header -->
+            <BoxView Grid.Row="1" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+
+            <!-- Page Content -->
+            <StackLayout Grid.Row="2" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                <Button Text="Livestock" Clicked="Livestock_Clicked"/>
+                <Button Text="Finance" Clicked="Finance_Clicked"/>
+            </StackLayout>
+
+            <!-- Divider above footer -->
+            <BoxView Grid.Row="3" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+
+            <!-- Footer -->
+            <StackLayout Grid.Row="4" VerticalOptions="End" HorizontalOptions="FillAndExpand">
+                <!-- Footer content will be added here later -->
+            </StackLayout>
+        </Grid>
+    </Border>
+
+</ContentPage>

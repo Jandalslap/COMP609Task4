@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="COMP609Task4.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:COMP609Task4.Pages"
+    xmlns:models="clr-namespace:COMP609Task4.Models"
+    xmlns:viewmodels="clr-namespace:COMP609Task4.ViewModels"
+    Shell.FlyoutBehavior="Disabled">
+
+    <!-- Define a ShellHeaderTemplate to remove the header -->
+    <Shell.Resources>
+        <ResourceDictionary>
+            <ControlTemplate x:Key="ShellHeaderTemplate">
+                <Grid/>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </Shell.Resources>
+
+    <ShellContent
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+
+</Shell>
