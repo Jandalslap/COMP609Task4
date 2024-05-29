@@ -70,7 +70,7 @@ namespace COMP609Task4.Pages
             await Shell.Current.GoToAsync("//MainPage");
         }
 
-        private void SearchById_Clicked(object sender, EventArgs e)
+        private async void SearchById_Clicked(object sender, EventArgs e)
         {
             var enteredId = IdSearchEntry.Text;
             if (!string.IsNullOrEmpty(enteredId))
@@ -87,8 +87,16 @@ namespace COMP609Task4.Pages
                 // Show the Edit button only when a search is made
                 EditButton.IsVisible = _viewModel.IsSearchMade;
 
+                // If no stock is found, show an alert
+                if (!_viewModel.IsSearchMade)
+                {
+                    await DisplayAlert("Stock Not Found", "The entered stock ID does not exist.", "OK");
+                    StockTypePicker.SelectedIndex = -1;
+                    StockColourPicker.SelectedIndex = -1;
+                }
             }
         }
+
 
         private void StockTypePicker_SelectedIndexChanged(object sender, EventArgs e)
         {

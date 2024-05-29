@@ -71,21 +71,12 @@ namespace COMP609Task4.ViewModels
             _database = new Database();
             LoadData();
             FilteredLivestock = new ObservableCollection<Stock>(Livestock); // Initialize with all items
-
-            // Subscribe to the StockUpdated message
-            MessagingCenter.Subscribe<EditPage>(this, "StockUpdated", (sender) => RefreshData());
         }
 
         public void LoadData()
         {
             var livestockData = _database.ReadItems();
             Livestock = livestockData != null ? new ObservableCollection<Stock>(livestockData) : new ObservableCollection<Stock>();
-        }
-
-        public void RefreshData()
-        {
-            LoadData(); // Re-load the data
-            FilterStock(SearchId); // Apply any active filters
         }
 
         public void FilterStock(string selectedType)

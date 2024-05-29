@@ -93,6 +93,19 @@ namespace COMP609Task4.Models
             }
         }
 
+        // Method to add a new item to the database
+        public int AddItem(Stock item)
+        {
+            try
+            {
+                return _connection.Insert(item);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding item to database: {ex.Message}");
+                return 0;
+            }
+        }
 
     }
 }
