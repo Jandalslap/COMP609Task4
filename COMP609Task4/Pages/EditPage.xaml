@@ -1,9 +1,6 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:COMP609Task4.Pages"
-             xmlns:models="clr-namespace:COMP609Task4.Models"
-             xmlns:viewmodels="clr-namespace:COMP609Task4.ViewModels"
              x:Class="COMP609Task4.Pages.EditPage">
 
     <Border Stroke="Black" StrokeThickness="1" Padding="10" Margin="10">
@@ -41,16 +38,59 @@
                         Clicked="Home_Clicked"
                         VerticalOptions="Center" 
                         HorizontalOptions="End"
-                        Grid.Column="2"/>                
+                        Grid.Column="2"/>
             </Grid>
 
             <!-- Divider below header -->
             <BoxView Grid.Row="1" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
-            <!-- Page Content -->
-            <StackLayout Grid.Row="2" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-                <!-- Your existing content -->
-            </StackLayout>
+            <!-- Divider between search ID and form fields -->
+            <BoxView Grid.Row="2" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+
+            <!-- Form fields -->
+            <Grid Grid.Row="2" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Grid.Column="0" Margin="0,0,10,0">
+                    <Label Text="Stock Type:" />
+                    <Label x:Name="TypeLabel" Text="Type" VerticalOptions="Center"/>
+                </StackLayout>
+
+                <StackLayout Grid.Column="1" Margin="0,0,10,0">
+                    <Label Text="Stock ID:" />
+                    <Label x:Name="IdLabel" Text="ID" VerticalOptions="Center"/>
+                </StackLayout>
+
+                <StackLayout Grid.Column="2" Margin="0,0,10,0">
+                    <Label Text="Cost" />
+                    <Entry x:Name="CostEntry" Placeholder="Cost"/>
+                </StackLayout>
+
+                <StackLayout Grid.Column="3" Margin="0,0,10,0">
+                    <Label Text="Weight" />
+                    <Entry x:Name="WeightEntry" Placeholder="Weight"/>
+                </StackLayout>
+
+                <StackLayout Grid.Column="4" Margin="0,0,10,0">
+                    <Label Text="Colour" />
+                    <Entry x:Name="ColourEntry" Placeholder="Colour"/>
+                </StackLayout>
+
+                <!-- New column for Produce -->
+                <StackLayout Grid.Column="5" x:Name="ProduceStackLayout" BindingContext="{Binding}">
+                    <Label x:Name="ProduceLabel" Text="Milk" VerticalOptions="Center"/>
+                    <Entry x:Name="ProduceEntry" Placeholder="Produce"/>
+                    <!-- Update Button -->
+                    <Button Text="Update" Clicked="Update_Clicked" CommandParameter="{Binding .}" HorizontalOptions="EndAndExpand"/>
+                </StackLayout>
+            </Grid>
 
             <!-- Divider above footer -->
             <BoxView Grid.Row="3" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
@@ -63,4 +103,3 @@
     </Border>
 
 </ContentPage>
-

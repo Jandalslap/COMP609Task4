@@ -1,42 +1,98 @@
-﻿namespace COMP609Task4.Models;
+﻿using System;
+using SQLite;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 
-public class Database
+namespace COMP609Task4.Models
 {
-    private readonly SQLiteConnection _connection;
-    public Database()
+    public class Database
     {
-        string dbName = "FarmDataOriginal.db";
-        string dbPath = Path.Combine(Current.AppDataDirectory, dbName);
+        private readonly SQLiteConnection _connection;
 
-        if (!File.Exists(dbPath))
+        public Database()
         {
-            //open db file from the asset folder (Raw)
-            using Stream stream = Current.OpenAppPackageFileAsync(dbName).Result;
-            using MemoryStream memoryStream = new();
-            stream.CopyTo(memoryStream);
-            //write db data to app directory
-            File.WriteAllBytes(dbPath, memoryStream.ToArray());
+            string dbName = "FarmDataOriginal.db";
+            string dbPath = Path.Combine(Current.AppDataDirectory, dbName);
+
+            if (!File.Exists(dbPath))
+            {
+                //open db file from the asset folder (Raw)
+                using Stream stream = Current.OpenAppPackageFileAsync(dbName).Result;
+                using MemoryStream memoryStream = new();
+                stream.CopyTo(memoryStream);
+                //write db data to app directory
+                File.WriteAllBytes(dbPath, memoryStream.ToArray());
+            }
+
+            _connection = new SQLiteConnection(dbPath);
+            _connection.CreateTables<Cow, Sheep>(); // create if tables do not exist
         }
 
-        _connection = new SQLiteConnection(dbPath);
-        _connection.CreateTables<Cow, Sheep>(); // create if tables do not exist
-    }
-    public List<Stock> ReadItems()
-    {
-        var stock = new List<Stock>();
-        var lst1 = _connection.Table<Cow>().ToList();
-        stock.AddRange(lst1);
-        var lst2 = _connection.Table<Sheep>().ToList();
-        stock.AddRange(lst2);
-        return stock;
-    }
-    public int InsertItem(Stock item) // uses true type of item to determine which subclass table to enter or delete from
-    {
-        return _connection.Insert(item);
-    }
+        public List<Stock> ReadItems()
+        {
+            var stock = new List<Stock>();
+            var lst1 = _connection.Table<Cow>().ToList();
+            stock.AddRange(lst1);
+            var lst2 = _connection.Table<Sheep>().ToList();
+            stock.AddRange(lst2);
+            return stock;
+        }
 
-    public int DeleteItem(Stock item)
-    {
-        return _connection.Delete(item);
+        public Stock GetItemById(string id)
+        {
+            int itemId = int.Parse(id); // Convert the search ID to an integer
+
+            // Check if the ID is for a Cow or a Sheep
+            var cow = _connection.Table<Cow>().FirstOrDefault(c => c.Id == itemId);
+            if (cow != null)
+            {
+                return cow;
+            }
+
+            var sheep = _connection.Table<Sheep>().FirstOrDefault(s => s.Id == itemId);
+            if (sheep != null)
+            {
+                return sheep;
+            }
+
+            return null; // Item not found
+        }
+
+
+
+        public int InsertItem(Stock item)
+        {
+            return _connection.Insert(item);
+        }
+
+        public int DeleteItem(Stock item)
+        {
+            return _connection.Delete(item);
+        }
+
+        public int UpdateItem(Stock item)
+        {
+            Console.WriteLine($"Updating item: {item}");
+
+            // Check if the item is of type Cow or Sheep and update accordingly
+            if (item is Cow cow)
+            {
+                Console.WriteLine($"Updating Cow with ID: {cow.Id}, Milk: {cow.Milk}");
+                return _connection.Update(cow);
+            }
+            else if (item is Sheep sheep)
+            {
+                Console.WriteLine($"Updating Sheep with ID: {sheep.Id}, Wool: {sheep.Wool}");
+                return _connection.Update(sheep);
+            }
+            else
+            {
+                Console.WriteLine("Unknown stock type.");
+                return 0;
+            }
+        }
+
+
     }
 }

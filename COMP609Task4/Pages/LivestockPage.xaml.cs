@@ -10,7 +10,19 @@ namespace COMP609Task4.Pages
         public LivestockPage()
         {
             InitializeComponent();
-            _viewModel = (LivestockViewModel)BindingContext;
+            _viewModel = new LivestockViewModel();
+            BindingContext = _viewModel;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _viewModel.LoadData();
+
+            // Reset the search box and dropdown menus
+            IdSearchEntry.Text = string.Empty;
+            StockTypePicker.SelectedIndex = -1; // Assuming -1 resets the dropdown
+            StockColourPicker.SelectedIndex = -1; // Assuming -1 resets the dropdown
         }
 
         private async void Back_Clicked(object sender, EventArgs e)
@@ -25,7 +37,32 @@ namespace COMP609Task4.Pages
 
         private async void Edit_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new EditPage()); // Navigate to the EditPage
+            try
+            {
+                // Check if _viewModel is null
+                if (_viewModel == null)
+                {
+                    Console.WriteLine("_viewModel is null");
+                    return; // Exit the method if _viewModel is null
+                }
+
+                // Check if a search has been made and a valid ID is entered
+                if (_viewModel.IsSearchMade && !string.IsNullOrEmpty(_viewModel.SearchId))
+                {
+                    // Navigate to the EditPage and pass only the SearchId
+                    await Navigation.PushAsync(new EditPage(_viewModel.SearchId));
+                }
+                else
+                {
+                    // Handle case where no search has been made or the ID entered is empty
+                    Console.WriteLine("No search made or ID is empty");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log any exceptions to the console or debug output
+                Console.WriteLine("Error in Edit_Clicked: " + ex.Message);
+            }
         }
 
         private async void Home_Clicked(object sender, EventArgs e)
@@ -38,7 +75,18 @@ namespace COMP609Task4.Pages
             var enteredId = IdSearchEntry.Text;
             if (!string.IsNullOrEmpty(enteredId))
             {
+                // Reset the selected indices of the dropdown menus to show "All Stock" and "All Colours"
+                StockTypePicker.SelectedIndex = 0;
+                StockColourPicker.SelectedIndex = 0;
+
                 _viewModel.FilterStockById(enteredId);
+
+                // Store the entered ID in the SearchId property
+                _viewModel.SearchId = enteredId;
+
+                // Show the Edit button only when a search is made
+                EditButton.IsVisible = _viewModel.IsSearchMade;
+
             }
         }
 
@@ -57,7 +105,12 @@ namespace COMP609Task4.Pages
                 selectedColour = null; // Treat "All Colours" as null
             }
 
+            // Clear the search box
+            IdSearchEntry.Text = string.Empty;
             _viewModel.FilterStock(selectedType, selectedColour);
+
+            // Hide the Edit button when filters are applied
+            EditButton.IsVisible = false;
         }
 
         private void StockColourPicker_SelectedIndexChanged(object sender, EventArgs e)
@@ -75,7 +128,12 @@ namespace COMP609Task4.Pages
                 selectedType = null; // Treat "All Stock" as null
             }
 
+            // Clear the search box
+            IdSearchEntry.Text = string.Empty;
             _viewModel.FilterStock(selectedType, selectedColour);
+
+            // Hide the Edit button when filters are applied
+            EditButton.IsVisible = false;
         }
     }
 }
