@@ -1,42 +1,54 @@
 using System;
 using Microsoft.Maui.Controls;
 using COMP609Task4.Models;
+using COMP609Task4.ViewModels;
 
 namespace COMP609Task4.Pages
 {
     public partial class EditPage : ContentPage
     {
-        private readonly string _searchId;
         private readonly Database _database;
+        private readonly string _searchId;
+        private readonly EditViewModel _viewModel;
 
-        public EditPage(string searchId)
+        public EditPage()
         {
             InitializeComponent();
-            _searchId = searchId;
-            _database = new Database(); // Initialize your database instance here
-
-            // Populate the fields with data based on the search ID
-            PopulateFields();
+            _database = new Database();
+            _viewModel = new EditViewModel();
+            BindingContext = _viewModel;
         }
 
-        private void PopulateFields()
+        public EditPage(string searchId) : this()
         {
-            // Retrieve the stock item from the database based on the search ID
-            var stockToEdit = _database.GetItemById(_searchId);
+            _searchId = searchId;
+            _viewModel.SearchById(searchId);
+            PopulateFields(searchId); // Call PopulateFields after searching by ID
+        }
 
+        private void SearchById_Clicked(object sender, EventArgs e)
+        {
+            var enteredId = IdSearchEntry.Text;
+            if (!string.IsNullOrEmpty(enteredId))
+            {
+                _viewModel.SearchById(enteredId);
+                PopulateFields(enteredId); // Call PopulateFields after searching by ID
+            }
+        }
+
+        private void PopulateFields(string searchId)
+        {
+            var stockToEdit = _database.GetItemById(searchId);
             if (stockToEdit != null)
             {
-                // Set the BindingContext for the entire page or the relevant section
-                this.BindingContext = stockToEdit;
-
-                // Populate the fields with data from the retrieved stock item
+                // Bind stockToEdit to the UI
+                BindingContext = stockToEdit;
                 TypeLabel.Text = stockToEdit.Type;
-                IdLabel.Text = stockToEdit.Id.ToString(); // Convert integer ID to string
+                IdLabel.Text = stockToEdit.Id.ToString();
                 CostEntry.Text = stockToEdit.Cost.ToString();
                 WeightEntry.Text = stockToEdit.Weight.ToString();
                 ColourLabel.Text = stockToEdit.Colour;
 
-                // Check the type of stock to set the produce label and field
                 if (stockToEdit is Cow cow)
                 {
                     ProduceLabel.Text = "Milk";
@@ -55,191 +67,208 @@ namespace COMP609Task4.Pages
             }
             else
             {
-                // Handle case where stock item is not found
-                Console.WriteLine("Stock item not found with ID: " + _searchId);
+                Console.WriteLine("Stock item not found with ID: " + searchId);
             }
         }
 
-
         private void Update_Clicked(object sender, EventArgs e)
         {
-            var button = sender as Button;
-            if (button != null)
+            if (sender is Button button && button.CommandParameter is Stock updatedStock)
             {
-                var commandParameter = button.CommandParameter;
-                Console.WriteLine("Button Clicked");
-                Console.WriteLine($"CommandParameter: {commandParameter}");
+                updatedStock.Cost = int.Parse(CostEntry.Text);
+                updatedStock.Weight = int.Parse(WeightEntry.Text);
 
-                // Get the Stock object bound to the button that was clicked
-                var updatedStock = commandParameter as Stock;
-
-                if (updatedStock != null)
+                if (updatedStock is Cow cow)
                 {
-                    // Update the stock properties from the UI fields
-                    updatedStock.Cost = int.Parse(CostEntry.Text);
-                    updatedStock.Weight = int.Parse(WeightEntry.Text);
+                    cow.Milk = int.Parse(ProduceEntry.Text);
+                }
+                else if (updatedStock is Sheep sheep)
+                {
+                    sheep.Wool = int.Parse(ProduceEntry.Text);
+                }
 
-                    if (updatedStock is Cow cow)
-                    {
-                        cow.Milk = int.Parse(ProduceEntry.Text);
-                    }
-                    else if (updatedStock is Sheep sheep)
-                    {
-                        sheep.Wool = int.Parse(ProduceEntry.Text);
-                    }
+                int result = _database.UpdateItem(updatedStock);
 
-                    // Update the database with the changes made to the Stock object
-                    int result = _database.UpdateItem(updatedStock);
-
-                    if (result > 0)
-                    {
-                        DisplayAlert("Success", "Stock updated successfully", "OK");
-                    }
-                    else
-                    {
-                        DisplayAlert("Error", "Failed to update stock", "OK");
-                    }
+                if (result > 0)
+                {
+                    DisplayAlert("Success", "Stock updated successfully", "OK");
+                    ClearEditForm();
                 }
                 else
                 {
-                    Console.WriteLine("CommandParameter is not a Stock object.");
+                    DisplayAlert("Error", "Failed to update stock", "OK");
                 }
-            }
-            else
-            {
-                Console.WriteLine("Sender is not a Button.");
             }
         }
 
         private void Delete_Clicked(object sender, EventArgs e)
         {
-            // Get the Stock object bound to the button that was clicked
-            var deletedStock = (sender as Button)?.CommandParameter as Stock;
-
-            if (deletedStock != null)
+            if (sender is Button button && button.CommandParameter is Stock deletedStock)
             {
-                // Delete the item from the database
                 _database.DeleteItem(deletedStock);
-                // Optionally, you can display a message or perform other actions after the deletion
                 DisplayAlert("Success", "Stock deleted successfully", "OK");
-
-                // Clear the edit form
                 ClearEditForm();
             }
-        }
-
-        private void ClearEditForm()
-        {
-            // Reset the values of the form fields to their default state
-            TypeLabel.Text = "Type";
-            IdLabel.Text = "ID";
-            ColourLabel.Text = "Colour"; ;
-            CostEntry.Text = string.Empty;
-            WeightEntry.Text = string.Empty;
-            ProduceStackLayout.IsVisible = false;
         }
 
 
         private async void Home_Clicked(object sender, EventArgs e)
         {
-            // Add your home button logic here
             await Shell.Current.GoToAsync("//MainPage");
         }
 
         private async void Back_Clicked(object sender, EventArgs e)
         {
-            // Add your back button logic here
             await Navigation.PopAsync();
         }
 
+
+
         private void AddNewStock_Clicked(object sender, EventArgs e)
         {
+            // Check if a stock type is selected
+            if (StockTypePicker.SelectedItem == null)
+            {
+                DisplayAlert("Error", "Please select a stock type", "OK");
+                return;
+            }
 
-            // Set default values or clear fields
-            TypeLabel.Text = "Stock Type:";
-            IdLabel.Text = "Stock ID:";
-            ColourLabel.Text = "Colour";
-            CostEntry.Placeholder = "Cost";
-            WeightEntry.Placeholder = "Weight";
-            ProduceLabel.Text = "Produce";
-            ProduceEntry.Placeholder = "Produce";
+            // Check if a colour is selected
+            if (ColourPicker.SelectedItem == null)
+            {
+                DisplayAlert("Error", "Please select a colour", "OK");
+                return;
+            }
+
+            // Check if cost is entered
+            if (string.IsNullOrWhiteSpace(AddCost.Text))
+            {
+                DisplayAlert("Error", "Please enter a value for cost", "OK");
+                return;
+            }
+
+            // Check if weight is entered
+            if (string.IsNullOrWhiteSpace(AddWeight.Text))
+            {
+                DisplayAlert("Error", "Please enter a value for weight", "OK");
+                return;
+            }
+
+            // Parse cost and weight
+            if (!int.TryParse(AddCost.Text, out int cost))
+            {
+                DisplayAlert("Error", "Invalid value for cost", "OK");
+                return;
+            }
+
+            if (!int.TryParse(AddWeight.Text, out int weight))
+            {
+                DisplayAlert("Error", "Invalid value for weight", "OK");
+                return;
+            }
+
+            // Get the selected stock type and colour
+            string selectedStockType = StockTypePicker.SelectedItem.ToString();
+            string selectedColour = ColourPicker.SelectedItem.ToString();
+
+            // Retrieve additional field based on stock type
+            int additionalField;
+            if (!int.TryParse(AddProduce.Text, out additionalField))
+            {
+                DisplayAlert("Error", "Invalid value for additional field", "OK");
+                return;
+            }
+
+            // Create a new Stock object
+            Stock newStock;
+            if (selectedStockType == "Cow")
+            {
+                newStock = new Cow()
+                {
+                    // Set properties common to all stocks
+                    Type = selectedStockType,
+                    Colour = selectedColour,
+                    Cost = cost,
+                    Weight = weight,
+                    // Set additional property specific to Cow
+                    Milk = additionalField
+                };
+            }
+            else // Assume selectedStockType == "Sheep"
+            {
+                newStock = new Sheep()
+                {
+                    // Set properties common to all stocks
+                    Type = selectedStockType,
+                    Colour = selectedColour,
+                    Cost = cost,
+                    Weight = weight,
+                    // Set additional property specific to Sheep
+                    Wool = additionalField
+                };
+            }
+
+            // Insert the new stock into the database
+            int result = _database.AddItem(newStock);
+
+            if (result > 0)
+            {
+                DisplayAlert("Success", "Stock added successfully", "OK");
+                // After updating, clear the form fields
+                ClearAddForm();
+            }
+            else
+            {
+                DisplayAlert("Error", "Failed to add stock", "OK");
+            }
         }
 
-        //private void SaveNewStock_Clicked(object sender, EventArgs e)
-        //{
-        //    // Create a new Stock object based on the form input
-        //    var newStockType = NewStockTypePicker.SelectedItem.ToString();
-        //    var newStockColour = NewStockColourPicker.SelectedItem.ToString();
-        //    var newStockCost = int.Parse(NewStockCostEntry.Text);
-        //    var newStockWeight = int.Parse(NewStockWeightEntry.Text);
-        //    var newStockProduce = NewStockProduceEntry.Text;
 
-        //    Stock newStock;
-        //    if (newStockType == "Cow")
-        //    {
-        //        newStock = new Cow
-        //        {
-        //            Type = "Cow",
-        //            Colour = newStockColour,
-        //            Cost = newStockCost,
-        //            Weight = newStockWeight,
-        //            Milk = int.Parse(newStockProduce)
-        //        };
-        //    }
-        //    else
-        //    {
-        //        newStock = new Sheep
-        //        {
-        //            Type = "Sheep",
-        //            Colour = newStockColour,
-        //            Cost = newStockCost,
-        //            Weight = newStockWeight,
-        //            Wool = int.Parse(newStockProduce)
-        //        };
-        //    }
+        private void StockTypePicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (sender is Picker picker && picker.SelectedItem != null)
+            {
+                if (picker.SelectedItem.ToString() == "Cow")
+                {
+                    AddProduceLabel.Text = "Milk";
+                }
+                else if (picker.SelectedItem.ToString() == "Sheep")
+                {
+                    AddProduceLabel.Text = "Wool";
+                }
+            }
+        }
 
-        //    // Add the new stock item to the database
-        //    int result = _database.AddItem(newStock);
 
-        //    if (result > 0)
-        //    {
-        //        DisplayAlert("Success", "New stock added successfully", "OK");
-        //        // Hide the form and reset input fields
-        //        NewStockForm.IsVisible = false;
-        //        NewStockTypePicker.SelectedIndex = -1;
-        //        NewStockColourPicker.SelectedIndex = -1;
-        //        NewStockCostEntry.Text = string.Empty;
-        //        NewStockWeightEntry.Text = string.Empty;
-        //        NewStockProduceEntry.Text = string.Empty;
-        //    }
-        //    else
-        //    {
-        //        DisplayAlert("Error", "Failed to add new stock", "OK");
-        //    }
-        //}
+        private void ClearAddForm()
+        {
+            // Clear Stock Type Picker
+            StockTypePicker.SelectedItem = null;
 
-        //private void ShowAddNewStockForm(object sender, EventArgs e)
-        //{
-        //    // Show the form for adding new stock
-        //    NewStockForm.IsVisible = true;
-        //}
+            // Clear Colour Picker
+            ColourPicker.SelectedItem = null;
 
-        //private void OnTypeSelected(object sender, EventArgs e)
-        //{
-        //    if (NewStockTypePicker.SelectedItem?.ToString() == "Cow")
-        //    {
-        //        NewStockProduceEntry.Placeholder = "Milk";
-        //        NewStockProduceEntry.IsVisible = true;
-        //    }
-        //    else if (NewStockTypePicker.SelectedItem?.ToString() == "Sheep")
-        //    {
-        //        NewStockProduceEntry.Placeholder = "Wool";
-        //        NewStockProduceEntry.IsVisible = true;
-        //    }
-        //    else
-        //    {
-        //        NewStockProduceEntry.IsVisible = false;
-        //    }
-        //}
+            // Clear Cost Entry
+            AddCost.Text = string.Empty;
+
+            // Clear Weight Entry
+            AddWeight.Text = string.Empty;
+
+            // Clear Additional Field Entry
+            AddProduce.Text = string.Empty;
+        }
+
+
+        private void ClearEditForm()
+        {
+            TypeLabel.Text = "Type";
+            IdLabel.Text = "ID";
+            ColourLabel.Text = "Colour";
+            CostEntry.Text = string.Empty;
+            WeightEntry.Text = string.Empty;
+            ProduceLabel.Text = "Produce";
+            ProduceEntry.Text = string.Empty;
+            IdSearchEntry.Text = string.Empty;
+        }
     }
 }

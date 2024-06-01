@@ -8,6 +8,8 @@ public class Stock
     public int Cost { get; set; }
     public int Weight { get; set; }
     public string Colour { get; set; }
+    public string Milk { get; set; } = "-";  // Default to "-" if not applicable
+    public string Wool { get; set; } = "-";  // Default to "-" if not applicable
 
     public Stock()
     {

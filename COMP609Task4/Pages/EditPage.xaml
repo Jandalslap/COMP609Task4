@@ -1,12 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:COMP609Task4.Pages"
+             xmlns:models="clr-namespace:COMP609Task4.Models"
+             xmlns:viewmodels="clr-namespace:COMP609Task4.ViewModels"
              x:Class="COMP609Task4.Pages.EditPage">
+
+    <ContentPage.BindingContext>
+        <viewmodels:EditViewModel />
+    </ContentPage.BindingContext>
 
     <Border Stroke="Black" StrokeThickness="1" Padding="10" Margin="10">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="1"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="1"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="1"/>
@@ -18,6 +28,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <Image Source="lms_icon.jpg" 
@@ -25,13 +36,12 @@
                        HeightRequest="60" 
                        VerticalOptions="Center" 
                        HorizontalOptions="Start"/>
-                <Label Text="Edit Page" 
+                <Label Text="Edit Stock" 
                        FontSize="24" 
                        FontAttributes="Bold"
                        VerticalOptions="Center" 
                        HorizontalOptions="Center" 
                        Grid.Column="1"/>
-                <!-- Home Button -->
                 <Button Text="Home" 
                         BackgroundColor="White" 
                         TextColor="Black"
@@ -44,11 +54,24 @@
             <!-- Divider below header -->
             <BoxView Grid.Row="1" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
-            <!-- Divider between search ID and form fields -->
-            <BoxView Grid.Row="2" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+            <!-- Search ID Section -->
+            <StackLayout Grid.Row="2" Padding="10">
+                <Label Text="Search by ID" FontAttributes="Bold" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Entry x:Name="IdSearchEntry" Placeholder="Enter ID" Grid.Column="0"/>
+                    <Button Text="Search" Clicked="SearchById_Clicked" Grid.Column="1"/>
+                </Grid>
+            </StackLayout>
 
-            <!-- Form fields -->
-            <Grid Grid.Row="2" Margin="10">
+            <!-- Divider between search ID and form fields -->
+            <BoxView Grid.Row="4" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+
+            <!-- Edit Form fields -->
+            <Grid Grid.Row="3" Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
@@ -61,14 +84,16 @@
                 </Grid.ColumnDefinitions>
 
                 <StackLayout Grid.Column="0" Margin="0,0,10,0">
+                    <Label Text="Stock ID:" FontAttributes="Bold" />
+                    <Label x:Name="IdLabel" VerticalOptions="Center"/>
+                </StackLayout>
+                
+                <StackLayout Grid.Column="1" Margin="0,0,10,0">
                     <Label Text="Stock Type:" FontAttributes="Bold" />
-                    <Label x:Name="TypeLabel" Text="Type" VerticalOptions="Center"/>
+                    <Label x:Name="TypeLabel" VerticalOptions="Center"/>
                 </StackLayout>
 
-                <StackLayout Grid.Column="1" Margin="0,0,10,0">
-                    <Label Text="Stock ID:" FontAttributes="Bold" />
-                    <Label x:Name="IdLabel" Text="ID" VerticalOptions="Center"/>
-                </StackLayout>
+
 
                 <StackLayout Grid.Column="2" Margin="0,0,10,0">
                     <Label Text="Colour" FontAttributes="Bold" />
@@ -85,24 +110,19 @@
                     <Entry x:Name="WeightEntry" Placeholder="Weight"/>
                 </StackLayout>
 
-                <!-- New column for Produce -->
-                <StackLayout Grid.Column="5" x:Name="ProduceStackLayout" BindingContext="{Binding}">
+                <StackLayout Grid.Column="5" x:Name="ProduceStackLayout">
                     <Label x:Name="ProduceLabel" Text="Milk" FontAttributes="Bold" VerticalOptions="Center"/>
                     <Entry x:Name="ProduceEntry" Placeholder="Produce"/>
                 </StackLayout>
 
-                <!-- New column for Update and Delete buttons -->
                 <StackLayout Grid.Column="6" Orientation="Horizontal" VerticalOptions="Start">
-                    <!-- Update Button -->
                     <Button Text="Update" Clicked="Update_Clicked" CommandParameter="{Binding .}"/>
-                    <!-- Delete Button -->
                     <Button Text="Delete" Clicked="Delete_Clicked" CommandParameter="{Binding .}"/>
                 </StackLayout>
-
             </Grid>
 
-            <Grid Grid.Row="3" Margin="10">
-
+            <!-- Add New Form fields -->
+            <Grid Grid.Row="5" Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
@@ -111,22 +131,68 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <!-- New column for Update and Delete buttons -->
-                <StackLayout Grid.Column="6" Orientation="Horizontal" VerticalOptions="Start">
-                    <!-- Update Button -->
-                    <Button Text="Add New Stock" Clicked="AddNewStock_Clicked" HorizontalOptions="Center" Margin="0,10"/>
+
+                <!-- Stock Type Dropdown -->
+                <StackLayout Grid.Column="0" Margin="0,0,10,0">
+                    <Label Text="Stock Type:" FontAttributes="Bold" />
+                    <Picker x:Name="StockTypePicker" SelectedIndexChanged="StockTypePicker_SelectedIndexChanged">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Cow</x:String>
+                                <x:String>Sheep</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </StackLayout>
+
+                <!-- Colour Dropdown -->
+                <StackLayout Grid.Column="1" Margin="0,0,10,0">
+                    <Label Text="Colour:" FontAttributes="Bold" />
+                    <Picker x:Name="ColourPicker">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Red</x:String>
+                                <x:String>White</x:String>
+                                <x:String>Black</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </StackLayout>
+
+                <!-- Cost -->
+                <StackLayout Grid.Column="2" Margin="0,0,10,0">
+                    <Label Text="Cost:" FontAttributes="Bold" />
+                    <Entry x:Name="AddCost" Placeholder="Cost"/>
+                </StackLayout>
+
+                <!-- Weight -->
+                <StackLayout Grid.Column="3" Margin="0,0,10,0">
+                    <Label Text="Weight:" FontAttributes="Bold" />
+                    <Entry x:Name="AddWeight" Placeholder="Weight"/>
+                </StackLayout>
+
+                <!-- Additional field based on stock type -->
+                <StackLayout Grid.Column="4" x:Name="ProduceStackLayout2">
+                    <Label x:Name="AddProduceLabel" Text="Milk" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Entry x:Name="AddProduce" Placeholder="Produce"/>
+                </StackLayout>
+
+                <!-- Add New Button -->
+                <StackLayout Grid.Column="5" Orientation="Horizontal" VerticalOptions="Start">
+                    <Button Text="Add New" Clicked="AddNewStock_Clicked" CommandParameter="{Binding .}"/>
                 </StackLayout>
             </Grid>
 
+
             <!-- Divider above footer -->
-            <BoxView Grid.Row="3" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+            <BoxView Grid.Row="6" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
             <!-- Footer -->
-            <StackLayout Grid.Row="4" Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,10,0,10">
+            <StackLayout Grid.Row="7" Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,10,0,10">
                 <Button Text="Back" Clicked="Back_Clicked"/>
             </StackLayout>
         </Grid>
     </Border>
-
 </ContentPage>

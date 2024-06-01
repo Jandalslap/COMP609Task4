@@ -10,41 +10,8 @@ namespace COMP609Task4.ViewModels
         private readonly Database _database;
         private ObservableCollection<Stock> _livestock;
         private ObservableCollection<Stock> _filteredLivestock;
-        private bool _isSearchMade;
+
         public Database Database => _database; // Property to access the database instance
-
-        private string _searchId;
-
-        private bool _isEditButtonVisible;
-        public bool IsEditButtonVisible
-        {
-            get { return _isEditButtonVisible; }
-            set
-            {
-                _isEditButtonVisible = value;
-                OnPropertyChanged(nameof(IsEditButtonVisible));
-            }
-        }
-
-        public string SearchId
-        {
-            get => _searchId;
-            set
-            {
-                _searchId = value;
-                OnPropertyChanged(nameof(SearchId));
-            }
-        }
-
-        public bool IsSearchMade
-        {
-            get => _isSearchMade;
-            set
-            {
-                _isSearchMade = value;
-                OnPropertyChanged(nameof(IsSearchMade));
-            }
-        }
 
         public ObservableCollection<Stock> Livestock
         {
@@ -77,6 +44,7 @@ namespace COMP609Task4.ViewModels
         {
             var livestockData = _database.ReadItems();
             Livestock = livestockData != null ? new ObservableCollection<Stock>(livestockData) : new ObservableCollection<Stock>();
+            FilteredLivestock = new ObservableCollection<Stock>(Livestock);
         }
 
         public void FilterStock(string selectedType)
@@ -88,9 +56,6 @@ namespace COMP609Task4.ViewModels
             else
             {
                 FilteredLivestock = new ObservableCollection<Stock>(Livestock.Where(item => item.Type == selectedType));
-
-                // Hide the Edit button if filters are applied
-                IsEditButtonVisible = false;
             }
         }
 
@@ -103,7 +68,6 @@ namespace COMP609Task4.ViewModels
         public void FilterStockById(string id)
         {
             FilteredLivestock = new ObservableCollection<Stock>(Livestock.Where(item => item.Id.ToString() == id));
-            IsSearchMade = FilteredLivestock.Any();  // Set IsSearchMade based on whether any items were found
         }
 
         public void FilterStock(string selectedType, string selectedColour)
@@ -123,7 +87,6 @@ namespace COMP609Task4.ViewModels
             }
 
             FilteredLivestock = new ObservableCollection<Stock>(filteredItems);
-            IsSearchMade = FilteredLivestock.Any();  // Set IsSearchMade based on whether any items were found
         }
     }
 }
