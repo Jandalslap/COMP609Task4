@@ -49,6 +49,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\livestock_image1.jpg" />
+	  <None Remove="Resources\Images\livestock_image2.jpg" />
 	  <None Remove="Resources\Images\lms_icon.jpg" />
 	  <None Remove="Resources\Raw\FarmDataOriginal.db" />
 	</ItemGroup>

@@ -270,5 +270,17 @@ namespace COMP609Task4.Pages
             ProduceEntry.Text = string.Empty;
             IdSearchEntry.Text = string.Empty;
         }
+
+        private void ClearSearchById_Clicked(object sender, EventArgs e)
+        {
+            // Call the ClearEditForm method to clear the form fields
+            ClearEditForm();
+        }    
+
+        private void ClearAddNewStock_Clicked(object sender, EventArgs e)
+        {
+            // Call the ClearEditForm method to clear the form fields
+            ClearAddForm();
+        }
     }
 }

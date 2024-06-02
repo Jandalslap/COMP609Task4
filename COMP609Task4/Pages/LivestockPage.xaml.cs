@@ -15,12 +15,6 @@ namespace COMP609Task4.Pages
             InitializeComponent();
             _viewModel = new LivestockViewModel();
             BindingContext = _viewModel;
-
-            MessagingCenter.Subscribe<EditPage>(this, "StockUpdated", (sender) =>
-            {
-                Console.WriteLine("StockUpdated message received");
-                _viewModel.LoadData();
-            });
         }
 
         protected override void OnAppearing()
@@ -37,7 +31,6 @@ namespace COMP609Task4.Pages
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            MessagingCenter.Unsubscribe<EditPage>(this, "StockUpdated");
         }
 
         private async void Back_Clicked(object sender, EventArgs e)
@@ -96,5 +89,17 @@ namespace COMP609Task4.Pages
             await Navigation.PushAsync(new EditPage()); // Navigate to the EditPage
         }
 
+        private void ClearFilters()
+        {
+            // Reset the dropdown menus
+            StockTypePicker.SelectedIndex = -1; // -1 resets the dropdown
+            StockColourPicker.SelectedIndex = -1; // -1 resets the dropdown
+        }
+
+        private void ClearFilters_Clicked(object sender, EventArgs e)
+        {
+            // Call the ClearEditForm method to clear the form fields
+            ClearFilters();
+        }
     }
 }
