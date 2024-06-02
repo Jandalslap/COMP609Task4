@@ -10,6 +10,7 @@ namespace COMP609Task4.Models
     {
         private readonly SQLiteConnection _connection;
 
+        // Constructor to initialize the database connection
         public Database()
         {
             string dbName = "FarmDataOriginal.db";
@@ -17,11 +18,11 @@ namespace COMP609Task4.Models
 
             if (!File.Exists(dbPath))
             {
-                //open db file from the asset folder (Raw)
+                // Open db file from the asset folder (Raw)
                 using Stream stream = Current.OpenAppPackageFileAsync(dbName).Result;
                 using MemoryStream memoryStream = new();
                 stream.CopyTo(memoryStream);
-                //write db data to app directory
+                // Write db data to app directory
                 File.WriteAllBytes(dbPath, memoryStream.ToArray());
             }
 
@@ -29,6 +30,7 @@ namespace COMP609Task4.Models
             _connection.CreateTables<Cow, Sheep>(); // create if tables do not exist
         }
 
+        // Method to read all items from the database
         public List<Stock> ReadItems()
         {
             var stock = new List<Stock>();
@@ -39,6 +41,7 @@ namespace COMP609Task4.Models
             return stock;
         }
 
+        // Method to get a single item by its ID
         public Stock GetItemById(string id)
         {
             int itemId = int.Parse(id); // Convert the search ID to an integer
@@ -59,18 +62,19 @@ namespace COMP609Task4.Models
             return null; // Item not found
         }
 
-
-
+        // Method to insert a new item into the database
         public int InsertItem(Stock item)
         {
             return _connection.Insert(item);
         }
 
+        // Method to delete an item from the database
         public int DeleteItem(Stock item)
         {
             return _connection.Delete(item);
         }
 
+        // Method to update an existing item in the database
         public int UpdateItem(Stock item)
         {
             Console.WriteLine($"Updating item: {item}");
@@ -106,6 +110,5 @@ namespace COMP609Task4.Models
                 return 0;
             }
         }
-
     }
 }

@@ -8,7 +8,7 @@ public class MainViewModel
     public readonly Database _database;
     public MainViewModel()
     {
-
+        
     }
 
 }

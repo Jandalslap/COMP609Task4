@@ -11,6 +11,7 @@ namespace COMP609Task4.Pages
         private readonly string _searchId;
         private readonly EditViewModel _viewModel;
 
+        // Default constructor
         public EditPage()
         {
             InitializeComponent();
@@ -19,6 +20,7 @@ namespace COMP609Task4.Pages
             BindingContext = _viewModel;
         }
 
+        // Constructor with a search ID parameter
         public EditPage(string searchId) : this()
         {
             _searchId = searchId;
@@ -26,6 +28,7 @@ namespace COMP609Task4.Pages
             PopulateFields(searchId); // Call PopulateFields after searching by ID
         }
 
+        // Event handler for the SearchById button click event
         private void SearchById_Clicked(object sender, EventArgs e)
         {
             var enteredId = IdSearchEntry.Text;
@@ -36,6 +39,7 @@ namespace COMP609Task4.Pages
             }
         }
 
+        // Method to populate fields with data from the database based on search ID
         private void PopulateFields(string searchId)
         {
             var stockToEdit = _database.GetItemById(searchId);
@@ -71,6 +75,7 @@ namespace COMP609Task4.Pages
             }
         }
 
+        // Event handler for the Update button click event
         private void Update_Clicked(object sender, EventArgs e)
         {
             if (sender is Button button && button.CommandParameter is Stock updatedStock)
@@ -101,6 +106,7 @@ namespace COMP609Task4.Pages
             }
         }
 
+        // Event handler for the Delete button click event
         private void Delete_Clicked(object sender, EventArgs e)
         {
             if (sender is Button button && button.CommandParameter is Stock deletedStock)
@@ -111,67 +117,55 @@ namespace COMP609Task4.Pages
             }
         }
 
-
+        // Event handler for the Home button click event
         private async void Home_Clicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync("//MainPage");
         }
 
+        // Event handler for the Back button click event
         private async void Back_Clicked(object sender, EventArgs e)
         {
             await Navigation.PopAsync();
         }
 
-
-
+        // Event handler for the Add New Stock button click event
         private void AddNewStock_Clicked(object sender, EventArgs e)
         {
-            // Check if a stock type is selected
             if (StockTypePicker.SelectedItem == null)
             {
                 DisplayAlert("Error", "Please select a stock type", "OK");
                 return;
             }
-
-            // Check if a colour is selected
             if (ColourPicker.SelectedItem == null)
             {
                 DisplayAlert("Error", "Please select a colour", "OK");
                 return;
             }
-
-            // Check if cost is entered
             if (string.IsNullOrWhiteSpace(AddCost.Text))
             {
                 DisplayAlert("Error", "Please enter a value for cost", "OK");
                 return;
             }
-
-            // Check if weight is entered
             if (string.IsNullOrWhiteSpace(AddWeight.Text))
             {
                 DisplayAlert("Error", "Please enter a value for weight", "OK");
                 return;
             }
-
-            // Parse cost and weight
             if (!int.TryParse(AddCost.Text, out int cost))
             {
                 DisplayAlert("Error", "Invalid value for cost", "OK");
                 return;
             }
-
             if (!int.TryParse(AddWeight.Text, out int weight))
             {
                 DisplayAlert("Error", "Invalid value for weight", "OK");
                 return;
             }
 
-            // Get the selected stock type and colour
             string selectedStockType = StockTypePicker.SelectedItem.ToString();
             string selectedColour = ColourPicker.SelectedItem.ToString();
 
-            // Retrieve additional field based on stock type
             int additionalField;
             if (!int.TryParse(AddProduce.Text, out additionalField))
             {
@@ -223,7 +217,7 @@ namespace COMP609Task4.Pages
             }
         }
 
-
+        // Event handler for the Stock Type Picker selection change event
         private void StockTypePicker_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (sender is Picker picker && picker.SelectedItem != null)
@@ -239,26 +233,23 @@ namespace COMP609Task4.Pages
             }
         }
 
-
+        // Method to clear the add form fields
         private void ClearAddForm()
         {
-            // Clear Stock Type Picker
             StockTypePicker.SelectedItem = null;
-
-            // Clear Colour Picker
             ColourPicker.SelectedItem = null;
-
-            // Clear Cost Entry
             AddCost.Text = string.Empty;
-
-            // Clear Weight Entry
             AddWeight.Text = string.Empty;
-
-            // Clear Additional Field Entry
             AddProduce.Text = string.Empty;
         }
 
+        // Event handler for the Livestock button click event
+        private async void Livestock_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new LivestockPage());
+        }
 
+        // Method to clear the edit form fields
         private void ClearEditForm()
         {
             TypeLabel.Text = "Type";
@@ -271,15 +262,15 @@ namespace COMP609Task4.Pages
             IdSearchEntry.Text = string.Empty;
         }
 
+        // Event handler to clear the search by ID fields
         private void ClearSearchById_Clicked(object sender, EventArgs e)
         {
-            // Call the ClearEditForm method to clear the form fields
             ClearEditForm();
-        }    
+        }
 
+        // Event handler to clear the add new stock fields
         private void ClearAddNewStock_Clicked(object sender, EventArgs e)
         {
-            // Call the ClearEditForm method to clear the form fields
             ClearAddForm();
         }
     }

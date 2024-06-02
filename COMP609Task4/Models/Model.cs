@@ -4,7 +4,7 @@
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
-        public string Type { get; set; } // Add Type property
+        public string Type { get; set; } 
         public int Cost { get; set; }
         public int Weight { get; set; }
         public string Colour { get; set; }
@@ -15,24 +15,9 @@
         {
             Type = GetType().Name; // Set Type property to the type name of the object
         }
-        public override string ToString() // base ToString()
-        { // first name is for business type name
+        public override string ToString()
+        { 
             return $"{Type,-15} {Id,-5} {Cost,-5} {Weight,-5} {Colour,-10}";
-        }
-        public string MilkOrWool
-        {
-            get
-            {
-                if (this is Cow cow)
-                {
-                    return $"Milk: {cow.Milk}";
-                }
-                else if (this is Sheep sheep)
-                {
-                    return $"Wool: {sheep.Wool}";
-                }
-                return string.Empty;
-            }
         }
     }
 
@@ -42,7 +27,7 @@
     // Subclass of Stock
     public class Sheep : Stock
     {
-        public int? Wool { get; set; }
+        public new int? Wool { get; set; }
         public override string ToString()
         {
             return base.ToString() + $"{Wool}";
@@ -52,7 +37,7 @@
     [Table("Cow")]
     public class Cow : Stock
     {
-        public int? Milk { get; set; }
+        public new int? Milk { get; set; }
         public override string ToString()
         {
             return base.ToString() + $"{Milk}";

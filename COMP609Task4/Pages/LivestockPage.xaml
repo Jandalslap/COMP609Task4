@@ -23,6 +23,9 @@
                 AbsoluteLayout.LayoutFlags="All">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="1"/>
                     <RowDefinition Height="Auto"/>
@@ -35,8 +38,11 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
+                <!-- Divider above header -->
+                <BoxView Grid.Row="0" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+
                 <!-- Header -->
-                <Grid Grid.Row="0" BackgroundColor="#D3D3D380" Padding="10">
+                <Grid Grid.Row="1" BackgroundColor="#D3D3D380" Padding="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
@@ -57,7 +63,7 @@
 
                     <!-- Home Button -->
                     <Button Text="Home" 
-                            BackgroundColor="White" 
+                            BackgroundColor="#F0F0F0" 
                             TextColor="Black"
                             Clicked="Home_Clicked"
                             VerticalOptions="Center" 
@@ -67,10 +73,10 @@
                 </Grid>
 
                 <!-- Divider below header -->
-                <BoxView Grid.Row="1" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+                <BoxView Grid.Row="2" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
                 <!-- Dropdown Filter section -->
-                <Grid Grid.Row="2" Margin="10" HorizontalOptions="Center">
+                <Grid Grid.Row="3" Margin="10" HorizontalOptions="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
@@ -104,41 +110,45 @@
                         </Picker>
                     </StackLayout>
 
-                    <!-- Add Reset Button -->
+                    <!-- Reset Button -->
                     <StackLayout Grid.Column="2" Padding="10" Orientation="Horizontal" VerticalOptions="Start">
-                        <Button BackgroundColor="White" FontAttributes="Bold" TextColor="Black" Text="Reset" Clicked="ClearFilters_Clicked" CommandParameter="{Binding .}"/>
+                        <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Reset" Clicked="ClearFilters_Clicked" CommandParameter="{Binding .}"/>
                     </StackLayout>
                 </Grid>
 
                 <!-- Divider below dropdown section -->
-                <BoxView Grid.Row="3" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+                <BoxView Grid.Row="4" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
-                <!-- Page Content -->
-                <ScrollView Grid.Row="4">
+                <!-- Fixed header row for columns -->
+                <Grid Grid.Row="5" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="ID" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="1" Text="Type" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="2" Text="Cost" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="3" Text="Weight" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="4" Text="Colour" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="5" Text="Milk" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="6" Text="Wool" FontAttributes="Bold" HorizontalOptions="Center"/>
+                </Grid>
+
+                <!-- Divider below headings section -->
+                <BoxView Grid.Row="6" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+
+                <!-- Scrollable content -->
+                <ScrollView Grid.Row="7">
                     <Grid x:Name="ContentGrid" Margin="10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <!-- Headings -->
-                        <Grid Grid.Row="0" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="ID" FontAttributes="Bold" HorizontalOptions="Center"/>
-                            <Label Grid.Column="1" Text="Type" FontAttributes="Bold" HorizontalOptions="Center"/>
-                            <Label Grid.Column="2" Text="Cost" FontAttributes="Bold" HorizontalOptions="Center"/>
-                            <Label Grid.Column="3" Text="Weight" FontAttributes="Bold" HorizontalOptions="Center"/>
-                            <Label Grid.Column="4" Text="Colour" FontAttributes="Bold" HorizontalOptions="Center"/>
-                            <Label Grid.Column="5" Text="Milk" FontAttributes="Bold" HorizontalOptions="Center"/>
-                            <Label Grid.Column="6" Text="Wool" FontAttributes="Bold" HorizontalOptions="Center"/>
-                        </Grid>
                         <!-- Data -->
                         <CollectionView Grid.Row="1" ItemsSource="{Binding FilteredLivestock}" Margin="0,40,0,0">
                             <CollectionView.ItemTemplate>
@@ -168,10 +178,10 @@
                 </ScrollView>
 
                 <!-- Divider above totals -->
-                <BoxView Grid.Row="5" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+                <BoxView Grid.Row="8" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
                 <!-- Totals -->
-                <Grid Grid.Row="6" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
+                <Grid Grid.Row="9" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -191,7 +201,7 @@
                 </Grid>
 
                 <!-- Averages -->
-                <Grid Grid.Row="7" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
+                <Grid Grid.Row="10" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -211,13 +221,12 @@
                 </Grid>
 
                 <!-- Divider above footer -->
-                <BoxView Grid.Row="8" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+                <BoxView Grid.Row="11" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
                 <!-- Footer -->
-                <StackLayout Grid.Row="9" Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,10,0,10">
-                    <Button BackgroundColor="White" FontAttributes="Bold" TextColor="Black" Text="Back" Clicked="Back_Clicked"/>
-                    <Button BackgroundColor="White" FontAttributes="Bold" TextColor="Black" Text="Cost" Clicked="Cost_Clicked"/>
-                    <Button BackgroundColor="White" FontAttributes="Bold" TextColor="Black" x:Name="EditButton" Text="Edit" Clicked="Edit_Clicked"/>
+                <StackLayout Grid.Row="12" Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,10,0,10">
+                    <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Finance" Clicked="Finance_Clicked"/>
+                    <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" x:Name="EditButton" Text="Edit" Clicked="Edit_Clicked"/>
                 </StackLayout>
             </Grid>
         </Border>

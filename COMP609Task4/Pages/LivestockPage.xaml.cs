@@ -10,6 +10,7 @@ namespace COMP609Task4.Pages
     {
         private LivestockViewModel _viewModel;
 
+        // Constructor for LivestockPage
         public LivestockPage()
         {
             InitializeComponent();
@@ -17,6 +18,7 @@ namespace COMP609Task4.Pages
             BindingContext = _viewModel;
         }
 
+        // Event handler for when the page appears
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -28,21 +30,19 @@ namespace COMP609Task4.Pages
             StockColourPicker.SelectedIndex = -1; // -1 resets the dropdown
         }
 
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-        }
-
+        // Event handler for the Back button click event
         private async void Back_Clicked(object sender, EventArgs e)
         {
             await Navigation.PopAsync(); // Go back to the previous page
         }
 
+        // Event handler for the Home button click event
         private async void Home_Clicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync("//MainPage");
         }
 
+        // Event handler for the Stock Type Picker selection change event
         private void StockTypePicker_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedType = StockTypePicker.SelectedItem?.ToString();
@@ -61,6 +61,7 @@ namespace COMP609Task4.Pages
             _viewModel.FilterStock(selectedType, selectedColour);
         }
 
+        // Event handler for the Stock Colour Picker selection change event
         private void StockColourPicker_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedColour = StockColourPicker.SelectedItem?.ToString();
@@ -79,16 +80,19 @@ namespace COMP609Task4.Pages
             _viewModel.FilterStock(selectedType, selectedColour);
         }
 
-        private async void Cost_Clicked(object sender, EventArgs e)
+        // Event handler for the Finance button click event
+        private async void Finance_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new FinancePage()); // Navigate to the FinancePage
+            await Navigation.PushAsync(new FinancePage());
         }
 
+        // Event handler for the Edit button click event
         private async void Edit_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new EditPage()); // Navigate to the EditPage
         }
 
+        // Method to clear the filter selections
         private void ClearFilters()
         {
             // Reset the dropdown menus
@@ -96,9 +100,9 @@ namespace COMP609Task4.Pages
             StockColourPicker.SelectedIndex = -1; // -1 resets the dropdown
         }
 
+        // Event handler for the Clear Filters button click event
         private void ClearFilters_Clicked(object sender, EventArgs e)
         {
-            // Call the ClearEditForm method to clear the form fields
             ClearFilters();
         }
     }

@@ -5,14 +5,22 @@ using COMP609Task4.Models;
 
 namespace COMP609Task4.ViewModels
 {
+    // ViewModel for managing livestock data
     public class LivestockViewModel : INotifyPropertyChanged
     {
+        // Database instance for accessing livestock data
         private readonly Database _database;
+
+        // Observable collections for holding all livestock and filtered livestock data
         private ObservableCollection<Stock> _livestock;
         private ObservableCollection<Stock> _filteredLivestock;
 
+        // Properties
+
+        // Property to access the database instance
         public Database Database => _database; // Property to access the database instance
 
+        // Collection holding all livestock data
         public ObservableCollection<Stock> Livestock
         {
             get => _livestock;
@@ -23,6 +31,7 @@ namespace COMP609Task4.ViewModels
             }
         }
 
+        // Collection holding filtered livestock data
         public ObservableCollection<Stock> FilteredLivestock
         {
             get => _filteredLivestock;
@@ -34,7 +43,56 @@ namespace COMP609Task4.ViewModels
             }
         }
 
-        // Totals properties
+        // Constructor
+        public LivestockViewModel()
+        {
+            _database = new Database();
+            LoadData();
+            FilteredLivestock = new ObservableCollection<Stock>(Livestock); // Initialize with all items
+        }
+
+        // Load livestock data from the database
+        public void LoadData()
+        {
+            var livestockData = _database.ReadItems();
+            Livestock = livestockData != null ? new ObservableCollection<Stock>(livestockData) : new ObservableCollection<Stock>();
+            FilteredLivestock = new ObservableCollection<Stock>(Livestock);
+        }
+
+        // Filter livestock by type
+        public void FilterStock(string selectedType)
+        {
+            if (selectedType == null)
+            {
+                FilteredLivestock = new ObservableCollection<Stock>(Livestock);
+            }
+            else
+            {
+                FilteredLivestock = new ObservableCollection<Stock>(Livestock.Where(item => item.Type == selectedType));
+            }
+        }
+
+        // Filter livestock by type and colour
+        public void FilterStock(string selectedType, string selectedColour)
+        {
+            var allItems = _database.ReadItems();
+
+            var filteredItems = allItems.AsEnumerable();
+
+            if (!string.IsNullOrEmpty(selectedType))
+            {
+                filteredItems = filteredItems.Where(stock => stock.Type == selectedType);
+            }
+
+            if (!string.IsNullOrEmpty(selectedColour))
+            {
+                filteredItems = filteredItems.Where(stock => stock.Colour == selectedColour);
+            }
+
+            FilteredLivestock = new ObservableCollection<Stock>(filteredItems);
+        }
+
+        // Totals properties      
         private int _totalStockCount;
         private decimal _totalCost;
         private decimal _totalWeight;
@@ -42,6 +100,7 @@ namespace COMP609Task4.ViewModels
         private decimal _totalMilk;
         private decimal _totalWool;
 
+        // Properties for storing total count, cost, weight, colours, milk, and wool of filtered livestock
         public int TotalStockCount
         {
             get => _totalStockCount;
@@ -102,67 +161,87 @@ namespace COMP609Task4.ViewModels
             }
         }
 
-        public LivestockViewModel()
-        {
-            _database = new Database();
-            LoadData();
-            FilteredLivestock = new ObservableCollection<Stock>(Livestock); // Initialize with all items
-        }
+        // Avg properties
+        private string _avgStockDisplay;
+        private decimal _avgCostDisplay;
+        private decimal _avgWeightDisplay;
+        private string _avgColoursDisplay;
+        private decimal _avgMilkDisplay;
+        private decimal _avgWoolDisplay;
 
-        public void LoadData()
+        // Properties for storing avg count, cost, weight, colours, milk, and wool of filtered livestock
+        public string AvgStockDisplay
         {
-            var livestockData = _database.ReadItems();
-            Livestock = livestockData != null ? new ObservableCollection<Stock>(livestockData) : new ObservableCollection<Stock>();
-            FilteredLivestock = new ObservableCollection<Stock>(Livestock);
-        }
-
-        public void FilterStock(string selectedType)
-        {
-            if (selectedType == null)
+            get => _avgStockDisplay;
+            set
             {
-                FilteredLivestock = new ObservableCollection<Stock>(Livestock);
-            }
-            else
-            {
-                FilteredLivestock = new ObservableCollection<Stock>(Livestock.Where(item => item.Type == selectedType));
+                _avgStockDisplay = value;
+                OnPropertyChanged(nameof(AvgStockDisplay));
             }
         }
-
-        public void FilterStock(string selectedType, string selectedColour)
+      
+        public decimal AvgCostDisplay
         {
-            var allItems = _database.ReadItems();
-
-            var filteredItems = allItems.AsEnumerable();
-
-            if (!string.IsNullOrEmpty(selectedType))
+            get => _avgCostDisplay;
+            set
             {
-                filteredItems = filteredItems.Where(stock => stock.Type == selectedType);
+                _avgCostDisplay = value;
+                OnPropertyChanged(nameof(AvgCostDisplay));
             }
-
-            if (!string.IsNullOrEmpty(selectedColour))
+        }
+       
+        public decimal AvgWeightDisplay
+        {
+            get => _avgWeightDisplay;
+            set
             {
-                filteredItems = filteredItems.Where(stock => stock.Colour == selectedColour);
+                _avgWeightDisplay = value;
+                OnPropertyChanged(nameof(AvgWeightDisplay));
             }
-
-            FilteredLivestock = new ObservableCollection<Stock>(filteredItems);
+        }
+       
+        public string AvgColoursDisplay
+        {
+            get => _avgColoursDisplay;
+            set
+            {
+                _avgColoursDisplay = value;
+                OnPropertyChanged(nameof(AvgColoursDisplay));
+            }
+        }
+       
+        public decimal AvgMilkDisplay
+        {
+            get => _avgMilkDisplay;
+            set
+            {
+                _avgMilkDisplay = value;
+                OnPropertyChanged(nameof(AvgMilkDisplay));
+            }
+        }
+       
+        public decimal AvgWoolDisplay
+        {
+            get => _avgWoolDisplay;
+            set
+            {
+                _avgWoolDisplay = value;
+                OnPropertyChanged(nameof(AvgWoolDisplay));
+            }
         }
 
-        public void FilterStockById(string id)
-        {
-            FilteredLivestock = new ObservableCollection<Stock>(Livestock.Where(item => item.Id.ToString() == id));
-        }
-
+        // Calculate totals and averages of filtered livestock data
         private void CalculateTotals()
         {
             int totalStockCount = Livestock.Count;
-
+            // Calculate total count, cost, weight, and colours of filtered livestock
             TotalStockCount = FilteredLivestock.Count;
             TotalCost = FilteredLivestock.Sum(s => s.Cost);
             TotalWeight = FilteredLivestock.Sum(s => s.Weight);
 
             var colourGroups = FilteredLivestock.GroupBy(s => s.Colour).ToDictionary(g => g.Key, g => g.Count());
             TotalColours = $"R: {colourGroups.GetValueOrDefault("Red", 0)} B: {colourGroups.GetValueOrDefault("Black", 0)} W: {colourGroups.GetValueOrDefault("White", 0)}";
-
+            // Calculate total milk and total wool of filtered livestock
             TotalMilk = FilteredLivestock
                 .OfType<Cow>()
                 .Sum(cow => cow.Milk.GetValueOrDefault());
@@ -208,8 +287,6 @@ namespace COMP609Task4.ViewModels
 
             AvgWoolDisplay = woolItemCount > 0 ? (decimal)totalWoolCount / woolItemCount : 0;
 
-
-
             // Format totals and averages
             if (FilteredLivestock.Count > 0)
             {
@@ -234,6 +311,7 @@ namespace COMP609Task4.ViewModels
             // Concatenate total colours with percentages for the averages line
             AvgColoursDisplay = $"{redPercentage:F0}% {blackPercentage:F0}% {whitePercentage:F0}%";
 
+            // Update OnPropertyChanged for totals
             OnPropertyChanged(nameof(TotalStockCount));
             OnPropertyChanged(nameof(TotalCost));
             OnPropertyChanged(nameof(TotalWeight));
@@ -250,83 +328,11 @@ namespace COMP609Task4.ViewModels
             OnPropertyChanged(nameof(AvgColoursDisplay));
         }
 
-
-
-
-
-
-
+        // INotifyPropertyChanged implementation
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        private string _avgStockDisplay;
-        public string AvgStockDisplay
-        {
-            get => _avgStockDisplay;
-            set
-            {
-                _avgStockDisplay = value;
-                OnPropertyChanged(nameof(AvgStockDisplay));
-            }
-        }
-
-        private decimal _avgCostDisplay;
-        public decimal AvgCostDisplay
-        {
-            get => _avgCostDisplay;
-            set
-            {
-                _avgCostDisplay = value;
-                OnPropertyChanged(nameof(AvgCostDisplay));
-            }
-        }
-
-        private decimal _avgWeightDisplay;
-        public decimal AvgWeightDisplay
-        {
-            get => _avgWeightDisplay;
-            set
-            {
-                _avgWeightDisplay = value;
-                OnPropertyChanged(nameof(AvgWeightDisplay));
-            }
-        }
-
-        private string _avgColoursDisplay;
-        public string AvgColoursDisplay
-        {
-            get => _avgColoursDisplay;
-            set
-            {
-                _avgColoursDisplay = value;
-                OnPropertyChanged(nameof(AvgColoursDisplay));
-            }
-        }
-
-        private decimal _avgMilkDisplay;
-        public decimal AvgMilkDisplay
-        {
-            get => _avgMilkDisplay;
-            set
-            {
-                _avgMilkDisplay = value;
-                OnPropertyChanged(nameof(AvgMilkDisplay));
-            }
-        }
-
-        private decimal _avgWoolDisplay;
-        public decimal AvgWoolDisplay
-        {
-            get => _avgWoolDisplay;
-            set
-            {
-                _avgWoolDisplay = value;
-                OnPropertyChanged(nameof(AvgWoolDisplay));
-            }
-        }
-
     }
 }

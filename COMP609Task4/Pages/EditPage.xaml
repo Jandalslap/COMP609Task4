@@ -24,6 +24,7 @@
                 AbsoluteLayout.LayoutFlags="All">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="1"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="1"/>
                     <RowDefinition Height="Auto"/>
@@ -36,8 +37,11 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
+                <!-- Divider above header -->
+                <BoxView Grid.Row="0" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+
                 <!-- Header -->
-                <Grid Grid.Row="0" BackgroundColor="#D3D3D380" Padding="10">
+                <Grid Grid.Row="1" BackgroundColor="#D3D3D380" Padding="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
@@ -56,7 +60,7 @@
                            HorizontalOptions="Center" 
                            Grid.Column="1"/>
                     <Button Text="Home" 
-                            BackgroundColor="White" 
+                            BackgroundColor="#F0F0F0" 
                             TextColor="Black"
                             Clicked="Home_Clicked"
                             VerticalOptions="Center" 
@@ -66,10 +70,10 @@
                 </Grid>
 
                 <!-- Divider below header -->
-                <BoxView Grid.Row="1" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
-
-                <StackLayout Grid.Row="2" Padding="10">
-                    <!-- Heading -->
+                <BoxView Grid.Row="2" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+                
+                <!-- Heading -->
+                <StackLayout Grid.Row="3" Padding="10">
                     <Label Text="Search By ID to Edit Stock" 
                     FontAttributes="Bold"
                     FontSize="18"
@@ -78,8 +82,7 @@
                 </StackLayout>
 
                 <!-- Search ID Section -->
-                <StackLayout Grid.Row="3" Padding="10" HorizontalOptions="Center">
-
+                <StackLayout Grid.Row="4" Padding="10" HorizontalOptions="Center">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -91,17 +94,16 @@
                             <Entry x:Name="IdSearchEntry" Placeholder="Enter ID"/>
                         </StackLayout>
                         <StackLayout Grid.Column="1" Padding="10">
-                            <Button BackgroundColor="White" FontAttributes="Bold" TextColor="Black" Text="Search" Clicked="SearchById_Clicked"/>
+                            <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Search" Clicked="SearchById_Clicked"/>
                         </StackLayout>
                         <StackLayout Grid.Column="2" Padding="10">
-                            <Button BackgroundColor="White" FontAttributes="Bold" TextColor="Black" Text="Reset" Clicked="ClearSearchById_Clicked"/>
+                            <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Reset" Clicked="ClearSearchById_Clicked"/>
                         </StackLayout>
-
                     </Grid>
                 </StackLayout>
 
                 <!-- Edit Form fields -->
-                <Grid Grid.Row="4" Margin="10">
+                <Grid Grid.Row="5" Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -143,16 +145,16 @@
                     </StackLayout>
 
                     <StackLayout Grid.Column="6" Padding="10" Orientation="Horizontal" VerticalOptions="Start">
-                        <Button BackgroundColor="White" FontAttributes="Bold" TextColor="Black" Text="Update" Clicked="Update_Clicked" CommandParameter="{Binding .}"/>
-                        <Button BackgroundColor="White" FontAttributes="Bold" TextColor="Black" Text="Delete" Clicked="Delete_Clicked" CommandParameter="{Binding .}"/>
+                        <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Update" Clicked="Update_Clicked" CommandParameter="{Binding .}"/>
+                        <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Delete" Clicked="Delete_Clicked" CommandParameter="{Binding .}"/>
                     </StackLayout>
                 </Grid>
 
                 <!-- Divider between search ID and form fields -->
-                <BoxView Grid.Row="5" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
-
-                <StackLayout Grid.Row="6" Padding="10">
-                    <!-- Heading -->
+                <BoxView Grid.Row="6" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+                
+                <!-- Heading -->
+                <StackLayout Grid.Row="7" Padding="10">
                     <Label Text="Add New Stock Entry" 
                     FontAttributes="Bold"
                     FontSize="18"
@@ -161,7 +163,7 @@
                 </StackLayout>
                 
                 <!-- Add New Form fields -->
-                <Grid Grid.Row="7" Margin="10">
+                <Grid Grid.Row="8" Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -212,25 +214,25 @@
                         <Entry x:Name="AddWeight" Placeholder="Weight"/>
                     </StackLayout>
 
-                    <!-- Additional field based on stock type -->
+                    <!-- Produce field based on stock type -->
                     <StackLayout Grid.Column="4" Margin="0,0,10,0" x:Name="ProduceStackLayout2">
                         <Label x:Name="AddProduceLabel" Text="Milk" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" VerticalOptions="Center"/>
                         <Entry x:Name="AddProduce" Placeholder="Produce"/>
                     </StackLayout>
 
-                    <!-- Add New and Rest Buttons -->
+                    <!-- Add New and Reset Buttons -->
                     <StackLayout Grid.Column="5" Padding="10" Orientation="Horizontal" VerticalOptions="Start">
-                        <Button BackgroundColor="White" FontAttributes="Bold" TextColor="Black" Text="Add New" Clicked="AddNewStock_Clicked" CommandParameter="{Binding .}"/>
-                        <Button BackgroundColor="White" FontAttributes="Bold" TextColor="Black" Text="Reset" Clicked="ClearAddNewStock_Clicked" CommandParameter="{Binding .}"/>
+                        <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Add New" Clicked="AddNewStock_Clicked" CommandParameter="{Binding .}"/>
+                        <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Reset" Clicked="ClearAddNewStock_Clicked" CommandParameter="{Binding .}"/>
                     </StackLayout>
                 </Grid>
 
                 <!-- Divider above footer -->
-                <BoxView Grid.Row="8" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+                <BoxView Grid.Row="9" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
                 <!-- Footer -->
-                <StackLayout Grid.Row="9" Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,10,0,10">
-                    <Button BackgroundColor="White" FontAttributes="Bold" TextColor="Black" Text="Back" Clicked="Back_Clicked"/>
+                <StackLayout Grid.Row="10" Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,10,0,10">
+                    <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Livestock" Clicked="Livestock_Clicked"/>
                 </StackLayout>
             </Grid>
         </Border>

@@ -19,15 +19,19 @@
                 AbsoluteLayout.LayoutFlags="All">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="1"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="1"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="1"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
+                
+                <!-- Divider above header -->
+                <BoxView Grid.Row="0" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
                 <!-- Header -->
-                <Grid Grid.Row="0" BackgroundColor="#D3D3D380" Padding="10">
+                <Grid Grid.Row="1" BackgroundColor="#D3D3D380" Padding="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
@@ -47,10 +51,10 @@
                 </Grid>
 
                 <!-- Divider below header -->
-                <BoxView Grid.Row="1" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+                <BoxView Grid.Row="2" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
                 <!-- Page Content -->
-                <StackLayout Grid.Row="2" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Spacing="10">
+                <StackLayout Grid.Row="3" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Spacing="10">
                     <Button Text="Livestock" 
                             Clicked="Livestock_Clicked" 
                             BackgroundColor="#D3D3D380" 
@@ -72,10 +76,10 @@
                 </StackLayout>
 
                 <!-- Divider above footer -->
-                <BoxView Grid.Row="3" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+                <BoxView Grid.Row="4" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
                 <!-- Footer -->
-                <StackLayout Grid.Row="4" VerticalOptions="End" HorizontalOptions="FillAndExpand">
+                <StackLayout Grid.Row="5" VerticalOptions="End" HorizontalOptions="FillAndExpand">
                     <!-- Footer content will be added here later -->
                 </StackLayout>
             </Grid>
