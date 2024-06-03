@@ -54,7 +54,7 @@ namespace COMP609Task4.ViewModels
             _database = new Database();
             LoadData();
             FilteredLivestock = new ObservableCollection<Stock>(Livestock);
-
+            CalculateTotals();
             // Initialize with stored starting values
             _milkPrice = 9.4m;
             _woolPrice = 6.2m;

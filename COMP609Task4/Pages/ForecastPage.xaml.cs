@@ -15,4 +15,10 @@ public partial class ForecastPage : ContentPage
     {
         await Shell.Current.GoToAsync("//MainPage");
     }
+
+    // Event handler for the Finance button click event
+    private async void Finance_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new FinancePage());
+    }
 }
