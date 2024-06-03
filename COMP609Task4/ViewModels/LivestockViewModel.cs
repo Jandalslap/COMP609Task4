@@ -59,24 +59,10 @@ namespace COMP609Task4.ViewModels
             FilteredLivestock = new ObservableCollection<Stock>(Livestock);
         }
 
-        // Filter livestock by type
-        public void FilterStock(string selectedType)
-        {
-            if (selectedType == null)
-            {
-                FilteredLivestock = new ObservableCollection<Stock>(Livestock);
-            }
-            else
-            {
-                FilteredLivestock = new ObservableCollection<Stock>(Livestock.Where(item => item.Type == selectedType));
-            }
-        }
-
         // Filter livestock by type and colour
         public void FilterStock(string selectedType, string selectedColour)
         {
             var allItems = _database.ReadItems();
-
             var filteredItems = allItems.AsEnumerable();
 
             if (!string.IsNullOrEmpty(selectedType))
@@ -90,6 +76,9 @@ namespace COMP609Task4.ViewModels
             }
 
             FilteredLivestock = new ObservableCollection<Stock>(filteredItems);
+
+            // Calculate totals after filtering
+            CalculateTotals();
         }
 
         // Totals properties      

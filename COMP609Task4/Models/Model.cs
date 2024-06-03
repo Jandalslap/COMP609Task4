@@ -11,6 +11,10 @@
         public string Milk { get; set; } = "-";  // Default to "-" if not applicable
         public string Wool { get; set; } = "-";  // Default to "-" if not applicable
 
+        public decimal TaxCalculation { get; set; }
+        public decimal IncomeCalculation { get; set; }
+
+
         public Stock()
         {
             Type = GetType().Name; // Set Type property to the type name of the object
