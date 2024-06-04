@@ -26,8 +26,8 @@ namespace COMP609Task4.Pages
             _viewModel.LoadData();
 
             // Reset the dropdown menus
-            StockTypePicker.SelectedIndex = -1; // -1 resets the dropdown
-            StockColourPicker.SelectedIndex = -1; // -1 resets the dropdown
+            StockTypePicker.SelectedIndex = 0; 
+            StockColourPicker.SelectedIndex = 0; 
         }
 
         // Event handler for the Back button click event
@@ -96,8 +96,8 @@ namespace COMP609Task4.Pages
         private void ClearFilters()
         {
             // Reset the dropdown menus
-            StockTypePicker.SelectedIndex = -1; // -1 resets the dropdown
-            StockColourPicker.SelectedIndex = -1; // -1 resets the dropdown
+            StockTypePicker.SelectedIndex = 0; 
+            StockColourPicker.SelectedIndex = 0; 
         }
 
         // Event handler for the Clear Filters button click event

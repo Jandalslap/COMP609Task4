@@ -26,8 +26,9 @@ public partial class FinancePage : ContentPage
         _viewModel.LoadData();
 
         // Reset the dropdown menus
-        StockTypePicker.SelectedIndex = -1; // -1 resets the dropdown
-        StockColourPicker.SelectedIndex = -1; // -1 resets the dropdown
+        StockTypePicker.SelectedIndex = 0; 
+        StockColourPicker.SelectedIndex = 0;
+        TimePeriodPicker.SelectedIndex = 0;
     }
 
     // Event handler for the Back button click event
@@ -81,9 +82,6 @@ public partial class FinancePage : ContentPage
         }
 
         _viewModel.FilterStock(selectedType, selectedColour);
-
-        // Recalculate totals after filtering
-        _viewModel.CalculateTotals();
     }
 
     // Event handler for the Time Period Picker selection change event
@@ -103,11 +101,9 @@ public partial class FinancePage : ContentPage
     private void ClearFilters()
     {
         // Reset the dropdown menus
-        StockTypePicker.SelectedIndex = -1; // -1 resets the dropdown
-        StockColourPicker.SelectedIndex = -1; // -1 resets the dropdown
-        TimePeriodPicker.SelectedIndex = -1; // -1 resets the dropdown
-
-        _viewModel.CalculateTotals();
+        StockTypePicker.SelectedIndex = 0; 
+        StockColourPicker.SelectedIndex = 0; 
+        TimePeriodPicker.SelectedIndex = 0; 
     }
 
     // Event handler for the Clear Filters button click event

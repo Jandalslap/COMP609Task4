@@ -1,7 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using COMP609Task4.Models;
+using Microsoft.Maui.Controls;
 
 namespace COMP609Task4.ViewModels
 {
@@ -36,11 +38,66 @@ namespace COMP609Task4.ViewModels
         }
 
         // Method to search for items by ID
-        public void SearchById(string id)
+        public async void SearchById(string id)
         {
             // Query the database for items with matching ID
             var result = _database.ReadItems().Where(item => item.Id.ToString() == id).ToList();
-            SearchResults = new ObservableCollection<Stock>(result); // Update search results collection
+
+            // Check if any results were found
+            if (result.Any())
+            {
+                // Update search results collection
+                SearchResults = new ObservableCollection<Stock>(result);
+            }
+            else
+            {
+                // Show an alert if no matching items are found
+                await Application.Current.MainPage.DisplayAlert("Search Result", $"No stock found with ID: {id}", "OK");
+            }
+        }
+
+        // Method to add a new stock item
+        public int AddNewStock(string selectedStockType, string selectedColour, int cost, int weight, int additionalField)
+        {
+            // Create a new Stock object
+            Stock newStock;
+            if (selectedStockType == "Cow")
+            {
+                newStock = new Cow()
+                {
+                    // Set properties common to all stocks
+                    Type = selectedStockType,
+                    Colour = selectedColour,
+                    Cost = cost,
+                    Weight = weight,
+                    // Set additional property specific to Cow
+                    Milk = additionalField
+                };
+            }
+            else // Assume selectedStockType == "Sheep"
+            {
+                newStock = new Sheep()
+                {
+                    // Set properties common to all stocks
+                    Type = selectedStockType,
+                    Colour = selectedColour,
+                    Cost = cost,
+                    Weight = weight,
+                    // Set additional property specific to Sheep
+                    Wool = additionalField
+                };
+            }
+
+            // Insert the new stock into the database
+            int result = _database.AddItem(newStock);
+
+            if (result > 0)
+            {
+                // Update search results collection
+                SearchResults.Add(newStock);
+            }
+
+            return result;
         }
 
         // INotifyPropertyChanged implementation

@@ -173,37 +173,8 @@ namespace COMP609Task4.Pages
                 return;
             }
 
-            // Create a new Stock object
-            Stock newStock;
-            if (selectedStockType == "Cow")
-            {
-                newStock = new Cow()
-                {
-                    // Set properties common to all stocks
-                    Type = selectedStockType,
-                    Colour = selectedColour,
-                    Cost = cost,
-                    Weight = weight,
-                    // Set additional property specific to Cow
-                    Milk = additionalField
-                };
-            }
-            else // Assume selectedStockType == "Sheep"
-            {
-                newStock = new Sheep()
-                {
-                    // Set properties common to all stocks
-                    Type = selectedStockType,
-                    Colour = selectedColour,
-                    Cost = cost,
-                    Weight = weight,
-                    // Set additional property specific to Sheep
-                    Wool = additionalField
-                };
-            }
-
-            // Insert the new stock into the database
-            int result = _database.AddItem(newStock);
+            // Call the AddNewStock method from the ViewModel
+            int result = _viewModel.AddNewStock(selectedStockType, selectedColour, cost, weight, additionalField);
 
             if (result > 0)
             {
@@ -216,6 +187,7 @@ namespace COMP609Task4.Pages
                 DisplayAlert("Error", "Failed to add stock", "OK");
             }
         }
+
 
         // Event handler for the Stock Type Picker selection change event
         private void StockTypePicker_SelectedIndexChanged(object sender, EventArgs e)

@@ -89,11 +89,17 @@ namespace COMP609Task4.ViewModels
                 filteredItems = filteredItems.Where(stock => stock.Colour == selectedColour);
             }
 
-            FilteredLivestock = new ObservableCollection<Stock>(filteredItems);
+            // Calculate TaxCalculation and IncomeCalculation properties for each filtered livestock
+            foreach (var stock in filteredItems)
+            {
+                stock.TaxCalculation = CalculateTax(stock);
+                stock.IncomeCalculation = CalculateIncome(stock);
+            }
 
-            // Calculate totals after filtering
-            CalculateTotals();
+            // Update the FilteredLivestock collection after filtering
+            FilteredLivestock = new ObservableCollection<Stock>(filteredItems);
         }
+
 
         // Totals properties      
         private int _totalStockCount;
@@ -331,13 +337,6 @@ namespace COMP609Task4.ViewModels
             AvgTaxDisplay = Math.Round(AvgTaxDisplay, 2);
             AvgIncomeDisplay = Math.Round(AvgIncomeDisplay, 2);
 
-            // Set TaxCalculation and IncomeCalculation for each filtered livestock
-            foreach (var stock in FilteredLivestock)
-            {
-                stock.TaxCalculation = CalculateTax(stock);
-                stock.IncomeCalculation = CalculateIncome(stock);
-            }
-
             // Store original values
             _originalTotalCost = TotalCost;
             _originalTotalTax = TotalTax;
@@ -351,18 +350,6 @@ namespace COMP609Task4.ViewModels
             _originalAvgMilkDisplay = AvgMilkDisplay;
             _originalAvgWoolDisplay = AvgWoolDisplay;
 
-        }
-
-        // Metod to calculate total profit
-        private decimal CalculateTotalProfit(Stock stock)
-        {
-            decimal income = CalculateIncome(stock);
-            decimal tax = CalculateTax(stock);
-            decimal cost = stock.Cost;
-
-            decimal totalProfit = income - tax - cost;
-
-            return totalProfit;
         }
 
         // Metod to calculate total income
@@ -387,6 +374,18 @@ namespace COMP609Task4.ViewModels
         private decimal CalculateTax(Stock stock)
         {
             return stock.Cost * (decimal)TaxPrice;
+        }
+
+        // Metod to calculate total profit
+        private decimal CalculateTotalProfit(Stock stock)
+        {
+            decimal income = CalculateIncome(stock);
+            decimal tax = CalculateTax(stock);
+            decimal cost = stock.Cost;
+
+            decimal totalProfit = income - tax - cost;
+
+            return totalProfit;
         }
 
         // Rates properties

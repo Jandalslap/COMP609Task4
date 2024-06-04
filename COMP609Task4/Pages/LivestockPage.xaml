@@ -170,9 +170,9 @@
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Column="0" Text="{Binding Id}" HorizontalOptions="Center"/>
                                         <Label Grid.Column="1" Text="{Binding Type}" HorizontalOptions="Center"/>
-                                        <Label Grid.Column="2" Text="{Binding Cost}" HorizontalOptions="Center"/>
+                                        <Label Grid.Column="2" Text="{Binding Colour}" HorizontalOptions="Center"/>
                                         <Label Grid.Column="3" Text="{Binding Weight}" HorizontalOptions="Center"/>
-                                        <Label Grid.Column="4" Text="{Binding Colour}" HorizontalOptions="Center"/>
+                                        <Label Grid.Column="4" Text="{Binding Cost}" HorizontalOptions="Center"/>
                                         <Label Grid.Column="5" Text="{Binding Milk, TargetNullValue='-'}" HorizontalOptions="Center"/>
                                         <Label Grid.Column="6" Text="{Binding Wool, TargetNullValue='-'}" HorizontalOptions="Center"/>
                                     </Grid>
@@ -199,10 +199,10 @@
                     <Label Grid.Column="0" Text="Total:" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Label Grid.Column="1" Text="{Binding TotalStockCount}" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Label Grid.Column="2" Text="{Binding TotalColours}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="3" Text="{Binding TotalWeight, StringFormat='{0} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="3" Text="{Binding TotalWeight, StringFormat='{0:F2} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Label Grid.Column="4" Text="{Binding TotalCost, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="5" Text="{Binding TotalMilk, StringFormat='{0} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="6" Text="{Binding TotalWool, StringFormat='{0} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="5" Text="{Binding TotalMilk, StringFormat='{0:F2} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="6" Text="{Binding TotalWool, StringFormat='{0:F2} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </Grid>
 
                 <!-- Averages -->
@@ -219,10 +219,10 @@
                     <Label Grid.Column="0" Text="Average:" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Label Grid.Column="1" Text="{Binding AvgStockDisplay}" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Label Grid.Column="2" Text="{Binding AvgColoursDisplay}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="3" Text="{Binding AvgWeightDisplay, StringFormat='{0} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="3" Text="{Binding AvgWeightDisplay, StringFormat='{0:F2} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Label Grid.Column="4" Text="{Binding AvgCostDisplay, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="5" Text="{Binding AvgMilkDisplay, StringFormat='{0} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="6" Text="{Binding AvgWoolDisplay, StringFormat='{0} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="5" Text="{Binding AvgMilkDisplay, StringFormat='{0:F2} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="6" Text="{Binding AvgWoolDisplay, StringFormat='{0:F2} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </Grid>
 
                 <!-- Divider above footer -->
