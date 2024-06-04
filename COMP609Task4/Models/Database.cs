@@ -41,10 +41,13 @@ namespace COMP609Task4.Models
             return stock;
         }
 
-        // Method to get a single item by its ID
         public Stock GetItemById(string id)
         {
-            int itemId = int.Parse(id); // Convert the search ID to an integer
+            if (!int.TryParse(id, out int itemId))
+            {
+                // USer input validation for the case where the input is not a valid integer
+                return null; 
+            }
 
             // Check if the ID is for a Cow or a Sheep
             var cow = _connection.Table<Cow>().FirstOrDefault(c => c.Id == itemId);
@@ -61,6 +64,7 @@ namespace COMP609Task4.Models
 
             return null; // Item not found
         }
+
 
         // Method to insert a new item into the database
         public int InsertItem(Stock item)

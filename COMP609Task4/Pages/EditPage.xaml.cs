@@ -3,6 +3,7 @@ using Microsoft.Maui.Controls;
 using COMP609Task4.Models;
 using COMP609Task4.ViewModels;
 
+
 namespace COMP609Task4.Pages
 {
     public partial class EditPage : ContentPage
@@ -107,13 +108,21 @@ namespace COMP609Task4.Pages
         }
 
         // Event handler for the Delete button click event
-        private void Delete_Clicked(object sender, EventArgs e)
+        private async void Delete_Clicked(object sender, EventArgs e)
         {
             if (sender is Button button && button.CommandParameter is Stock deletedStock)
             {
-                _database.DeleteItem(deletedStock);
-                DisplayAlert("Success", "Stock deleted successfully", "OK");
-                ClearEditForm();
+                // Display confirmation alert with cancel option
+                bool deleteConfirmed = await DisplayAlert("Confirm Deletion", "Are you sure you want to delete this stock item?", "Yes", "Cancel");
+
+                if (deleteConfirmed)
+                {
+                    // User confirmed deletion
+                    _database.DeleteItem(deletedStock);
+                    await DisplayAlert("Success", "Stock deleted successfully", "OK");
+                    ClearEditForm();
+                }
+                // If cancel option was chosen, do nothing
             }
         }
 
@@ -187,7 +196,6 @@ namespace COMP609Task4.Pages
                 DisplayAlert("Error", "Failed to add stock", "OK");
             }
         }
-
 
         // Event handler for the Stock Type Picker selection change event
         private void StockTypePicker_SelectedIndexChanged(object sender, EventArgs e)

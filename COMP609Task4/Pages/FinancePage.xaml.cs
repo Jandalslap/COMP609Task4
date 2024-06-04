@@ -61,8 +61,9 @@ public partial class FinancePage : ContentPage
 
         _viewModel.FilterStock(selectedType, selectedColour);
 
-        // Recalculate totals after filtering
-        _viewModel.CalculateTotals();
+        // Trigger recalculation
+        string selectedPeriod = (TimePeriodPicker.SelectedItem as string);
+        _viewModel.RecalculateTotalsBasedOnPeriod(selectedPeriod);
     }
 
     // Event handler for the Stock Colour Picker selection change event
@@ -82,6 +83,10 @@ public partial class FinancePage : ContentPage
         }
 
         _viewModel.FilterStock(selectedType, selectedColour);
+
+        // Trigger recalculation
+        string selectedPeriod = (TimePeriodPicker.SelectedItem as string);
+        _viewModel.RecalculateTotalsBasedOnPeriod(selectedPeriod);
     }
 
     // Event handler for the Time Period Picker selection change event
@@ -90,6 +95,7 @@ public partial class FinancePage : ContentPage
         string selectedPeriod = (sender as Picker)?.SelectedItem as string;
         (BindingContext as FinanceViewModel)?.RecalculateTotalsBasedOnPeriod(selectedPeriod);
     }
+
 
     // Event handler for the Edit button click event
     private async void Edit_Clicked(object sender, EventArgs e)

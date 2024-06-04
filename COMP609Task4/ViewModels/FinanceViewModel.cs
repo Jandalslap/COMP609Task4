@@ -349,7 +349,6 @@ namespace COMP609Task4.ViewModels
             _originalAvgIncomeDisplay = AvgIncomeDisplay;
             _originalAvgMilkDisplay = AvgMilkDisplay;
             _originalAvgWoolDisplay = AvgWoolDisplay;
-
         }
 
         // Metod to calculate total income
@@ -476,6 +475,10 @@ namespace COMP609Task4.ViewModels
             if (selectedPeriod == "Daily")
             {
                 ResetToOriginalValues();
+            }
+            else if (selectedPeriod == "Weekly")
+            {
+                multiplier = 7;
             }
             else if (selectedPeriod == "Monthly")
             {

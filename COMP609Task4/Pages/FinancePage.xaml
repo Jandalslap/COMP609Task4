@@ -126,6 +126,7 @@
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
                                     <x:String>Daily</x:String>
+                                    <x:String>Weekly</x:String>
                                     <x:String>Monthly</x:String>
                                     <x:String>Annually</x:String>
                                 </x:Array>
