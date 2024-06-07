@@ -392,6 +392,10 @@ namespace COMP609Task4.ViewModels
         private decimal _woolPrice;
         private decimal _taxPrice;
 
+        public string MilkPriceText { get; set; }
+        public string WoolPriceText { get; set; }
+        public string TaxPriceText { get; set; }
+
         public decimal MilkPrice
         {
             get => _milkPrice;
@@ -425,6 +429,25 @@ namespace COMP609Task4.ViewModels
         // Method to update Rates
         private void OnUpdate()
         {
+            // Convert string inputs to decimals before assigning to properties
+            decimal milkPrice;
+            decimal woolPrice;
+            decimal taxPrice;
+            if (decimal.TryParse(MilkPriceText, out milkPrice))
+            {
+                MilkPrice = milkPrice;
+            }
+
+            if (decimal.TryParse(WoolPriceText, out woolPrice))
+            {
+                WoolPrice = woolPrice;
+            }
+
+            if (decimal.TryParse(TaxPriceText, out taxPrice))
+            {
+                TaxPrice = taxPrice;
+            }
+
             // Save the updated prices to settings
             SaveSettings("MilkPrice", (double)MilkPrice);
             SaveSettings("WoolPrice", (double)WoolPrice);
@@ -445,6 +468,7 @@ namespace COMP609Task4.ViewModels
         {
             return (decimal)Preferences.Get(key, defaultValue: 0.0);
         }
+
 
         // Event handler for PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

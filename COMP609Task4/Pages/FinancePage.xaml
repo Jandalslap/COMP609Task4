@@ -145,17 +145,17 @@
                     
                     <StackLayout Grid.Column="6" Margin="0,0,10,0">
                         <Label Text="Milk" BackgroundColor="#D3D3D380" FontAttributes="Bold" />
-                        <Entry x:Name="MilkPriceEntry" Text="{Binding MilkPrice, Mode=TwoWay}" Placeholder="{Binding MilkPrice, StringFormat='{}{0:F2}'}" Keyboard="Numeric"/>
+                        <Entry x:Name="MilkPriceEntry" Text="{Binding MilkPriceText, Mode=TwoWay}" Placeholder="{Binding MilkPrice, StringFormat='{}{0:F2}'}" Keyboard="Numeric"/>
                     </StackLayout>
 
                     <StackLayout Grid.Column="7" Margin="0,0,10,0">
                         <Label Text="Wool" BackgroundColor="#D3D3D380" FontAttributes="Bold" />
-                        <Entry x:Name="WoolPriceEntry" Text="{Binding WoolPrice, Mode=TwoWay}" Placeholder="{Binding WoolPrice, StringFormat='{}{0:F2}'}" Keyboard="Numeric"/>
+                        <Entry x:Name="WoolPriceEntry" Text="{Binding WoolPriceText, Mode=TwoWay}" Placeholder="{Binding WoolPrice, StringFormat='{}{0:F2}'}" Keyboard="Numeric"/>
                     </StackLayout>
 
                     <StackLayout Grid.Column="8" Margin="0,0,10,0">
                         <Label Text="Tax" BackgroundColor="#D3D3D380" FontAttributes="Bold" />
-                        <Entry x:Name="TaxPriceEntry" Text="{Binding TaxPrice, Mode=TwoWay}" Placeholder="{Binding TaxPrice, StringFormat='{}{0:F2}'}" Keyboard="Numeric"/>
+                        <Entry x:Name="TaxPriceEntry" Text="{Binding TaxPriceText, Mode=TwoWay}" Placeholder="{Binding TaxPrice, StringFormat='{}{0:F2}'}" Keyboard="Numeric"/>
                     </StackLayout>
 
                     <StackLayout Grid.Column="9" Padding="10" Orientation="Horizontal" VerticalOptions="Start">
