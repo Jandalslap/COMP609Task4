@@ -247,11 +247,11 @@
                     <Label Grid.Column="0" Text="Total:" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Label Grid.Column="1" Text="{Binding TotalStockCount}" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Label Grid.Column="2" Text="{Binding TotalColours}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="3" Text="{Binding TotalCost, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="4" Text="{Binding TotalMilk, StringFormat='{0} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="5" Text="{Binding TotalWool, StringFormat='{0} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="6" Text="{Binding TotalTax, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="7" Text="{Binding TotalIncome, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="3" Text="{Binding TotalCost, StringFormat='{0:C2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="4" Text="{Binding TotalMilk, StringFormat='{0:F2} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="5" Text="{Binding TotalWool, StringFormat='{0:F2} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="6" Text="{Binding TotalTax, StringFormat='{0:C2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="7" Text="{Binding TotalIncome, StringFormat='{0:C2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </Grid>
 
                 <!-- Averages -->
@@ -269,11 +269,11 @@
                     <Label Grid.Column="0" Text="Avg:" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Label Grid.Column="1" Text="{Binding AvgStockDisplay}" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Label Grid.Column="2" Text="{Binding AvgColoursDisplay}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="3" Text="{Binding AvgCostDisplay, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="4" Text="{Binding AvgMilkDisplay, StringFormat='{0} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="5" Text="{Binding AvgWoolDisplay, StringFormat='{0} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="6" Text="{Binding AvgTaxDisplay, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="7" Text="{Binding AvgIncomeDisplay, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="3" Text="{Binding AvgCostDisplay, StringFormat='{0:C2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="4" Text="{Binding AvgMilkDisplay, StringFormat='{0:F2} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="5" Text="{Binding AvgWoolDisplay, StringFormat='{0:F2} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="6" Text="{Binding AvgTaxDisplay, StringFormat='{0:C2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="7" Text="{Binding AvgIncomeDisplay, StringFormat='{0:C2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
 
 
                 </Grid>
@@ -294,7 +294,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Text="Profit:" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="7" Text="{Binding TotalProfit, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="7" Text="{Binding TotalProfit, StringFormat='{0:C2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </Grid>
 
                 <!-- Divider above footer -->
