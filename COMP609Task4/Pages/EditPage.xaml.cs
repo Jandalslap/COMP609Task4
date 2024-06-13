@@ -52,7 +52,7 @@ namespace COMP609Task4.Pages
                 IdLabel.Text = stockToEdit.Id.ToString();
                 CostEntry.Text = stockToEdit.Cost.ToString();
                 WeightEntry.Text = stockToEdit.Weight.ToString();
-                ColourLabel.Text = stockToEdit.Colour;
+                ColourEntry.Text = stockToEdit.Colour.ToString();
 
                 if (stockToEdit is Cow cow)
                 {
@@ -81,18 +81,72 @@ namespace COMP609Task4.Pages
         {
             if (sender is Button button && button.CommandParameter is Stock updatedStock)
             {
-                updatedStock.Cost = int.Parse(CostEntry.Text);
-                updatedStock.Weight = int.Parse(WeightEntry.Text);
+                // Validate and parse Cost
+                if (!int.TryParse(CostEntry.Text, out int cost) || cost < 0)
+                {
+                    DisplayAlert("Error", "Please enter a valid number for Cost.", "OK");
+                    return;
+                }
 
+                // Validate and parse Weight
+                if (!int.TryParse(WeightEntry.Text, out int weight) || weight < 0)
+                {
+                    DisplayAlert("Error", "Please enter a valid number for Weight.", "OK");
+                    return;
+                }
+
+                // Validate Colour
+                string colourInput = ColourEntry.Text.Trim().ToLower(); // Convert to lowercase
+                string colour;
+                switch (colourInput)
+                {
+                    case "red":
+                        colour = "Red";
+                        break;
+                    case "white":
+                        colour = "White";
+                        break;
+                    case "black":
+                        colour = "Black";
+                        break;
+                    default:
+                        DisplayAlert("Error", "Please enter either Red, White, or Black for Colour.", "OK");
+                        return;
+                }
+
+                // Validate ProduceEntry based on Stock type (Cow or Sheep)
+                int produceValue = 0; // Default value
                 if (updatedStock is Cow cow)
                 {
-                    cow.Milk = int.Parse(ProduceEntry.Text);
+                    if (!int.TryParse(ProduceEntry.Text, out int milk) || milk < 0)
+                    {
+                        DisplayAlert("Error", "Please enter a valid number for Milk.", "OK");
+                        return;
+                    }
+                    cow.Milk = milk;
                 }
                 else if (updatedStock is Sheep sheep)
                 {
-                    sheep.Wool = int.Parse(ProduceEntry.Text);
+                    if (!int.TryParse(ProduceEntry.Text, out int wool) || wool < 0)
+                    {
+                        DisplayAlert("Error", "Please enter a valid number for Wool.", "OK");
+                        return;
+                    }
+                    sheep.Wool = wool;
+                }
+                else
+                {
+                    // Handle unexpected type of updatedStock here if needed
+                    DisplayAlert("Error", "Unsupported stock type.", "OK");
+                    return;
                 }
 
+                // Update the stock object
+                updatedStock.Cost = cost;
+                updatedStock.Weight = weight;
+                updatedStock.Colour = colour;
+
+                // Perform database update
                 int result = _database.UpdateItem(updatedStock);
 
                 if (result > 0)
@@ -106,6 +160,8 @@ namespace COMP609Task4.Pages
                 }
             }
         }
+
+
 
         // Event handler for the Delete button click event
         private async void Delete_Clicked(object sender, EventArgs e)
@@ -151,36 +207,29 @@ namespace COMP609Task4.Pages
                 DisplayAlert("Error", "Please select a colour", "OK");
                 return;
             }
-            if (string.IsNullOrWhiteSpace(AddCost.Text))
+
+            // Validate numeric fields
+            if (!ValidateNonNegativeInteger(AddCost.Text, out int cost))
             {
-                DisplayAlert("Error", "Please enter a value for cost", "OK");
+                DisplayAlert("Error", "Please enter a valid number for cost", "OK");
                 return;
             }
-            if (string.IsNullOrWhiteSpace(AddWeight.Text))
+
+            if (!ValidateNonNegativeInteger(AddWeight.Text, out int weight))
             {
-                DisplayAlert("Error", "Please enter a value for weight", "OK");
+                DisplayAlert("Error", "Please enter a valid number for weight", "OK");
                 return;
             }
-            if (!int.TryParse(AddCost.Text, out int cost))
+
+            int additionalField;
+            if (!ValidateNonNegativeInteger(AddProduce.Text, out additionalField))
             {
-                DisplayAlert("Error", "Invalid value for cost", "OK");
-                return;
-            }
-            if (!int.TryParse(AddWeight.Text, out int weight))
-            {
-                DisplayAlert("Error", "Invalid value for weight", "OK");
+                DisplayAlert("Error", "Invalid value for additional field", "OK");
                 return;
             }
 
             string selectedStockType = StockTypePicker.SelectedItem.ToString();
             string selectedColour = ColourPicker.SelectedItem.ToString();
-
-            int additionalField;
-            if (!int.TryParse(AddProduce.Text, out additionalField))
-            {
-                DisplayAlert("Error", "Invalid value for additional field", "OK");
-                return;
-            }
 
             // Call the AddNewStock method from the ViewModel
             int result = _viewModel.AddNewStock(selectedStockType, selectedColour, cost, weight, additionalField);
@@ -196,6 +245,19 @@ namespace COMP609Task4.Pages
                 DisplayAlert("Error", "Failed to add stock", "OK");
             }
         }
+
+        private bool ValidateNonNegativeInteger(string input, out int value)
+        {
+            if (int.TryParse(input, out value))
+            {
+                if (value >= 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
         // Event handler for the Stock Type Picker selection change event
         private void StockTypePicker_SelectedIndexChanged(object sender, EventArgs e)
@@ -234,7 +296,7 @@ namespace COMP609Task4.Pages
         {
             TypeLabel.Text = "Type";
             IdLabel.Text = "ID";
-            ColourLabel.Text = "Colour";
+            ColourEntry.Text = "Colour";
             CostEntry.Text = string.Empty;
             WeightEntry.Text = string.Empty;
             ProduceLabel.Text = "Produce";

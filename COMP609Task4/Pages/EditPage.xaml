@@ -126,7 +126,7 @@
 
                             <StackLayout Grid.Column="2" Margin="0,0,10,0">
                                 <Label Text="Colour" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
-                                <Label x:Name="ColourLabel" VerticalOptions="Center"/>
+                                <Entry x:Name="ColourEntry" Placeholder="Colour"/>
                             </StackLayout>
 
                             <StackLayout Grid.Column="3" Margin="0,0,10,0">
