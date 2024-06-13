@@ -23,9 +23,11 @@
                     <RowDefinition Height="1"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="1"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="1"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/> <!--Footer-->
                 </Grid.RowDefinitions>
 
                 <!-- Divider above header -->
@@ -63,17 +65,99 @@
                 <!-- Divider below header -->
                 <BoxView Grid.Row="2" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
-                <Grid Grid.Row="3">
+                <!--<Grid Grid.Row="3">
                     <StackLayout Grid.Row="5" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,10,0,10">
                         <Label Text="Your stuff goes here" FontSize="24" FontAttributes="Bold"/>
                     </StackLayout>
-                </Grid>
+                </Grid>-->
+                
+                <StackLayout Grid.Row="3" Padding="10">
+                    <Label Text="Estimate future earnings" 
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Margin="0,0,0,10"
+                        HorizontalOptions="Center"/>
+                </StackLayout>
+
+                <!-- Add New Form fields -->
+                <ScrollView Grid.Row="4" Grid.RowSpan="2">
+                    <StackLayout Margin="10">
+                        <Grid Margin="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Stock Type Dropdown -->
+                            <StackLayout Grid.Column="0" Margin="0,0,10,0">
+                                <Label Text="Stock Type:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
+                                <Picker x:Name="StockTypePicker" SelectedIndexChanged="StockTypePicker_SelectedIndexChanged">
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Cow</x:String>
+                                            <x:String>Sheep</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
+                            </StackLayout>
+
+                            <!-- Colour Dropdown -->
+                            <StackLayout Grid.Column="1" Margin="0,0,10,0">
+                                <Label Text="Colour:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
+                                <Picker x:Name="ColourPicker">
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Red</x:String>
+                                            <x:String>White</x:String>
+                                            <x:String>Black</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
+                            </StackLayout>
+
+                            <!-- Cost -->
+                            <StackLayout Grid.Column="2" Margin="0,0,10,0">
+                                <Label Text="Cost:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
+                                <Entry x:Name="AddCost" Placeholder="Cost"/>
+                            </StackLayout>
+
+                            <!-- Weight -->
+                            <StackLayout Grid.Column="3" Margin="0,0,10,0">
+                                <Label Text="Weight:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
+                                <Entry x:Name="AddWeight" Placeholder="Weight"/>
+                            </StackLayout>
+
+                            <!-- Produce field based on stock type -->
+                            <StackLayout Grid.Column="4" Margin="0,0,10,0" x:Name="ProduceStackLayout2">
+                                <Label x:Name="AddProduceLabel" Text="Milk" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" VerticalOptions="Center"/>
+                                <Entry x:Name="AddProduce" Placeholder="Produce"/>
+                            </StackLayout>
+
+                            <!-- Add New and Reset Buttons -->
+                            <StackLayout Grid.Column="5" Padding="10" Orientation="Horizontal" VerticalOptions="Start">
+                                <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Add New" Clicked="AddNewStock_Clicked" CommandParameter="{Binding .}"/>
+                                <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Reset" Clicked="ClearAddNewStock_Clicked" CommandParameter="{Binding .}"/>
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+                </ScrollView>
+                
+                <!-- Divider between search ID and form fields -->
+                <BoxView Grid.Row="5" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+                
+                <!--INSERT OUTPUT DISPLAY HERE-->
 
                 <!-- Divider above footer -->
-                <BoxView Grid.Row="4" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+                <BoxView Grid.Row="6" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
                 <!-- Footer -->
-                <StackLayout Grid.Row="5" Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,10,0,10">
+                <StackLayout Grid.Row="7" Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,10,0,10">
                     <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Finance" Clicked="Finance_Clicked"/>
                 </StackLayout>
             </Grid>
