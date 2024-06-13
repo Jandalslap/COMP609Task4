@@ -469,7 +469,6 @@ namespace COMP609Task4.ViewModels
             return (decimal)Preferences.Get(key, defaultValue: 0.0);
         }
 
-
         // Event handler for PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
