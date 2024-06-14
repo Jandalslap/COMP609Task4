@@ -10,51 +10,48 @@ namespace COMP609Task4.ViewModels
     // ViewModel for managing editing operations
     public class ForecastViewModel : INotifyPropertyChanged
     {
-        // Database instance for accessing data
-        private readonly Database _database;
+        // Observable collection that forcasted livestock are added to
+        private ObservableCollection<Stock> _forecastLivestock;
 
-        // Collection to hold search results
-        private ObservableCollection<Stock> _searchResults;
-
-        // Property to access the database instance
-        public Database Database => _database;
-
-        // Collection property to hold search results
-        public ObservableCollection<Stock> SearchResults
-        {
-            get => _searchResults;
-            set
-            {
-                _searchResults = value;
-                OnPropertyChanged(nameof(SearchResults)); // Notify property changed
-            }
-        }
+        // Databse connection/instance not required for this page
 
         // Constructor
         public ForecastViewModel()
         {
-            _database = new Database(); // Initialize database instance
-            SearchResults = new ObservableCollection<Stock>(); // Initialize search results collection
+            //_database = new Database(); // Initialize database instance
+            _forecastLivestock = new ObservableCollection<Stock>(); // Initialize search results collection
+            // Just for testing, adds 6 cows to the observable collection
+            for (int i = 0; i < 5; i++)
+            {
+                Stock newStock;
+                newStock = new Cow()
+                {
+                    // Set properties common to all stocks
+                    Type = "Cow",
+                    Colour = "Red",
+                    Cost = 33,
+                    Weight = 66,
+                    // Set additional property specific to Cow
+                    Milk = 22
+
+                };
+                _forecastLivestock.Add(newStock);
+            }
         }
 
-        // Method to search for items by ID
-        public async void SearchById(string id)
+        // Coppied from finance view model
+        public ObservableCollection<Stock> ForecastLivestock
         {
-            // Query the database for items with matching ID
-            var result = _database.ReadItems().Where(item => item.Id.ToString() == id).ToList();
-
-            // Check if any results were found
-            if (result.Any())
+            get => _forecastLivestock;
+            set
             {
-                // Update search results collection
-                SearchResults = new ObservableCollection<Stock>(result);
-            }
-            else
-            {
-                // Show an alert if no matching items are found
-                await Application.Current.MainPage.DisplayAlert("Search Result", $"No stock found with ID: {id}", "OK");
+                _forecastLivestock = value;
+                OnPropertyChanged(nameof(_forecastLivestock));
+                //CalculateTotals();
             }
         }
+
+
 
         // Method to add a new stock item
         public int AddNewStock(string selectedStockType, string selectedColour, int cost, int weight, int additionalField)
@@ -89,15 +86,16 @@ namespace COMP609Task4.ViewModels
             }
 
             // Insert the new stock into the database
-            int result = _database.AddItem(newStock);
+            _forecastLivestock.Add(newStock);
+            
 
-            if (result > 0)
-            {
-                // Update search results collection
-                SearchResults.Add(newStock);
-            }
+            //// Update search results collection
+            //SearchResults.Add(newStock); //?????
 
-            return result;
+            
+            
+
+            return 1;
         }
 
         // INotifyPropertyChanged implementation

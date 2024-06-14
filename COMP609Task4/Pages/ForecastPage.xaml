@@ -26,16 +26,16 @@
                     <RowDefinition Height="Auto"/>  <!--row 3, title-->
                     <RowDefinition Height="Auto"/>  <!--row 4, form-->
                     <RowDefinition Height="1"/>     <!--row 5, devider-->
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>               
-                    <RowDefinition Height="*"/>     <!--row 14-->
-                    <RowDefinition Height="Auto"/>  <!--Footer-->
+                    <RowDefinition Height="Auto"/>  <!--row 6-->
+                    <RowDefinition Height="Auto"/>  <!--row 7-->
+                    <RowDefinition Height="*"/>     <!--row 8-->
+                    <RowDefinition Height="Auto"/>  <!--row 9-->
+                    <RowDefinition Height="Auto"/>  <!--row 10-->
+                    <RowDefinition Height="Auto"/>  <!--row 11-->
+                    <RowDefinition Height="Auto"/>  <!--row 12-->
+                    <RowDefinition Height="Auto"/>  <!--row 13-->   
+                    <RowDefinition Height="Auto"/>  <!--row 14-->
+                    <RowDefinition Height="Auto"/>  <!--row 15, Footer-->
                 </Grid.RowDefinitions>
 
                 <!-- Divider above header -->
@@ -196,7 +196,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <!-- Data -->
-                        <CollectionView Grid.Row="1" ItemsSource="{Binding FilteredLivestock}">
+                        <CollectionView Grid.Row="1" ItemsSource="{Binding ForecastLivestock}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Padding="10" ColumnSpacing="10">

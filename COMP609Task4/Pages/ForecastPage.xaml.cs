@@ -33,116 +33,7 @@ public partial class ForecastPage : ContentPage
     //METHODS FROM EDITPAGE.XAML.CS
     // NEED TO BE CHANGED FOR SPECIFIC IMPLEMENTATION OF FORM
 
-    //private readonly Database _database;
-    //private readonly string _searchId;
-    //private readonly EditViewModel _viewModel;
-
-
-    // Constructor with a search ID parameter
-    //public EditPage(string searchId) : this()
-    //{
-    //    _searchId = searchId;
-    //    _viewModel.SearchById(searchId);
-    //    PopulateFields(searchId); // Call PopulateFields after searching by ID
-    //}
-
-    // Event handler for the SearchById button click event
-    //private void SearchById_Clicked(object sender, EventArgs e)
-    //{
-    //    var enteredId = IdSearchEntry.Text;
-    //    if (!string.IsNullOrEmpty(enteredId))
-    //    {
-    //        _viewModel.SearchById(enteredId);
-    //        PopulateFields(enteredId); // Call PopulateFields after searching by ID
-    //    }
-    //}
-
-    // Method to populate fields with data from the database based on search ID
-    //private void PopulateFields(string searchId)
-    //{
-    //    var stockToEdit = _database.GetItemById(searchId);
-    //    if (stockToEdit != null)
-    //    {
-    //        // Bind stockToEdit to the UI
-    //        BindingContext = stockToEdit;
-    //        TypeLabel.Text = stockToEdit.Type;
-    //        IdLabel.Text = stockToEdit.Id.ToString();
-    //        CostEntry.Text = stockToEdit.Cost.ToString();
-    //        WeightEntry.Text = stockToEdit.Weight.ToString();
-    //        ColourLabel.Text = stockToEdit.Colour;
-
-    //        if (stockToEdit is Cow cow)
-    //        {
-    //            ProduceLabel.Text = "Milk";
-    //            ProduceEntry.Text = cow.Milk.ToString();
-    //        }
-    //        else if (stockToEdit is Sheep sheep)
-    //        {
-    //            ProduceLabel.Text = "Wool";
-    //            ProduceEntry.Text = sheep.Wool.ToString();
-    //        }
-    //        else
-    //        {
-    //            ProduceLabel.Text = "Produce";
-    //            ProduceEntry.Text = "Unknown";
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Console.WriteLine("Stock item not found with ID: " + searchId);
-    //    }
-    //}
-
-    // Event handler for the Update button click event
-    //private void Update_Clicked(object sender, EventArgs e)
-    //{
-    //    if (sender is Button button && button.CommandParameter is Stock updatedStock)
-    //    {
-    //        updatedStock.Cost = int.Parse(CostEntry.Text);
-    //        updatedStock.Weight = int.Parse(WeightEntry.Text);
-
-    //        if (updatedStock is Cow cow)
-    //        {
-    //            cow.Milk = int.Parse(ProduceEntry.Text);
-    //        }
-    //        else if (updatedStock is Sheep sheep)
-    //        {
-    //            sheep.Wool = int.Parse(ProduceEntry.Text);
-    //        }
-
-    //        int result = _database.UpdateItem(updatedStock);
-
-    //        if (result > 0)
-    //        {
-    //            DisplayAlert("Success", "Stock updated successfully", "OK");
-    //            ClearEditForm();
-    //        }
-    //        else
-    //        {
-    //            DisplayAlert("Error", "Failed to update stock", "OK");
-    //        }
-    //    }
-    //}
-
-    // Event handler for the Delete button click event
-    //private async void Delete_Clicked(object sender, EventArgs e)
-    //{
-    //    if (sender is Button button && button.CommandParameter is Stock deletedStock)
-    //    {
-    //        // Display confirmation alert with cancel option
-    //        bool deleteConfirmed = await DisplayAlert("Confirm Deletion", "Are you sure you want to delete this stock item?", "Yes", "Cancel");
-
-    //        if (deleteConfirmed)
-    //        {
-    //            // User confirmed deletion
-    //            _database.DeleteItem(deletedStock);
-    //            await DisplayAlert("Success", "Stock deleted successfully", "OK");
-    //            ClearEditForm();
-    //        }
-    //        // If cancel option was chosen, do nothing
-    //    }
-    //}
-
+    
     // Event handler for the Add New Stock button click event
     private void AddNewStock_Clicked(object sender, EventArgs e)
     {
@@ -234,24 +125,6 @@ public partial class ForecastPage : ContentPage
         await Navigation.PushAsync(new LivestockPage());
     }
 
-    // Method to clear the edit form fields
-    //private void ClearEditForm()
-    //{
-    //    TypeLabel.Text = "Type";
-    //    IdLabel.Text = "ID";
-    //    ColourLabel.Text = "Colour";
-    //    CostEntry.Text = string.Empty;
-    //    WeightEntry.Text = string.Empty;
-    //    ProduceLabel.Text = "Produce";
-    //    ProduceEntry.Text = string.Empty;
-    //    IdSearchEntry.Text = string.Empty;
-    //}
-
-    // Event handler to clear the search by ID fields
-    //private void ClearSearchById_Clicked(object sender, EventArgs e)
-    //{
-    //    ClearEditForm();
-    //}
 
     // Event handler to clear the add new stock fields
     private void ClearAddNewStock_Clicked(object sender, EventArgs e)
