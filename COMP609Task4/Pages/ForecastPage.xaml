@@ -29,12 +29,12 @@
                     <RowDefinition Height="Auto"/>  <!--row 6-->
                     <RowDefinition Height="Auto"/>  <!--row 7-->
                     <RowDefinition Height="*"/>     <!--row 8-->
-                    <RowDefinition Height="Auto"/>  <!--row 9-->
+                    <RowDefinition Height="1"/>  <!--row 9-->
                     <RowDefinition Height="Auto"/>  <!--row 10-->
                     <RowDefinition Height="Auto"/>  <!--row 11-->
-                    <RowDefinition Height="Auto"/>  <!--row 12-->
+                    <RowDefinition Height="1"/>  <!--row 12-->
                     <RowDefinition Height="Auto"/>  <!--row 13-->   
-                    <RowDefinition Height="Auto"/>  <!--row 14-->
+                    <RowDefinition Height="1"/>  <!--row 14-->
                     <RowDefinition Height="Auto"/>  <!--row 15, Footer-->
                 </Grid.RowDefinitions>
 
