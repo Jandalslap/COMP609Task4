@@ -1,6 +1,6 @@
 # This assignment was to create a Livestock Management Windows Application using .NET Maui using a provided database of stock items.
 
-# This was a group assignment completed in pairs. We wrote this in C# using the Model-View-ViewModel (MVVM) design pattern is Visual Studio.
+# This was a group assignment completed in pairs. We wrote this in C# using the Model-View-ViewModel (MVVM) design pattern in Visual Studio.
 
 # The app was designed to perform specified functions such as calculate stock numbers, averages and profit.
 
