@@ -36,6 +36,9 @@ namespace COMP609Task4.ViewModels
         // Property to access the database instance
         public Database Database => _database;
 
+        // Property to store the currently selected time period for calculations
+        private string _selectedPeriod;
+
         // Collection holding all livestock data
         public ObservableCollection<Stock> Livestock
         {
@@ -270,6 +273,16 @@ namespace COMP609Task4.ViewModels
                 OnPropertyChanged(nameof(AvgWoolDisplay));
             }
         }
+        // Properties for storing selected time period
+        public string SelectedPeriod
+        {
+            get => _selectedPeriod;
+            set
+            {
+                _selectedPeriod = value;
+                OnPropertyChanged(nameof(SelectedPeriod));
+            }
+        }
         #endregion
         #region Constructor and Initialization
         // Constructor
@@ -279,10 +292,30 @@ namespace COMP609Task4.ViewModels
             LoadData();
             FilteredLivestock = new ObservableCollection<Stock>(Livestock);
             CalculateTotals();
-            // Initialize with stored starting values
-            _milkPrice = 9.4m;
-            _woolPrice = 6.2m;
-            _taxPrice = 0.02m;
+            // Rates Preferences
+            // Initialize preferences with default values if they don't exist
+            if (!Preferences.ContainsKey("MilkPrice"))
+            {
+                Preferences.Set("MilkPrice", 9.4); // Set default MilkPrice
+            }
+
+            if (!Preferences.ContainsKey("WoolPrice"))
+            {
+                Preferences.Set("WoolPrice", 6.2); // Set default WoolPrice
+            }
+
+            if (!Preferences.ContainsKey("TaxPrice"))
+            {
+                Preferences.Set("TaxPrice", 0.02); // Set default TaxPrice
+            }
+            // Load the preferences into the ViewModel
+            _milkPrice = LoadSettings("MilkPrice");
+            _woolPrice = LoadSettings("WoolPrice");
+            _taxPrice = LoadSettings("TaxPrice");
+
+            // Initialize and default the selected period to "Daily"
+            _selectedPeriod = "Daily";
+            // Initialize the command for updating rates
             UpdateCommand = new Command(OnUpdate);
         }
         #endregion
@@ -517,24 +550,29 @@ namespace COMP609Task4.ViewModels
                 TaxPrice = taxPrice;
             }
 
-            // Save the updated prices to settings
+            // Save the updated prices to preferences
             SaveSettings("MilkPrice", (double)MilkPrice);
             SaveSettings("WoolPrice", (double)WoolPrice);
             SaveSettings("TaxPrice", (double)TaxPrice);
 
             // Recalculate totals and averages
             CalculateTotals();
+
+            // Apply the selected period multiplier
+            RecalculateTotalsBasedOnPeriod(_selectedPeriod);
         }
 
-        // Method to save new Rates
+        // Method to save new Rates using Xamarin.Forms Preferences (Used Preferences as opposed to altering db)
         private void SaveSettings(string key, double value)
         {
+            // Store the specified 'value' under the provided 'key' in application preferences.
             Preferences.Set(key, value);
         }
 
-        // Method to load new Rates
+        // Method to load new Rates using Xamarin.Forms Preferences (Used Preferences as opposed to altering db)
         private decimal LoadSettings(string key)
         {
+            // Retrieve the stored value associated with the specified 'key' from application preferences.
             return (decimal)Preferences.Get(key, defaultValue: 0.0);
         }
 

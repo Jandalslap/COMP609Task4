@@ -90,10 +90,16 @@ public partial class FinancePage : ContentPage
     // Event handler for the Time Period Picker selection change event
     private void TimePeriodPicker_SelectedIndexChanged(object sender, EventArgs e)
     {
-        string selectedPeriod = (sender as Picker)?.SelectedItem as string;
-        (BindingContext as FinanceViewModel)?.RecalculateTotalsBasedOnPeriod(selectedPeriod);
+        // Retrieve the selected period from the dropdown
+        string selectedPeriod = TimePeriodPicker.SelectedItem as string;
+        if (_viewModel != null)
+        {
+            // Update the ViewModel's SelectedPeriod property
+            _viewModel.SelectedPeriod = selectedPeriod;
+            // Recalculate the totals based on the new period
+            _viewModel.RecalculateTotalsBasedOnPeriod(selectedPeriod);
+        }
     }
-
 
     // Event handler for the Edit button click event
     private async void Edit_Clicked(object sender, EventArgs e)
