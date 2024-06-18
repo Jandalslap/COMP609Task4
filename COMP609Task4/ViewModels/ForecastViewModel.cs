@@ -20,6 +20,11 @@ namespace COMP609Task4.ViewModels
         {
             //_database = new Database(); // Initialize database instance
             _forecastLivestock = new ObservableCollection<Stock>(); // Initialize search results collection
+
+            _milkPrice = 9.4m;
+            _woolPrice = 6.2m;
+            _taxPrice = 0.02m;
+
             // Just for testing, adds 6 cows to the observable collection
             for (int i = 0; i < 5; i++)
             {
