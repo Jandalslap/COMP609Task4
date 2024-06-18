@@ -7,7 +7,7 @@ namespace COMP609Task4.Pages
 {
     public partial class EditPage : ContentPage  // Define EditPage class inheriting from ContentPage
     {
-        #region Private Fields
+        #region Private Members
         // Private fields to store the database instance, search ID, and view model
         private readonly Database _database;    // Handles database operations
         private readonly string _searchId;      // Stores the ID for searching

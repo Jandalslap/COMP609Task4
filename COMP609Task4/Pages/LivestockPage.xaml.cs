@@ -8,7 +8,7 @@ namespace COMP609Task4.Pages
 {
     public partial class LivestockPage : ContentPage
     {
-        #region Private Fields
+        #region Private Members
         // Private fields
         private LivestockViewModel _viewModel;
         #endregion

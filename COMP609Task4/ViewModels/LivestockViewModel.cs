@@ -8,7 +8,7 @@ namespace COMP609Task4.ViewModels
     // ViewModel for managing livestock data and operations
     public class LivestockViewModel : INotifyPropertyChanged
     {
-        #region Fields
+        #region Private Members
         // Database instance for accessing livestock data
         private readonly Database _database;
 

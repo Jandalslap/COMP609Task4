@@ -10,7 +10,7 @@ namespace COMP609Task4.ViewModels
     // ViewModel for managing editing operations in the application
     public class EditViewModel : INotifyPropertyChanged
     {
-        #region Fields
+        #region Private Members
         // Database instance for accessing and manipulating data
         private readonly Database _database;
 

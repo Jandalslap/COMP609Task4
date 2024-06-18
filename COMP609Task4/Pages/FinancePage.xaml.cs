@@ -8,7 +8,7 @@ namespace COMP609Task4.Pages;
 
 public partial class FinancePage : ContentPage
 {
-    #region Private Fields
+    #region Private Members
     private FinanceViewModel _viewModel;
     #endregion
     #region Constructor

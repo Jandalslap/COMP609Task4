@@ -11,7 +11,7 @@ namespace COMP609Task4.ViewModels
 {
     internal class FinanceViewModel : INotifyPropertyChanged
     {
-        #region Fields
+        #region Private Members
         // Database instance for accessing livestock data
         private readonly Database _database;
 
