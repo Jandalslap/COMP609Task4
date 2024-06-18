@@ -5,11 +5,14 @@
              xmlns:viewmodels="clr-namespace:COMP609Task4.ViewModels"
              x:Class="COMP609Task4.Pages.LivestockPage">
 
+    <!-- ViewModel Binding -->
     <ContentPage.BindingContext>
         <viewmodels:LivestockViewModel />
     </ContentPage.BindingContext>
 
+    <!-- Main Layout -->
     <AbsoluteLayout>
+
         <!-- Background Image -->
         <Image Source="livestock_image2.jpg" 
                Aspect="AspectFill"
@@ -17,31 +20,34 @@
                AbsoluteLayout.LayoutBounds="0,0,1,1" 
                AbsoluteLayout.LayoutFlags="All"/>
 
-        <!-- Main Content -->
+        <!-- Main Content Border -->
         <Border Stroke="Black" StrokeThickness="1" Padding="10" Margin="10"
                 AbsoluteLayout.LayoutBounds="0,0,1,1" 
                 AbsoluteLayout.LayoutFlags="All">
+
+            <!-- Grid Layout for Main Content -->
             <Grid>
+                <!-- Row Definitions -->
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1"/>         <!-- Divider Above Header -->
+                    <RowDefinition Height="Auto"/>      <!-- Header Row -->
+                    <RowDefinition Height="1"/>         <!-- Divider Below Header -->
+                    <RowDefinition Height="Auto"/>      <!-- Filters Section -->
+                    <RowDefinition Height="1"/>         <!-- Divider Below Filters -->
+                    <RowDefinition Height="Auto"/>      <!-- Fixed Header for Columns -->
+                    <RowDefinition Height="1"/>         <!-- Divider Below Column Headers -->
+                    <RowDefinition Height="*"/>         <!-- Scrollable Content (Data) -->
+                    <RowDefinition Height="1"/>         <!-- Divider Above Totals -->
+                    <RowDefinition Height="Auto"/>      <!-- Totals Section -->
+                    <RowDefinition Height="Auto"/>      <!-- Averages Section -->
+                    <RowDefinition Height="1"/>         <!-- Divider Above Footer -->
+                    <RowDefinition Height="Auto"/>      <!-- Footer Section -->
                 </Grid.RowDefinitions>
 
-                <!-- Divider above header -->
+                <!-- Divider Above Header -->
                 <BoxView Grid.Row="0" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
-                <!-- Header -->
+                <!-- Header Section -->
                 <Grid Grid.Row="1" BackgroundColor="#D3D3D380" Padding="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -49,18 +55,19 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
+                    <!-- Logo -->
                     <Image Source="lms_icon.jpg" 
                            WidthRequest="60" 
                            HeightRequest="60" 
                            VerticalOptions="Center" 
                            HorizontalOptions="Start"/>
+                    <!-- Title -->
                     <Label Text="Livestock Overview" 
                            FontSize="24" 
                            FontAttributes="Bold"
                            VerticalOptions="Center" 
                            HorizontalOptions="Center" 
                            Grid.Column="1"/>
-
                     <!-- Home Button -->
                     <Button Text="Home" 
                             BackgroundColor="#F0F0F0" 
@@ -72,10 +79,10 @@
                             Grid.Column="2"/>
                 </Grid>
 
-                <!-- Divider below header -->
+                <!-- Divider Below Header -->
                 <BoxView Grid.Row="2" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
-                <!-- Dropdown Filter section -->
+                <!-- Filters Section -->
                 <Grid Grid.Row="3" Margin="10" HorizontalOptions="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -84,12 +91,14 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
+                    <!-- Filters Label -->
                     <StackLayout Grid.Column="0" Margin="0,0,10,0">
-                        <Label Text="Filters:" TextColor="Black" FontSize="24" VerticalOptions="Center" FontAttributes="Bold"></Label>
+                        <Label Text="Filters:" TextColor="Black" FontSize="24" VerticalOptions="Center" FontAttributes="Bold"/>
                     </StackLayout>
-                    
+
+                    <!-- Stock Type Filter -->
                     <StackLayout Grid.Column="1" Margin="0,0,10,0">
-                        <Label Text="Stock" BackgroundColor="#D3D3D380" FontAttributes="Bold" />
+                        <Label Text="Stock" BackgroundColor="#D3D3D380" FontAttributes="Bold"/>
                         <Picker x:Name="StockTypePicker" SelectedIndexChanged="StockTypePicker_SelectedIndexChanged">
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
@@ -101,8 +110,9 @@
                         </Picker>
                     </StackLayout>
 
+                    <!-- Stock Colour Filter -->
                     <StackLayout Grid.Column="2" Margin="0,0,10,0">
-                        <Label Text="Colour" BackgroundColor="#D3D3D380" FontAttributes="Bold" />
+                        <Label Text="Colour" BackgroundColor="#D3D3D380" FontAttributes="Bold"/>
                         <Picker x:Name="StockColourPicker" SelectedIndexChanged="StockColourPicker_SelectedIndexChanged">
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
@@ -115,16 +125,16 @@
                         </Picker>
                     </StackLayout>
 
-                    <!-- Reset Button -->
+                    <!-- Reset Filters Button -->
                     <StackLayout Grid.Column="3" Padding="10" Orientation="Horizontal" VerticalOptions="Start">
                         <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Reset" Clicked="ClearFilters_Clicked" CommandParameter="{Binding .}"/>
                     </StackLayout>
                 </Grid>
 
-                <!-- Divider below dropdown section -->
+                <!-- Divider Below Filters Section -->
                 <BoxView Grid.Row="4" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
-                <!-- Fixed header row for columns -->
+                <!-- Column Headers Section -->
                 <Grid Grid.Row="5" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -144,17 +154,18 @@
                     <Label Grid.Column="6" Text="Wool" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </Grid>
 
-                <!-- Divider below headings section -->
+                <!-- Divider Below Column Headers -->
                 <BoxView Grid.Row="6" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
-                <!-- Scrollable content -->
+                <!-- Scrollable Data Section -->
                 <ScrollView Grid.Row="7">
                     <Grid x:Name="ContentGrid" Margin="10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <!-- Data -->
+
+                        <!-- Data Collection -->
                         <CollectionView Grid.Row="1" ItemsSource="{Binding FilteredLivestock}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
@@ -182,10 +193,10 @@
                     </Grid>
                 </ScrollView>
 
-                <!-- Divider above totals -->
+                <!-- Divider Above Totals Section -->
                 <BoxView Grid.Row="8" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
-                <!-- Totals -->
+                <!-- Totals Section -->
                 <Grid Grid.Row="9" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -205,7 +216,7 @@
                     <Label Grid.Column="6" Text="{Binding TotalWool, StringFormat='{0:F2} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </Grid>
 
-                <!-- Averages -->
+                <!-- Averages Section -->
                 <Grid Grid.Row="10" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -225,14 +236,15 @@
                     <Label Grid.Column="6" Text="{Binding AvgWoolDisplay, StringFormat='{0:F2} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </Grid>
 
-                <!-- Divider above footer -->
+                <!-- Divider Above Footer -->
                 <BoxView Grid.Row="11" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
-                <!-- Footer -->
+                <!-- Footer Section -->
                 <StackLayout Grid.Row="12" Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,10,0,10">
                     <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Finance" Clicked="Finance_Clicked"/>
                     <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" x:Name="EditButton" Text="Edit" Clicked="Edit_Clicked"/>
                 </StackLayout>
+
             </Grid>
         </Border>
     </AbsoluteLayout>

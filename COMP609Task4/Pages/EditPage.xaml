@@ -5,60 +5,62 @@
              xmlns:models="clr-namespace:COMP609Task4.Models"
              xmlns:viewmodels="clr-namespace:COMP609Task4.ViewModels"
              x:Class="COMP609Task4.Pages.EditPage">
-
+    <!-- Setting the binding context to the EditViewModel for data binding purposes -->
     <ContentPage.BindingContext>
         <viewmodels:EditViewModel />
     </ContentPage.BindingContext>
-
+    <!-- Layout container that positions children absolutely or relatively -->
     <AbsoluteLayout>
-        <!-- Background Image -->
+        <!-- Background image with low opacity to serve as a subtle page background -->
         <Image Source="livestock_image2.jpg" 
                Aspect="AspectFill"
                Opacity="0.2"
                AbsoluteLayout.LayoutBounds="0,0,1,1" 
                AbsoluteLayout.LayoutFlags="All"/>
 
-        <!-- Main Content -->
+        <!-- Main content area surrounded by a border -->
         <Border Stroke="Black" StrokeThickness="1" Padding="10" Margin="10"
                 AbsoluteLayout.LayoutBounds="0,0,1,1" 
                 AbsoluteLayout.LayoutFlags="All">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1"/>      <!-- Divider row with fixed height -->
+                    <RowDefinition Height="Auto"/>   <!-- Row to fit header content -->
+                    <RowDefinition Height="1"/>      <!-- Divider row with fixed height -->
+                    <RowDefinition Height="Auto"/>   <!-- Row for search section heading -->
+                    <RowDefinition Height="Auto"/>   <!-- Row for search input section -->
+                    <RowDefinition Height="*"/>      <!-- Row to fill remaining space (edit form) -->
+                    <RowDefinition Height="1"/>      <!-- Divider row with fixed height -->
+                    <RowDefinition Height="Auto"/>   <!-- Row for add new section heading -->
+                    <RowDefinition Height="*"/>      <!-- Row to fill remaining space (add form) -->
+                    <RowDefinition Height="1"/>      <!-- Divider row with fixed height -->
+                    <RowDefinition Height="Auto"/>   <!-- Row for footer section -->
                 </Grid.RowDefinitions>
 
-                <!-- Divider above header -->
+                <!-- Divider above header section -->
                 <BoxView Grid.Row="0" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
-                <!-- Header -->
+                <!-- Header section containing logo, title, and home button -->
                 <Grid Grid.Row="1" BackgroundColor="#D3D3D380" Padding="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-
+                    <!-- Logo image in the header -->
                     <Image Source="lms_icon.jpg" 
                            WidthRequest="60" 
                            HeightRequest="60" 
                            VerticalOptions="Center" 
                            HorizontalOptions="Start"/>
+                    <!-- Header title label -->
                     <Label Text="Edit Stock" 
                            FontSize="24" 
                            FontAttributes="Bold"
                            VerticalOptions="Center" 
                            HorizontalOptions="Center" 
                            Grid.Column="1"/>
+                    <!-- Home button in the header -->
                     <Button Text="Home" 
                             BackgroundColor="#F0F0F0" 
                             TextColor="Black"
@@ -69,10 +71,10 @@
                             Grid.Column="2"/>
                 </Grid>
 
-                <!-- Divider below header -->
+                <!-- Divider below header section -->
                 <BoxView Grid.Row="2" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
-                
-                <!-- Heading -->
+
+                <!-- Heading for the search section -->
                 <StackLayout Grid.Row="3" Padding="10">
                     <Label Text="Search By ID to Edit Stock" 
                     FontAttributes="Bold"
@@ -81,7 +83,7 @@
                     HorizontalOptions="Center"/>
                 </StackLayout>
 
-                <!-- Search ID Section -->
+                <!-- Scrollable section for the search input and edit form -->
                 <ScrollView Grid.Row="4" Grid.RowSpan="2">
                     <StackLayout Padding="10">
                         <Grid Padding="10" HorizontalOptions="Center">
@@ -90,19 +92,22 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
+                            <!-- Search ID input and button section -->
                             <StackLayout Grid.Column="0" Margin="0,0,10,0">
                                 <Label Text="Search by ID" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
                                 <Entry x:Name="IdSearchEntry" Placeholder="Enter ID"/>
                             </StackLayout>
+                            <!-- Search button -->
                             <StackLayout Grid.Column="1" Padding="10">
                                 <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Search" Clicked="SearchById_Clicked"/>
                             </StackLayout>
+                            <!-- Reset button -->
                             <StackLayout Grid.Column="2" Padding="10">
                                 <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Reset" Clicked="ClearSearchById_Clicked"/>
                             </StackLayout>
                         </Grid>
 
-                        <!-- Edit Form fields -->
+                        <!-- Editable form fields for stock details -->
                         <Grid Margin="10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -113,37 +118,37 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-
+                            <!-- Stock ID display -->
                             <StackLayout Grid.Column="0" Margin="0,0,10,0">
                                 <Label Text="Stock ID:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
                                 <Label x:Name="IdLabel" VerticalOptions="Center"/>
                             </StackLayout>
-
+                            <!-- Stock Type display -->
                             <StackLayout Grid.Column="1" Margin="0,0,10,0">
                                 <Label Text="Stock Type:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
                                 <Label x:Name="TypeLabel" VerticalOptions="Center"/>
                             </StackLayout>
-
+                            <!-- Colour input field -->
                             <StackLayout Grid.Column="2" Margin="0,0,10,0">
                                 <Label Text="Colour" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
                                 <Entry x:Name="ColourEntry" Placeholder="Colour"/>
                             </StackLayout>
-
+                            <!-- Cost input field -->
                             <StackLayout Grid.Column="3" Margin="0,0,10,0">
                                 <Label Text="Cost" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
                                 <Entry x:Name="CostEntry" Placeholder="Cost"/>
                             </StackLayout>
-
+                            <!-- Weight input field -->
                             <StackLayout Grid.Column="4" Margin="0,0,10,0">
                                 <Label Text="Weight" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
                                 <Entry x:Name="WeightEntry" Placeholder="Weight"/>
                             </StackLayout>
-
+                            <!-- Produce field which can change based on stock type -->
                             <StackLayout Grid.Column="5" Margin="0,0,10,0" x:Name="ProduceStackLayout">
                                 <Label x:Name="ProduceLabel" Text="Milk" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" VerticalOptions="Center"/>
                                 <Entry x:Name="ProduceEntry" Placeholder="Produce"/>
                             </StackLayout>
-
+                            <!-- Update and Delete buttons for the edit form -->
                             <StackLayout Grid.Column="6" Padding="10" Orientation="Horizontal" VerticalOptions="Start">
                                 <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Update" Clicked="Update_Clicked" CommandParameter="{Binding .}"/>
                                 <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Delete" Clicked="Delete_Clicked" CommandParameter="{Binding .}"/>
@@ -152,10 +157,10 @@
                     </StackLayout>
                 </ScrollView>
 
-                <!-- Divider between search ID and form fields -->
+                <!-- Divider between the search section and the add new section -->
                 <BoxView Grid.Row="6" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
-                
-                <!-- Heading -->
+
+                <!-- Heading for the add new stock section -->
                 <StackLayout Grid.Row="7" Padding="10">
                     <Label Text="Add New Stock Entry" 
                     FontAttributes="Bold"
@@ -164,7 +169,7 @@
                     HorizontalOptions="Center"/>
                 </StackLayout>
 
-                <!-- Add New Form fields -->
+                <!-- Scrollable section for adding new stock details -->
                 <ScrollView Grid.Row="8" Grid.RowSpan="2">
                     <StackLayout Margin="10">
                         <Grid Margin="10">
@@ -179,7 +184,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <!-- Stock Type Dropdown -->
+                            <!-- Dropdown to select stock type -->
                             <StackLayout Grid.Column="0" Margin="0,0,10,0">
                                 <Label Text="Stock Type:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
                                 <Picker x:Name="StockTypePicker" SelectedIndexChanged="StockTypePicker_SelectedIndexChanged">
@@ -192,7 +197,7 @@
                                 </Picker>
                             </StackLayout>
 
-                            <!-- Colour Dropdown -->
+                            <!-- Dropdown to select colour -->
                             <StackLayout Grid.Column="1" Margin="0,0,10,0">
                                 <Label Text="Colour:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
                                 <Picker x:Name="ColourPicker">
@@ -206,25 +211,25 @@
                                 </Picker>
                             </StackLayout>
 
-                            <!-- Cost -->
+                            <!-- Cost input field for adding new stock -->
                             <StackLayout Grid.Column="2" Margin="0,0,10,0">
                                 <Label Text="Cost:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
                                 <Entry x:Name="AddCost" Placeholder="Cost"/>
                             </StackLayout>
 
-                            <!-- Weight -->
+                            <!-- Weight input field for adding new stock -->
                             <StackLayout Grid.Column="3" Margin="0,0,10,0">
                                 <Label Text="Weight:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
                                 <Entry x:Name="AddWeight" Placeholder="Weight"/>
                             </StackLayout>
 
-                            <!-- Produce field based on stock type -->
+                            <!-- Produce field which can change based on stock type -->
                             <StackLayout Grid.Column="4" Margin="0,0,10,0" x:Name="ProduceStackLayout2">
                                 <Label x:Name="AddProduceLabel" Text="Milk" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" VerticalOptions="Center"/>
                                 <Entry x:Name="AddProduce" Placeholder="Produce"/>
                             </StackLayout>
 
-                            <!-- Add New and Reset Buttons -->
+                            <!-- Add new and Reset buttons for the add new stock form -->
                             <StackLayout Grid.Column="5" Padding="10" Orientation="Horizontal" VerticalOptions="Start">
                                 <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Add New" Clicked="AddNewStock_Clicked" CommandParameter="{Binding .}"/>
                                 <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Reset" Clicked="ClearAddNewStock_Clicked" CommandParameter="{Binding .}"/>
@@ -233,10 +238,10 @@
                     </StackLayout>
                 </ScrollView>
 
-                <!-- Divider above footer -->
+                <!-- Divider above the footer section -->
                 <BoxView Grid.Row="9" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
-                <!-- Footer -->
+                <!-- Footer section containing navigation buttons -->
                 <StackLayout Grid.Row="10" Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,10,0,10">
                     <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Livestock" Clicked="Livestock_Clicked"/>
                 </StackLayout>

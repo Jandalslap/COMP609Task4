@@ -20,21 +20,21 @@
             AbsoluteLayout.LayoutFlags="All">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1"/>     <!-- Divider above header -->
+                    <RowDefinition Height="Auto"/>  <!-- Header -->
+                    <RowDefinition Height="1"/>     <!-- Divider below header -->
+                    <RowDefinition Height="Auto"/>  <!-- Dropdown Filter section -->
+                    <RowDefinition Height="1"/>     <!-- Divider below dropdown section -->
+                    <RowDefinition Height="Auto"/>  <!-- Fixed header row for columns -->
+                    <RowDefinition Height="1"/>     <!-- Divider below headings section -->
+                    <RowDefinition Height="*"/>     <!-- Scrollable content -->
+                    <RowDefinition Height="1"/>     <!-- Divider above totals -->
+                    <RowDefinition Height="Auto"/>  <!-- Totals -->
+                    <RowDefinition Height="Auto"/>  <!-- Averages -->
+                    <RowDefinition Height="1"/>     <!-- Divider above profit -->
+                    <RowDefinition Height="Auto"/>  <!-- Profit -->
+                    <RowDefinition Height="1"/>     <!-- Divider above footer -->
+                    <RowDefinition Height="Auto"/>  <!-- Footer -->
                 </Grid.RowDefinitions>
 
                 <!-- Divider above header -->
@@ -47,19 +47,19 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-
+                    <!-- Logo -->
                     <Image Source="lms_icon.jpg" 
                        WidthRequest="60" 
                        HeightRequest="60" 
                        VerticalOptions="Center" 
                        HorizontalOptions="Start"/>
+                    <!-- Title -->
                     <Label Text="Finance Overview" 
                        FontSize="24" 
                        FontAttributes="Bold"
                        VerticalOptions="Center" 
                        HorizontalOptions="Center" 
                        Grid.Column="1"/>
-
                     <!-- Home Button -->
                     <Button Text="Home" 
                         BackgroundColor="#F0F0F0" 
@@ -88,11 +88,11 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-
+                    <!-- Filters label -->
                     <StackLayout Grid.Column="0" Margin="0,0,10,0">
                         <Label Text="Filters:" TextColor="Black" FontSize="24" VerticalOptions="Center" FontAttributes="Bold"></Label>
                     </StackLayout>
-                    
+                    <!-- Stock Type Picker -->
                     <StackLayout Grid.Column="1" Margin="0,0,10,0">
                         <Label Text="Stock" BackgroundColor="#D3D3D380" FontAttributes="Bold" />
                         <Picker x:Name="StockTypePicker" SelectedIndexChanged="StockTypePicker_SelectedIndexChanged">
@@ -105,7 +105,7 @@
                             </Picker.ItemsSource>
                         </Picker>
                     </StackLayout>
-
+                    <!-- Stock Colour Picker -->
                     <StackLayout Grid.Column="2" Margin="0,0,10,0">
                         <Label Text="Colour" BackgroundColor="#D3D3D380" FontAttributes="Bold" />
                         <Picker x:Name="StockColourPicker" SelectedIndexChanged="StockColourPicker_SelectedIndexChanged">
@@ -119,7 +119,7 @@
                             </Picker.ItemsSource>
                         </Picker>
                     </StackLayout>
-
+                    <!-- Time Period Picker -->
                     <StackLayout Grid.Column="3" Margin="0,0,10,0">
                         <Label Text="Period" BackgroundColor="#D3D3D380" FontAttributes="Bold" />
                         <Picker x:Name="TimePeriodPicker" SelectedIndexChanged="TimePeriodPicker_SelectedIndexChanged">
@@ -138,26 +138,26 @@
                     <StackLayout Grid.Column="4" Padding="10" Orientation="Horizontal" VerticalOptions="Start">
                         <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Reset" Clicked="ClearFilters_Clicked" CommandParameter="{Binding .}"/>
                     </StackLayout>
-
+                    <!-- Rates label -->
                     <StackLayout Grid.Column="5" Margin="0,0,10,0">
                         <Label Text="Rates:" TextColor="Black" FontSize="24" VerticalOptions="Center" FontAttributes="Bold"></Label>
                     </StackLayout>
-                    
+                    <!-- Milk Rate Entry -->
                     <StackLayout Grid.Column="6" Margin="0,0,10,0">
                         <Label Text="Milk" BackgroundColor="#D3D3D380" FontAttributes="Bold" />
                         <Entry x:Name="MilkPriceEntry" Text="{Binding MilkPriceText, Mode=TwoWay}" Placeholder="{Binding MilkPrice, StringFormat='{}{0:F2}'}" Keyboard="Numeric"/>
                     </StackLayout>
-
+                    <!-- Wool Rate Entry -->
                     <StackLayout Grid.Column="7" Margin="0,0,10,0">
                         <Label Text="Wool" BackgroundColor="#D3D3D380" FontAttributes="Bold" />
                         <Entry x:Name="WoolPriceEntry" Text="{Binding WoolPriceText, Mode=TwoWay}" Placeholder="{Binding WoolPrice, StringFormat='{}{0:F2}'}" Keyboard="Numeric"/>
                     </StackLayout>
-
+                    <!-- Tax Rate Entry -->
                     <StackLayout Grid.Column="8" Margin="0,0,10,0">
                         <Label Text="Tax" BackgroundColor="#D3D3D380" FontAttributes="Bold" />
                         <Entry x:Name="TaxPriceEntry" Text="{Binding TaxPriceText, Mode=TwoWay}" Placeholder="{Binding TaxPrice, StringFormat='{}{0:F2}'}" Keyboard="Numeric"/>
                     </StackLayout>
-
+                    <!-- Update Button -->
                     <StackLayout Grid.Column="9" Padding="10" Orientation="Horizontal" VerticalOptions="Start">
                         <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Update" Command="{Binding UpdateCommand}"/>
                     </StackLayout>
@@ -274,8 +274,6 @@
                     <Label Grid.Column="5" Text="{Binding AvgWoolDisplay, StringFormat='{0:F2} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Label Grid.Column="6" Text="{Binding AvgTaxDisplay, StringFormat='{0:C2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Label Grid.Column="7" Text="{Binding AvgIncomeDisplay, StringFormat='{0:C2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-
-
                 </Grid>
 
                 <!-- Divider above profit -->
