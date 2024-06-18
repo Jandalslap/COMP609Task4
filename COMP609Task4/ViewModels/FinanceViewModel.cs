@@ -11,6 +11,7 @@ namespace COMP609Task4.ViewModels
 {
     internal class FinanceViewModel : INotifyPropertyChanged
     {
+        #region Fields
         // Database instance for accessing livestock data
         private readonly Database _database;
 
@@ -18,8 +19,20 @@ namespace COMP609Task4.ViewModels
         private ObservableCollection<Stock> _livestock;
         private ObservableCollection<Stock> _filteredLivestock;
 
-        // Properties
-
+        // Original values for reset
+        private decimal _originalTotalCost;
+        private decimal _originalTotalTax;
+        private decimal _originalTotalIncome;
+        private decimal _originalTotalProfit;
+        private decimal _originalTotalMilk;
+        private decimal _originalTotalWool;
+        private decimal _originalAvgCostDisplay;
+        private decimal _originalAvgTaxDisplay;
+        private decimal _originalAvgIncomeDisplay;
+        private decimal _originalAvgMilkDisplay;
+        private decimal _originalAvgWoolDisplay;
+        #endregion
+        #region Properties
         // Property to access the database instance
         public Database Database => _database;
 
@@ -45,61 +58,47 @@ namespace COMP609Task4.ViewModels
                 CalculateTotals();
             }
         }
-
+        // Command for updating Rates
         public ICommand UpdateCommand { get; }
 
-        // Constructor
-        public FinanceViewModel()
+        // Rates properties
+        private decimal _milkPrice;
+        private decimal _woolPrice;
+        private decimal _taxPrice;
+
+        public string MilkPriceText { get; set; }
+        public string WoolPriceText { get; set; }
+        public string TaxPriceText { get; set; }
+
+        public decimal MilkPrice
         {
-            _database = new Database();
-            LoadData();
-            FilteredLivestock = new ObservableCollection<Stock>(Livestock);
-            CalculateTotals();
-            // Initialize with stored starting values
-            _milkPrice = 9.4m;
-            _woolPrice = 6.2m;
-            _taxPrice = 0.02m;
-            UpdateCommand = new Command(OnUpdate);
+            get => _milkPrice;
+            set
+            {
+                _milkPrice = value;
+                OnPropertyChanged(nameof(MilkPrice));
+            }
         }
 
-        // Load livestock data from the database
-        public void LoadData()
+        public decimal WoolPrice
         {
-            var livestockData = _database.ReadItems();
-            Livestock = livestockData != null ? new ObservableCollection<Stock>(livestockData) : new ObservableCollection<Stock>();
-            FilteredLivestock = new ObservableCollection<Stock>(Livestock);
-
-            // Calculate totals after loading
-            CalculateTotals();
+            get => _woolPrice;
+            set
+            {
+                _woolPrice = value;
+                OnPropertyChanged(nameof(WoolPrice));
+            }
         }
 
-        // Filter livestock by type and colour
-        public void FilterStock(string selectedType, string selectedColour)
+        public decimal TaxPrice
         {
-            var allItems = _database.ReadItems();
-            var filteredItems = allItems.AsEnumerable();
-
-            if (!string.IsNullOrEmpty(selectedType))
+            get => _taxPrice;
+            set
             {
-                filteredItems = filteredItems.Where(stock => stock.Type == selectedType);
+                _taxPrice = value;
+                OnPropertyChanged(nameof(TaxPrice));
             }
-
-            if (!string.IsNullOrEmpty(selectedColour))
-            {
-                filteredItems = filteredItems.Where(stock => stock.Colour == selectedColour);
-            }
-
-            // Calculate TaxCalculation and IncomeCalculation properties for each filtered livestock
-            foreach (var stock in filteredItems)
-            {
-                stock.TaxCalculation = CalculateTax(stock);
-                stock.IncomeCalculation = CalculateIncome(stock);
-            }
-
-            // Update the FilteredLivestock collection after filtering
-            FilteredLivestock = new ObservableCollection<Stock>(filteredItems);
         }
-
 
         // Totals properties      
         private int _totalStockCount;
@@ -271,6 +270,63 @@ namespace COMP609Task4.ViewModels
                 OnPropertyChanged(nameof(AvgWoolDisplay));
             }
         }
+        #endregion
+        #region Constructor and Initialization
+        // Constructor
+        public FinanceViewModel()
+        {
+            _database = new Database();
+            LoadData();
+            FilteredLivestock = new ObservableCollection<Stock>(Livestock);
+            CalculateTotals();
+            // Initialize with stored starting values
+            _milkPrice = 9.4m;
+            _woolPrice = 6.2m;
+            _taxPrice = 0.02m;
+            UpdateCommand = new Command(OnUpdate);
+        }
+        #endregion
+        #region Public Methods
+        // Load livestock data from the database
+        public void LoadData()
+        {
+            var livestockData = _database.ReadItems();
+            Livestock = livestockData != null ? new ObservableCollection<Stock>(livestockData) : new ObservableCollection<Stock>();
+            FilteredLivestock = new ObservableCollection<Stock>(Livestock);
+
+            // Calculate totals after loading
+            CalculateTotals();
+        }
+
+        // Filter livestock by type and colour
+        public void FilterStock(string selectedType, string selectedColour)
+        {
+            var allItems = _database.ReadItems();
+            var filteredItems = allItems.AsEnumerable();
+
+            if (!string.IsNullOrEmpty(selectedType))
+            {
+                filteredItems = filteredItems.Where(stock => stock.Type == selectedType);
+            }
+
+            if (!string.IsNullOrEmpty(selectedColour))
+            {
+                filteredItems = filteredItems.Where(stock => stock.Colour == selectedColour);
+            }
+
+            // Calculate TaxCalculation and IncomeCalculation properties for each filtered livestock
+            foreach (var stock in filteredItems)
+            {
+                stock.TaxCalculation = CalculateTax(stock);
+                stock.IncomeCalculation = CalculateIncome(stock);
+            }
+
+            // Update the FilteredLivestock collection after filtering
+            FilteredLivestock = new ObservableCollection<Stock>(filteredItems);
+        }
+
+
+
 
         // Calculate totals and averages of filtered livestock data
         public void CalculateTotals()
@@ -351,145 +407,6 @@ namespace COMP609Task4.ViewModels
             _originalAvgWoolDisplay = AvgWoolDisplay;
         }
 
-        // Metod to calculate total income
-        private decimal CalculateIncome(Stock stock)
-        {
-            decimal income = 0;
-
-            if (stock is Cow cow && cow.Milk.HasValue)
-            {
-                income += cow.Milk.Value * (decimal)MilkPrice;
-            }
-
-            if (stock is Sheep sheep && sheep.Wool.HasValue)
-            {
-                income += sheep.Wool.Value * (decimal)WoolPrice;
-            }
-
-            return income;
-        }
-
-        // Metod to calculate total tax
-        private decimal CalculateTax(Stock stock)
-        {
-            return stock.Cost * (decimal)TaxPrice;
-        }
-
-        // Metod to calculate total profit
-        private decimal CalculateTotalProfit(Stock stock)
-        {
-            decimal income = CalculateIncome(stock);
-            decimal tax = CalculateTax(stock);
-            decimal cost = stock.Cost;
-
-            decimal totalProfit = income - tax - cost;
-
-            return totalProfit;
-        }
-
-        // Rates properties
-        private decimal _milkPrice;
-        private decimal _woolPrice;
-        private decimal _taxPrice;
-
-        public string MilkPriceText { get; set; }
-        public string WoolPriceText { get; set; }
-        public string TaxPriceText { get; set; }
-
-        public decimal MilkPrice
-        {
-            get => _milkPrice;
-            set
-            {
-                _milkPrice = value;
-                OnPropertyChanged(nameof(MilkPrice));
-            }
-        }
-
-        public decimal WoolPrice
-        {
-            get => _woolPrice;
-            set
-            {
-                _woolPrice = value;
-                OnPropertyChanged(nameof(WoolPrice));
-            }
-        }
-
-        public decimal TaxPrice
-        {
-            get => _taxPrice;
-            set
-            {
-                _taxPrice = value;
-                OnPropertyChanged(nameof(TaxPrice));
-            }
-        }
-
-        // Method to update Rates
-        private void OnUpdate()
-        {
-            // Convert string inputs to decimals before assigning to properties
-            decimal milkPrice;
-            decimal woolPrice;
-            decimal taxPrice;
-            if (decimal.TryParse(MilkPriceText, out milkPrice))
-            {
-                MilkPrice = milkPrice;
-            }
-
-            if (decimal.TryParse(WoolPriceText, out woolPrice))
-            {
-                WoolPrice = woolPrice;
-            }
-
-            if (decimal.TryParse(TaxPriceText, out taxPrice))
-            {
-                TaxPrice = taxPrice;
-            }
-
-            // Save the updated prices to settings
-            SaveSettings("MilkPrice", (double)MilkPrice);
-            SaveSettings("WoolPrice", (double)WoolPrice);
-            SaveSettings("TaxPrice", (double)TaxPrice);
-
-            // Recalculate totals and averages
-            CalculateTotals();
-        }
-
-        // Method to save new Rates
-        private void SaveSettings(string key, double value)
-        {
-            Preferences.Set(key, value);
-        }
-
-        // Method to load new Rates
-        private decimal LoadSettings(string key)
-        {
-            return (decimal)Preferences.Get(key, defaultValue: 0.0);
-        }
-
-        // Event handler for PropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        // OnPropertyChanged method for updating property changes
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private decimal _originalTotalCost;
-        private decimal _originalTotalTax;
-        private decimal _originalTotalIncome;
-        private decimal _originalTotalProfit;
-        private decimal _originalTotalMilk;
-        private decimal _originalTotalWool;
-        private decimal _originalAvgCostDisplay;
-        private decimal _originalAvgTaxDisplay;
-        private decimal _originalAvgIncomeDisplay;
-        private decimal _originalAvgMilkDisplay;
-        private decimal _originalAvgWoolDisplay;
-
         // Method for recalculation for different time periods
         public void RecalculateTotalsBasedOnPeriod(string selectedPeriod)
         {
@@ -540,6 +457,86 @@ namespace COMP609Task4.ViewModels
             OnPropertyChanged(nameof(AvgMilkDisplay));
             OnPropertyChanged(nameof(AvgWoolDisplay));
         }
+        #endregion
+        #region Private Methods
+        // Method to calculate total income
+        private decimal CalculateIncome(Stock stock)
+        {
+            decimal income = 0;
+
+            if (stock is Cow cow && cow.Milk.HasValue)
+            {
+                income += cow.Milk.Value * (decimal)MilkPrice;
+            }
+
+            if (stock is Sheep sheep && sheep.Wool.HasValue)
+            {
+                income += sheep.Wool.Value * (decimal)WoolPrice;
+            }
+
+            return income;
+        }
+
+        // Metod to calculate total tax
+        private decimal CalculateTax(Stock stock)
+        {
+            return stock.Cost * (decimal)TaxPrice;
+        }
+
+        // Metod to calculate total profit
+        private decimal CalculateTotalProfit(Stock stock)
+        {
+            decimal income = CalculateIncome(stock);
+            decimal tax = CalculateTax(stock);
+            decimal cost = stock.Cost;
+
+            decimal totalProfit = income - tax - cost;
+
+            return totalProfit;
+        }
+
+        // Method to update Rates
+        private void OnUpdate()
+        {
+            // Convert string inputs to decimals before assigning to properties
+            decimal milkPrice;
+            decimal woolPrice;
+            decimal taxPrice;
+            if (decimal.TryParse(MilkPriceText, out milkPrice))
+            {
+                MilkPrice = milkPrice;
+            }
+
+            if (decimal.TryParse(WoolPriceText, out woolPrice))
+            {
+                WoolPrice = woolPrice;
+            }
+
+            if (decimal.TryParse(TaxPriceText, out taxPrice))
+            {
+                TaxPrice = taxPrice;
+            }
+
+            // Save the updated prices to settings
+            SaveSettings("MilkPrice", (double)MilkPrice);
+            SaveSettings("WoolPrice", (double)WoolPrice);
+            SaveSettings("TaxPrice", (double)TaxPrice);
+
+            // Recalculate totals and averages
+            CalculateTotals();
+        }
+
+        // Method to save new Rates
+        private void SaveSettings(string key, double value)
+        {
+            Preferences.Set(key, value);
+        }
+
+        // Method to load new Rates
+        private decimal LoadSettings(string key)
+        {
+            return (decimal)Preferences.Get(key, defaultValue: 0.0);
+        }
 
         // Method to reset values for original time period
         private void ResetToOriginalValues()
@@ -560,6 +557,16 @@ namespace COMP609Task4.ViewModels
             OnPropertyChanged(nameof(AvgTaxDisplay));
             OnPropertyChanged(nameof(AvgIncomeDisplay));
         }
+        #endregion
+        #region Property Changed Implementation
+        // Event handler for PropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
 
+        // OnPropertyChanged method for updating property changes
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
     }
 }

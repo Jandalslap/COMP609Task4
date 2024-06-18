@@ -8,8 +8,11 @@ namespace COMP609Task4.Pages
 {
     public partial class LivestockPage : ContentPage
     {
+        #region Private Fields
+        // Private fields
         private LivestockViewModel _viewModel;
-
+        #endregion
+        #region Constructor
         // Constructor for LivestockPage
         public LivestockPage()
         {
@@ -17,8 +20,9 @@ namespace COMP609Task4.Pages
             _viewModel = new LivestockViewModel();
             BindingContext = _viewModel;
         }
-
-        // Event handler for when the page appears
+        #endregion
+        #region Lifecycle Methods
+        // Method triggered when the page appears. Loads data into the ViewModel and resets dropdown menus.
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -29,19 +33,27 @@ namespace COMP609Task4.Pages
             StockTypePicker.SelectedIndex = 0; 
             StockColourPicker.SelectedIndex = 0; 
         }
-
-        // Event handler for the Back button click event
-        private async void Back_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PopAsync(); // Go back to the previous page
-        }
-
+        #endregion
+        #region Navigation Methods
         // Event handler for the Home button click event
         private async void Home_Clicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync("//MainPage");
         }
 
+        // Event handler for the Finance button click event
+        private async void Finance_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new FinancePage());
+        }
+
+        // Event handler for the Edit button click event
+        private async void Edit_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new EditPage()); // Navigate to the EditPage
+        }
+        #endregion
+        #region Filter Methods
         // Event handler for the Stock Type Picker selection change event
         private void StockTypePicker_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -80,24 +92,12 @@ namespace COMP609Task4.Pages
             _viewModel.FilterStock(selectedType, selectedColour);
         }
 
-        // Event handler for the Finance button click event
-        private async void Finance_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new FinancePage());
-        }
-
-        // Event handler for the Edit button click event
-        private async void Edit_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new EditPage()); // Navigate to the EditPage
-        }
-
         // Method to clear the filter selections
         private void ClearFilters()
         {
             // Reset the dropdown menus
-            StockTypePicker.SelectedIndex = 0; 
-            StockColourPicker.SelectedIndex = 0; 
+            StockTypePicker.SelectedIndex = 0;
+            StockColourPicker.SelectedIndex = 0;
         }
 
         // Event handler for the Clear Filters button click event
@@ -105,5 +105,6 @@ namespace COMP609Task4.Pages
         {
             ClearFilters();
         }
+        #endregion
     }
 }

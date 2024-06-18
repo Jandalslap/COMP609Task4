@@ -8,8 +8,10 @@ namespace COMP609Task4.Pages;
 
 public partial class FinancePage : ContentPage
 {
+    #region Private Fields
     private FinanceViewModel _viewModel;
-
+    #endregion
+    #region Constructor
     // Constructor for FinancePage
     public FinancePage()
     {
@@ -17,7 +19,8 @@ public partial class FinancePage : ContentPage
         _viewModel = new FinanceViewModel();
         BindingContext = _viewModel;
     }
-
+    #endregion
+    #region Lifecycle Methods
     // Event handler for when the page appears
     protected override void OnAppearing()
     {
@@ -30,13 +33,8 @@ public partial class FinancePage : ContentPage
         StockColourPicker.SelectedIndex = 0;
         TimePeriodPicker.SelectedIndex = 0;
     }
-
-    // Event handler for the Back button click event
-    private async void Back_Clicked(object sender, EventArgs e)
-    {
-        await Navigation.PopAsync(); // Go back to the previous page
-    }
-
+    #endregion
+    #region Event Handlers
     // Event handler for the Home button click event
     private async void Home_Clicked(object sender, EventArgs e)
     {
@@ -127,8 +125,10 @@ public partial class FinancePage : ContentPage
     // Event handler for the Update Rates button click event
     private void UpdateButton_Clicked(object sender, EventArgs e)
     {
+        // Try parse text entry into decimal else fallback value is 0
         decimal milkPrice = decimal.TryParse(MilkPriceEntry.Text, out milkPrice) ? milkPrice : 0;
         decimal woolPrice = decimal.TryParse(WoolPriceEntry.Text, out woolPrice) ? woolPrice : 0;
         decimal taxPrice = decimal.TryParse(TaxPriceEntry.Text, out taxPrice) ? taxPrice : 0;
     }
+    #endregion
 }

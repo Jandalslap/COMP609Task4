@@ -5,20 +5,20 @@ using COMP609Task4.Models;
 
 namespace COMP609Task4.ViewModels
 {
-    // ViewModel for managing livestock data
+    // ViewModel for managing livestock data and operations
     public class LivestockViewModel : INotifyPropertyChanged
     {
+        #region Fields
         // Database instance for accessing livestock data
         private readonly Database _database;
 
         // Observable collections for holding all livestock and filtered livestock data
         private ObservableCollection<Stock> _livestock;
         private ObservableCollection<Stock> _filteredLivestock;
-
-        // Properties
-
+        #endregion
+        #region Properties
         // Property to access the database instance
-        public Database Database => _database; // Property to access the database instance
+        public Database Database => _database;
 
         // Collection holding all livestock data
         public ObservableCollection<Stock> Livestock
@@ -27,61 +27,74 @@ namespace COMP609Task4.ViewModels
             set
             {
                 _livestock = value;
-                OnPropertyChanged(nameof(Livestock));
+                OnPropertyChanged(nameof(Livestock)); // Notify that the Livestock property has changed
             }
         }
 
-        // Collection holding filtered livestock data
+        // Collection holding filtered livestock data based on criteria (e.g., type and color)
         public ObservableCollection<Stock> FilteredLivestock
         {
             get => _filteredLivestock;
             set
             {
                 _filteredLivestock = value;
-                OnPropertyChanged(nameof(FilteredLivestock));
-                CalculateTotals();
+                OnPropertyChanged(nameof(FilteredLivestock)); // Notify that the FilteredLivestock property has changed
+                CalculateTotals(); // Recalculate totals when the filtered collection changes
             }
         }
-
-        // Constructor
+        #endregion
+        #region Constructor
+        // Initializes a new instance of the LivestockViewModel class
         public LivestockViewModel()
         {
-            _database = new Database();
-            LoadData();
-            FilteredLivestock = new ObservableCollection<Stock>(Livestock); // Initialize with all items
+            _database = new Database(); // Initialize the database instance
+            LoadData(); // Load livestock data from the database
+            FilteredLivestock = new ObservableCollection<Stock>(Livestock); // Initialize filtered collection with all items
         }
-
-        // Load livestock data from the database
+        #endregion
+        #region Methods
+        /// <summary>
+        /// Loads all livestock data from the database.
+        /// </summary>
         public void LoadData()
         {
+            // Read all livestock data from the database
             var livestockData = _database.ReadItems();
             Livestock = livestockData != null ? new ObservableCollection<Stock>(livestockData) : new ObservableCollection<Stock>();
+
+            // Initialize the filtered livestock collection with all items
             FilteredLivestock = new ObservableCollection<Stock>(Livestock);
         }
 
-        // Filter livestock by type and colour
+        /// <summary>
+        /// Filters the livestock collection by type and colour.
+        /// </summary>
+        /// <param name="selectedType">The type of stock to filter by (e.g., Cow, Sheep).</param>
+        /// <param name="selectedColour">The colour of stock to filter by.</param>
         public void FilterStock(string selectedType, string selectedColour)
         {
+            // Get all items from the database
             var allItems = _database.ReadItems();
             var filteredItems = allItems.AsEnumerable();
 
+            // Apply type filter if specified
             if (!string.IsNullOrEmpty(selectedType))
             {
                 filteredItems = filteredItems.Where(stock => stock.Type == selectedType);
             }
 
+            // Apply colour filter if specified
             if (!string.IsNullOrEmpty(selectedColour))
             {
                 filteredItems = filteredItems.Where(stock => stock.Colour == selectedColour);
             }
 
+            // Update the filtered livestock collection with the filtered items
             FilteredLivestock = new ObservableCollection<Stock>(filteredItems);
-
-            // Calculate totals after filtering
-            CalculateTotals();
         }
-
-        // Totals properties      
+        #endregion
+        #region Totals and Averages
+        // Fields for storing totals and averages
         private int _totalStockCount;
         private decimal _totalCost;
         private decimal _totalWeight;
@@ -89,7 +102,17 @@ namespace COMP609Task4.ViewModels
         private decimal _totalMilk;
         private decimal _totalWool;
 
-        // Properties for storing total count, cost, weight, colours, milk, and wool of filtered livestock
+        // Fields for storing average values
+        private string _avgStockDisplay;
+        private decimal _avgCostDisplay;
+        private decimal _avgWeightDisplay;
+        private string _avgColoursDisplay;
+        private decimal _avgMilkDisplay;
+        private decimal _avgWoolDisplay;
+
+        // Properties for storing totals
+
+        // Total count of filtered livestock
         public int TotalStockCount
         {
             get => _totalStockCount;
@@ -100,6 +123,7 @@ namespace COMP609Task4.ViewModels
             }
         }
 
+        // Total cost of filtered livestock
         public decimal TotalCost
         {
             get => _totalCost;
@@ -110,6 +134,7 @@ namespace COMP609Task4.ViewModels
             }
         }
 
+        // Total weight of filtered livestock
         public decimal TotalWeight
         {
             get => _totalWeight;
@@ -120,6 +145,7 @@ namespace COMP609Task4.ViewModels
             }
         }
 
+        // Total colours of filtered livestock, represented in a summary string
         public string TotalColours
         {
             get => _totalColours;
@@ -130,6 +156,7 @@ namespace COMP609Task4.ViewModels
             }
         }
 
+        // Total milk produced by filtered livestock (Cows only)
         public decimal TotalMilk
         {
             get => _totalMilk;
@@ -140,6 +167,7 @@ namespace COMP609Task4.ViewModels
             }
         }
 
+        // Total wool produced by filtered livestock (Sheep only)
         public decimal TotalWool
         {
             get => _totalWool;
@@ -150,15 +178,9 @@ namespace COMP609Task4.ViewModels
             }
         }
 
-        // Avg properties
-        private string _avgStockDisplay;
-        private decimal _avgCostDisplay;
-        private decimal _avgWeightDisplay;
-        private string _avgColoursDisplay;
-        private decimal _avgMilkDisplay;
-        private decimal _avgWoolDisplay;
+        // Properties for storing averages
 
-        // Properties for storing avg count, cost, weight, colours, milk, and wool of filtered livestock
+        // Average stock percentage display
         public string AvgStockDisplay
         {
             get => _avgStockDisplay;
@@ -168,7 +190,8 @@ namespace COMP609Task4.ViewModels
                 OnPropertyChanged(nameof(AvgStockDisplay));
             }
         }
-      
+
+        // Average cost of filtered livestock
         public decimal AvgCostDisplay
         {
             get => _avgCostDisplay;
@@ -178,7 +201,8 @@ namespace COMP609Task4.ViewModels
                 OnPropertyChanged(nameof(AvgCostDisplay));
             }
         }
-       
+
+        // Average weight of filtered livestock
         public decimal AvgWeightDisplay
         {
             get => _avgWeightDisplay;
@@ -188,7 +212,8 @@ namespace COMP609Task4.ViewModels
                 OnPropertyChanged(nameof(AvgWeightDisplay));
             }
         }
-       
+
+        // Average colours of filtered livestock, represented in a summary string
         public string AvgColoursDisplay
         {
             get => _avgColoursDisplay;
@@ -198,7 +223,8 @@ namespace COMP609Task4.ViewModels
                 OnPropertyChanged(nameof(AvgColoursDisplay));
             }
         }
-       
+
+        // Average milk produced by filtered livestock (Cows only)
         public decimal AvgMilkDisplay
         {
             get => _avgMilkDisplay;
@@ -208,7 +234,8 @@ namespace COMP609Task4.ViewModels
                 OnPropertyChanged(nameof(AvgMilkDisplay));
             }
         }
-       
+
+        // Average wool produced by filtered livestock (Sheep only)
         public decimal AvgWoolDisplay
         {
             get => _avgWoolDisplay;
@@ -219,64 +246,46 @@ namespace COMP609Task4.ViewModels
             }
         }
 
-        // Calculate totals and averages of filtered livestock data
+        /// <summary>
+        /// Calculates and updates the totals and averages of the filtered livestock data.
+        /// </summary>
         private void CalculateTotals()
         {
-            int totalStockCount = Livestock.Count;
-            // Calculate total count, cost, weight, and colours of filtered livestock
+            // Calculate total stock count, cost, and weight of filtered livestock
             TotalStockCount = FilteredLivestock.Count;
             TotalCost = FilteredLivestock.Sum(s => s.Cost);
             TotalWeight = FilteredLivestock.Sum(s => s.Weight);
 
+            // Group filtered livestock by colour and count the number of each colour
             var colourGroups = FilteredLivestock.GroupBy(s => s.Colour).ToDictionary(g => g.Key, g => g.Count());
             TotalColours = $"R: {colourGroups.GetValueOrDefault("Red", 0)} B: {colourGroups.GetValueOrDefault("Black", 0)} W: {colourGroups.GetValueOrDefault("White", 0)}";
-            // Calculate total milk and total wool of filtered livestock
-            TotalMilk = FilteredLivestock
-                .OfType<Cow>()
-                .Sum(cow => cow.Milk.GetValueOrDefault());
 
-            TotalWool = FilteredLivestock
-                .OfType<Sheep>()
-                .Sum(sheep => sheep.Wool.GetValueOrDefault());
+            // Calculate total milk produced by filtered livestock (Cows only)
+            TotalMilk = FilteredLivestock.OfType<Cow>().Sum(cow => cow.Milk.GetValueOrDefault());
 
+            // Calculate total wool produced by filtered livestock (Sheep only)
+            TotalWool = FilteredLivestock.OfType<Sheep>().Sum(sheep => sheep.Wool.GetValueOrDefault());
 
-            // Calculate average stock percentage and convert to string
+            // Calculate percentage of filtered livestock compared to total livestock
+            int totalStockCount = Livestock.Count;
             double avgStockPercentage = TotalStockCount > 0 ? ((double)FilteredLivestock.Count / totalStockCount * 100) : 0;
             AvgStockDisplay = $"{avgStockPercentage:F0}%";
 
-
-            // Calculate average cost
+            // Calculate average cost and weight of filtered livestock
             AvgCostDisplay = FilteredLivestock.Count > 0 ? TotalCost / FilteredLivestock.Count : 0;
-
-            // Calculate average weight
             AvgWeightDisplay = FilteredLivestock.Count > 0 ? TotalWeight / FilteredLivestock.Count : 0;
 
-            // Calculate average milk
-            double totalMilkCount = FilteredLivestock
-                .OfType<Cow>()
-                .Where(cow => cow.Milk.HasValue && cow.Milk != 0) // Filter out items with null or 0 value for Milk
-                .Sum(cow => cow.Milk.GetValueOrDefault());
-
-            int milkItemCount = FilteredLivestock
-                .OfType<Cow>()
-                .Count(cow => cow.Milk.HasValue && cow.Milk != 0);
-
+            // Calculate average milk produced by filtered livestock (Cows only)
+            double totalMilkCount = FilteredLivestock.OfType<Cow>().Where(cow => cow.Milk.HasValue && cow.Milk != 0).Sum(cow => cow.Milk.GetValueOrDefault());
+            int milkItemCount = FilteredLivestock.OfType<Cow>().Count(cow => cow.Milk.HasValue && cow.Milk != 0);
             AvgMilkDisplay = milkItemCount > 0 ? (decimal)(totalMilkCount / milkItemCount) : 0;
 
-
-            // Calculate average wool
-            double totalWoolCount = FilteredLivestock
-                .OfType<Sheep>()
-                .Where(sheep => sheep.Wool.HasValue && sheep.Wool != 0) // Filter out items with '-' value for Wool
-                .Sum(sheep => sheep.Wool.GetValueOrDefault());
-
-            int woolItemCount = FilteredLivestock
-                .OfType<Sheep>()
-                .Count(sheep => sheep.Wool.HasValue && sheep.Wool != 0);
-
+            // Calculate average wool produced by filtered livestock (Sheep only)
+            double totalWoolCount = FilteredLivestock.OfType<Sheep>().Where(sheep => sheep.Wool.HasValue && sheep.Wool != 0).Sum(sheep => sheep.Wool.GetValueOrDefault());
+            int woolItemCount = FilteredLivestock.OfType<Sheep>().Count(sheep => sheep.Wool.HasValue && sheep.Wool != 0);
             AvgWoolDisplay = woolItemCount > 0 ? (decimal)totalWoolCount / woolItemCount : 0;
 
-            // Format totals and averages
+            // Round totals and averages to 2 decimal places
             if (FilteredLivestock.Count > 0)
             {
                 TotalCost = Math.Round(TotalCost, 2);
@@ -292,15 +301,15 @@ namespace COMP609Task4.ViewModels
                 AvgWoolDisplay = Math.Round(AvgWoolDisplay, 0);
             }
 
-            // Calculate percentage of each color for the averages line
+            // Calculate percentage of each colour for the averages display
             double redPercentage = totalStockCount > 0 ? (double)colourGroups.GetValueOrDefault("Red", 0) / totalStockCount * 100 : 0;
             double blackPercentage = totalStockCount > 0 ? (double)colourGroups.GetValueOrDefault("Black", 0) / totalStockCount * 100 : 0;
             double whitePercentage = totalStockCount > 0 ? (double)colourGroups.GetValueOrDefault("White", 0) / totalStockCount * 100 : 0;
 
-            // Concatenate total colours with percentages for the averages line
+            // Update average colours display with calculated percentages
             AvgColoursDisplay = $"{redPercentage:F0}% {blackPercentage:F0}% {whitePercentage:F0}%";
 
-            // Update OnPropertyChanged for totals
+            // Notify property changes for all totals and averages
             OnPropertyChanged(nameof(TotalStockCount));
             OnPropertyChanged(nameof(TotalCost));
             OnPropertyChanged(nameof(TotalWeight));
@@ -308,7 +317,6 @@ namespace COMP609Task4.ViewModels
             OnPropertyChanged(nameof(TotalMilk));
             OnPropertyChanged(nameof(TotalWool));
 
-            // Update OnPropertyChanged for averages
             OnPropertyChanged(nameof(AvgStockDisplay));
             OnPropertyChanged(nameof(AvgCostDisplay));
             OnPropertyChanged(nameof(AvgWeightDisplay));
@@ -316,12 +324,19 @@ namespace COMP609Task4.ViewModels
             OnPropertyChanged(nameof(AvgWoolDisplay));
             OnPropertyChanged(nameof(AvgColoursDisplay));
         }
-
-        // INotifyPropertyChanged implementation
+        #endregion
+        #region Property Changed Implementation
+        // Event to notify the UI when a property value changes
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Raises the PropertyChanged event to notify the UI of property value changes.
+        /// </summary>
+        /// <param name="propertyName">The name of the property that changed.</param>
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
     }
 }
