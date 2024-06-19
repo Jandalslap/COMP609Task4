@@ -36,7 +36,7 @@
                     <RowDefinition Height="1"/>  <!--row 12-->
                     <RowDefinition Height="Auto"/>  <!--row 13-->   
                     <RowDefinition Height="1"/>  <!--row 14-->
-                    <RowDefinition Height="*"/>  <!--row 15, Footer-->
+                    <RowDefinition Height="Auto"/>  <!--row 15, Footer-->
                 </Grid.RowDefinitions>
 
                 <!-- Divider above header -->
