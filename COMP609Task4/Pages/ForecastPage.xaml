@@ -23,19 +23,20 @@
                     <RowDefinition Height="1"/>     <!--row 0, devider-->
                     <RowDefinition Height="Auto"/>  <!--row 1, header-->
                     <RowDefinition Height="1"/>     <!--row 2, devider-->
-                    <RowDefinition Height="Auto"/>  <!--row 3, title-->
+                    <RowDefinition Height="0"/>  <!--row 3, title-->
                     <RowDefinition Height="Auto"/>  <!--row 4, form-->
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="1"/>     <!--row 5, devider-->
                     <RowDefinition Height="Auto"/>  <!--row 6-->
                     <RowDefinition Height="Auto"/>  <!--row 7-->
                     <RowDefinition Height="*"/>     <!--row 8-->
                     <RowDefinition Height="1"/>  <!--row 9-->
                     <RowDefinition Height="Auto"/>  <!--row 10-->
-                    <RowDefinition Height="Auto"/>  <!--row 11-->
+                    <RowDefinition Height="0"/>  <!--row 11-->
                     <RowDefinition Height="1"/>  <!--row 12-->
                     <RowDefinition Height="Auto"/>  <!--row 13-->   
                     <RowDefinition Height="1"/>  <!--row 14-->
-                    <RowDefinition Height="Auto"/>  <!--row 15, Footer-->
+                    <RowDefinition Height="*"/>  <!--row 15, Footer-->
                 </Grid.RowDefinitions>
 
                 <!-- Divider above header -->
@@ -80,18 +81,18 @@
                 </Grid>-->
                 
                 <StackLayout Grid.Row="3" Padding="10">
-                    <Label Text="Estimate future earnings" 
-                        FontAttributes="Bold"
+                    <Label Text="" 
+                    FontAttributes="Bold"
                         FontSize="18"
                         Margin="0,0,0,10"
                         HorizontalOptions="Center"/>
-                </StackLayout>
+                </StackLayout><!--Title changed to "", and row definition changed to 0 to hide -->
 
                 <!--#region Form-->
-                <!-- Add New Form fields -->
-                <ScrollView Grid.Row="4" Grid.RowSpan="2">
-                    <StackLayout Margin="10">
-                        <Grid Margin="10">
+                <!-- Add New(Average) Form fields -->
+                <ScrollView Grid.Row="4" Grid.RowSpan="1">
+                    <StackLayout Margin="5">
+                        <Grid Margin="5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
@@ -105,6 +106,56 @@
 
                             <!-- Stock Type Dropdown -->
                             <StackLayout Grid.Column="0" Margin="0,0,10,0">
+                                <Label Text="Add Average:" TextColor="Black" FontSize="24" VerticalOptions="Center" FontAttributes="Bold"></Label>
+                            </StackLayout>
+                            <StackLayout Grid.Column="1" Margin="0,0,10,0">
+                                <Label Text="Stock Type:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
+                                <Picker x:Name="AveStockTypePicker" SelectedIndexChanged="AveStockTypePicker_SelectedIndexChanged">
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Cow</x:String>
+                                            <x:String>Sheep</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
+                            </StackLayout>
+
+                            <!-- Quantity field -->
+                            <StackLayout Grid.Column="2" Margin="0,0,10,0" x:Name="AveQtyLayout2">
+                                <Label x:Name="AveAddQtyLabel" Text="Qty" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" VerticalOptions="Center"/>
+                                <Entry x:Name="AveAddQty" Placeholder="1" />
+                            </StackLayout>
+
+                            <!-- Add New and Reset Buttons -->
+                            <StackLayout Grid.Column="3" Padding="10" Orientation="Horizontal" VerticalOptions="Start">
+                                <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Add New" Clicked="AveAddNewStock_Clicked" CommandParameter="{Binding .}"/>
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+                </ScrollView>
+                <!--#endregion-->
+                <!--#region Form-->
+                <!-- Add New(custom) Form fields -->
+                <ScrollView Grid.Row="5" Grid.RowSpan="1">
+                    <StackLayout Margin="5">
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackLayout Grid.Column="0" Margin="0,0,10,0">
+                                <Label Text="Add Custom:" TextColor="Black" FontSize="24" VerticalOptions="Center" FontAttributes="Bold"></Label>
+                            </StackLayout>
+                            
+                            <!-- Stock Type Dropdown -->
+                            <StackLayout Grid.Column="1" Margin="0,0,10,0">
                                 <Label Text="Stock Type:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
                                 <Picker x:Name="StockTypePicker" SelectedIndexChanged="StockTypePicker_SelectedIndexChanged">
                                     <Picker.ItemsSource>
@@ -117,7 +168,7 @@
                             </StackLayout>
 
                             <!-- Colour Dropdown -->
-                            <StackLayout Grid.Column="1" Margin="0,0,10,0">
+                            <StackLayout Grid.Column="2" Margin="0,0,10,0">
                                 <Label Text="Colour:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
                                 <Picker x:Name="ColourPicker">
                                     <Picker.ItemsSource>
@@ -131,25 +182,30 @@
                             </StackLayout>
 
                             <!-- Cost -->
-                            <StackLayout Grid.Column="2" Margin="0,0,10,0">
+                            <StackLayout Grid.Column="3" Margin="0,0,10,0">
                                 <Label Text="Cost:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
-                                <Entry x:Name="AddCost" Placeholder="Cost"/>
+                                <Entry x:Name="aveCost" Text="{Binding aveCost}" Placeholder="Cost"/>
                             </StackLayout>
 
                             <!-- Weight -->
-                            <StackLayout Grid.Column="3" Margin="0,0,10,0">
+                            <StackLayout Grid.Column="4" Margin="0,0,10,0">
                                 <Label Text="Weight:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
                                 <Entry x:Name="AddWeight" Placeholder="Weight"/>
                             </StackLayout>
 
                             <!-- Produce field based on stock type -->
-                            <StackLayout Grid.Column="4" Margin="0,0,10,0" x:Name="ProduceStackLayout2">
+                            <StackLayout Grid.Column="5" Margin="0,0,10,0" x:Name="ProduceStackLayout2">
                                 <Label x:Name="AddProduceLabel" Text="Milk" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" VerticalOptions="Center"/>
                                 <Entry x:Name="AddProduce" Placeholder="Produce"/>
                             </StackLayout>
+                            <!-- Quantity field -->
+                            <StackLayout Grid.Column="6" Margin="0,0,10,0" x:Name="QtyLayout2">
+                                <Label x:Name="AddQtyLabel" Text="Qty" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" VerticalOptions="Center"/>
+                                <Entry x:Name="AddQty" Placeholder="1" />
+                            </StackLayout>
 
                             <!-- Add New and Reset Buttons -->
-                            <StackLayout Grid.Column="5" Padding="10" Orientation="Horizontal" VerticalOptions="Start">
+                            <StackLayout Grid.Column="7" Padding="10" Orientation="Horizontal" VerticalOptions="Start">
                                 <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Add New" Clicked="AddNewStock_Clicked" CommandParameter="{Binding .}"/>
                                 <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Reset" Clicked="ClearAddNewStock_Clicked" CommandParameter="{Binding .}"/>
                             </StackLayout>
@@ -159,12 +215,12 @@
                 <!--#endregion-->
 
                     <!-- Divider between search ID and form fields -->
-                <BoxView Grid.Row="5" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+                <BoxView Grid.Row="6" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
                 
                 <!--INSERT OUTPUT DISPLAY HERE-->
                 <!--#region Display-->
                 <!-- Fixed header row for columns -->
-                <Grid Grid.Row="6" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
+                <Grid Grid.Row="7" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -186,10 +242,10 @@
                 </Grid>
 
                 <!-- Divider below headings section -->
-                <BoxView Grid.Row="7" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+                <BoxView Grid.Row="8" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
                 <!-- Scrollable content -->
-                <ScrollView Grid.Row="8">
+                <ScrollView Grid.Row="9">
                     <Grid x:Name="ContentGrid" Margin="10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -226,10 +282,10 @@
                 </ScrollView>
 
                 <!-- Divider above totals -->
-                <BoxView Grid.Row="9" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+                <BoxView Grid.Row="10" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
                 <!-- Totals -->
-                <Grid Grid.Row="10" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
+                <Grid Grid.Row="11" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -251,7 +307,7 @@
                 </Grid>
 
                 <!-- Averages -->
-                <Grid Grid.Row="11" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
+               <!-- <Grid Grid.Row="12" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -272,33 +328,33 @@
                     <Label Grid.Column="7" Text="{Binding AvgIncomeDisplay, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
 
 
-                </Grid>
+                </Grid>-->
 
                 <!-- Divider above profit -->
-                <BoxView Grid.Row="12" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+                <BoxView Grid.Row="13" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
                 <!-- Profit -->
-                <Grid Grid.Row="13" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
+                <Grid Grid.Row="14" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
+                        <!--<ColumnDefinition Width="0" />
+                        <ColumnDefinition Width="0" />
+                        <ColumnDefinition Width="0" />
+                        <ColumnDefinition Width="0" />
+                        <ColumnDefinition Width="0" />-->
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Text="Profit:" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="0" Text="{Binding ProfitString}" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Label Grid.Column="7" Text="{Binding TotalProfit, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </Grid>
                 <!--#endregion-->
 
                     <!-- Divider above footer -->
-                <BoxView Grid.Row="14" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
+                <BoxView Grid.Row="15" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
                 <!-- Footer -->
-                <StackLayout Grid.Row="15" Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,10,0,10">
+                <StackLayout Grid.Row="16" Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,10,0,10">
                     <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Finance" Clicked="Finance_Clicked"/>
                 </StackLayout>
             </Grid>

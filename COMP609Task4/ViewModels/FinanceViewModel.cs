@@ -606,5 +606,12 @@ namespace COMP609Task4.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+
+        public decimal[] GetAvgCostWeightProd(String stock)
+        {
+            decimal d1 = (decimal)333.333;
+            decimal[] decimalArr = { d1, d1 * 2, d1 * 3 };
+            return decimalArr;
+        }
     }
 }

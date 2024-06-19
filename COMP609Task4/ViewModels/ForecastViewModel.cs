@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Numerics;
 using COMP609Task4.Models;
 using Microsoft.Maui.Controls;
 
@@ -10,21 +11,25 @@ namespace COMP609Task4.ViewModels
     // ViewModel for managing editing operations
     public class ForecastViewModel : INotifyPropertyChanged
     {
+        private readonly Database _database;
+
         // Observable collection that forcasted livestock are added to
         private ObservableCollection<Stock> _forecastLivestock;
-
+        private ObservableCollection<Stock> _livestock;
         // Databse connection/instance not required for this page
+
 
         // Constructor
         public ForecastViewModel()
         {
-            //_database = new Database(); // Initialize database instance
+            _database = new Database(); // Initialize database instance
             _forecastLivestock = new ObservableCollection<Stock>(); // Initialize search results collection
 
             _milkPrice = 9.4m;
             _woolPrice = 6.2m;
             _taxPrice = 0.02m;
-
+            LoadData();
+            FindStockAve();
             // Just for testing, adds 6 cows to the observable collection
             for (int i = 0; i < 5; i++)
             {
@@ -42,8 +47,64 @@ namespace COMP609Task4.ViewModels
                 };
                 _forecastLivestock.Add(newStock);
             }
+            Stock newStock2;
+            newStock2 = new Sheep()
+            {
+                // Set properties common to all stocks
+                Type = "Sheep",
+                Colour = "White",
+                Cost = 33,
+                Weight = 66,
+                // Set additional property specific to Cow
+                Wool = 22
+
+            };
+            _forecastLivestock.Add(newStock2);
+
+            foreach (var stock in _forecastLivestock)
+            {
+                stock.TaxCalculation = CalculateTax(stock);
+                stock.IncomeCalculation = CalculateIncome(stock);
+            }
             CalculateTotals();
+            _profitString = GetProfitString();
         }
+
+        #region ProfitText
+        string _profitString = "";
+        public string ProfitString
+        {
+            get => _profitString;
+            set
+            {
+                _profitString = value;
+                OnPropertyChanged(nameof(_profitString));
+            }
+        }
+        public string GetProfitString()
+        {
+            string str = "Buying ";
+            if (_forecastLivestock.OfType<Cow>().Any())
+            {
+                str = str + _forecastLivestock.OfType<Cow>().Count().ToString() + " cow";
+                if (_forecastLivestock.OfType<Cow>().Count() > 1)
+                {
+                    str = str + "s"; // Ensures correct pural for 1 or > 1 cows (s).
+                }
+            }
+            if (_forecastLivestock.OfType<Cow>().Any() && _forecastLivestock.OfType<Sheep>().Any())
+            {
+                str = str + " and ";
+               
+            }
+            if (_forecastLivestock.OfType<Sheep>().Any())
+            {
+                str = str + _forecastLivestock.OfType<Sheep>().Count().ToString() + " sheep";
+            }
+            str = str + " would bring in an estimated daily profit of: ";
+            return str;
+        }
+        #endregion
 
         // Coppied from finance view model
         public ObservableCollection<Stock> ForecastLivestock
@@ -57,51 +118,151 @@ namespace COMP609Task4.ViewModels
             }
         }
 
+        public ObservableCollection<Stock> Livestock
+        {
+            get => _livestock;
+            set
+            {
+                _livestock = value;
+                OnPropertyChanged(nameof(Livestock));
+            }
+        }
+
+        // Property to access the database instance
+        public Database Database => _database;
+
+        // Load livestock data from the database
+        public void LoadData()
+        {
+            var livestockData = _database.ReadItems();
+            Livestock = livestockData != null ? new ObservableCollection<Stock>(livestockData) : new ObservableCollection<Stock>();
+            Livestock = new ObservableCollection<Stock>(Livestock);
+        }
+
+        public Cow AveCow = new Cow();
+        public Sheep AveSheep = new Sheep();
+        private void FindStockAve()
+        {
+            decimal tempCowCost = 0;
+            decimal tempCowWeight = 0;
+            decimal tempCowMilk = 0;
+            int tempCowCount = 0;
+
+            decimal tempSheepCost = 0;
+            decimal tempSheepWeight = 0;
+            decimal tempSheepWool = 0;
+            int tempSheepCount = 0;
+
+            foreach (var stock in _livestock)
+            {
+                if (stock.Type.ToString() == "Cow")
+                {
+                    tempCowCost += stock.Cost;
+                    tempCowWeight += stock.Weight;
+                    if (int.TryParse(stock.Milk, out int value))
+                    {
+                        tempCowMilk += Decimal.Parse(stock.Milk);
+                    }
+                    
+                    tempCowCount += 1;
+                }
+                else if (stock.Type.ToString() == "Sheep")
+                {
+                    tempSheepCost += stock.Cost;
+                    tempSheepWeight += stock.Weight;
+                    if (int.TryParse(stock.Wool, out int value))
+                    {
+                        tempSheepWool += Decimal.Parse(stock.Wool);
+                    }
+                    tempSheepCount += 1;
+                }
+                AveCow.Colour = "White";
+                
+                if (tempCowCount > 0) // Avoid divide by 0 error
+                {
+                    AveCow.Cost = Decimal.ToInt32(tempCowCost / tempCowCount);
+                    AveCow.Weight = Decimal.ToInt32(tempCowWeight / tempCowCount);
+                    AveCow.Milk = Decimal.ToInt32(tempCowMilk / tempCowCount);
+                }
+                
+                AveSheep.Colour = "White";
+                if (tempSheepCount > 0) // Avoid devide by 0 error
+                {
+                    AveSheep.Cost = Decimal.ToInt32(tempSheepCost / tempSheepCount);
+                    AveSheep.Weight = Decimal.ToInt32(tempSheepWeight / tempSheepCount);
+                    AveSheep.Wool = Decimal.ToInt32(tempSheepWool / tempSheepCount);
+                }
+                
+            }
+        }
 
 
         // Method to add a new stock item
-        public int AddNewStock(string selectedStockType, string selectedColour, int cost, int weight, int additionalField)
+        public int AddNewStock(string selectedStockType, string selectedColour, int cost, int weight, int additionalField, int qty)
         {
-            // Create a new Stock object
-            Stock newStock;
-            if (selectedStockType == "Cow")
-            {
-                newStock = new Cow()
+            for (int i = 0; i < qty; i++) 
+            { 
+                // Create a new Stock object
+                Stock newStock;
+                if (selectedStockType == "Cow")
                 {
-                    // Set properties common to all stocks
-                    Type = selectedStockType,
-                    Colour = selectedColour,
-                    Cost = cost,
-                    Weight = weight,
-                    // Set additional property specific to Cow
-                    Milk = additionalField
-                };
-            }
-            else // Assume selectedStockType == "Sheep"
-            {
-                newStock = new Sheep()
+                    newStock = new Cow()
+                    {
+                        // Set properties common to all stocks
+                        Type = selectedStockType,
+                        Colour = selectedColour,
+                        Cost = cost,
+                        Weight = weight,
+                        // Set additional property specific to Cow
+                        Milk = additionalField
+                    };
+                }
+                else // Assume selectedStockType == "Sheep"
                 {
-                    // Set properties common to all stocks
-                    Type = selectedStockType,
-                    Colour = selectedColour,
-                    Cost = cost,
-                    Weight = weight,
-                    // Set additional property specific to Sheep
-                    Wool = additionalField
-                };
+                    newStock = new Sheep()
+                    {
+                        // Set properties common to all stocks
+                        Type = selectedStockType,
+                        Colour = selectedColour,
+                        Cost = cost,
+                        Weight = weight,
+                        // Set additional property specific to Sheep
+                        Wool = additionalField
+                    };
+                }
+
+                // Insert the new stock into the database
+                _forecastLivestock.Add(newStock);
+
+
+                //// Update search results collection
+                //SearchResults.Add(newStock); //?????
+
+                // Update sums at botom of page.
+                CalculateTotals();
+                GetProfitString();
             }
+            return 1;
+        }
+        public int AddAveNewStock(string selectedStockType, int qty)
+        {
+            for (int i = 0; i < qty; i++)
+            {
+                // Create a new Stock object
+                Stock newStock;
+                if (selectedStockType == "Cow")
+                {
+                    _forecastLivestock.Add(AveCow);
+                }
+                else // Assume selectedStockType == "Sheep"
+                {
+                    _forecastLivestock.Add(AveSheep);
+                }
 
-            // Insert the new stock into the database
-            _forecastLivestock.Add(newStock);
-
-
-            //// Update search results collection
-            //SearchResults.Add(newStock); //?????
-
-            // Update sums at botom of page.
-            CalculateTotals();            
-            
-
+                // Update sums at botom of page.
+                CalculateTotals();
+                GetProfitString();
+            }
             return 1;
         }
 
@@ -281,7 +442,7 @@ namespace COMP609Task4.ViewModels
         }
         #endregion
 
-
+        #region CalculateTotals
         public void CalculateTotals()
         {
             int totalStockCount = ForecastLivestock.Count;
@@ -359,6 +520,7 @@ namespace COMP609Task4.ViewModels
             _originalAvgMilkDisplay = AvgMilkDisplay;
             _originalAvgWoolDisplay = AvgWoolDisplay;
         }
+        #endregion
 
         // Rates properties
         private decimal _milkPrice;
@@ -367,6 +529,7 @@ namespace COMP609Task4.ViewModels
         public string MilkPriceText { get; set; }
         public string WoolPriceText { get; set; }
         public string TaxPriceText { get; set; }
+
 
         public decimal MilkPrice
         {
@@ -444,5 +607,6 @@ namespace COMP609Task4.ViewModels
         private decimal _originalAvgIncomeDisplay;
         private decimal _originalAvgMilkDisplay;
         private decimal _originalAvgWoolDisplay;
+
     }
 }

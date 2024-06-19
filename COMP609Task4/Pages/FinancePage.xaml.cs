@@ -33,6 +33,7 @@ public partial class FinancePage : ContentPage
         StockColourPicker.SelectedIndex = 0;
         TimePeriodPicker.SelectedIndex = 0;
     }
+
     #endregion
     #region Event Handlers
     // Event handler for the Home button click event
@@ -137,4 +138,9 @@ public partial class FinancePage : ContentPage
         decimal taxPrice = decimal.TryParse(TaxPriceEntry.Text, out taxPrice) ? taxPrice : 0;
     }
     #endregion
+
+    public  decimal[] GetAvgs(String stock)
+    {
+        return _viewModel.GetAvgCostWeightProd(stock);
+    }
 }
