@@ -18,18 +18,6 @@ namespace COMP609Task4.ViewModels
         private ObservableCollection<Stock> _forecastLivestock;
         private ObservableCollection<Stock> _livestock;
 
-        // Original values for reset
-        private decimal _originalTotalCost;
-        private decimal _originalTotalTax;
-        private decimal _originalTotalIncome;
-        private decimal _originalTotalProfit;
-        private decimal _originalTotalMilk;
-        private decimal _originalTotalWool;
-        private decimal _originalAvgCostDisplay;
-        private decimal _originalAvgTaxDisplay;
-        private decimal _originalAvgIncomeDisplay;
-        private decimal _originalAvgMilkDisplay;
-        private decimal _originalAvgWoolDisplay;
         #endregion
         #region Properties
         // Coppied from finance view model
@@ -467,18 +455,6 @@ namespace COMP609Task4.ViewModels
             AvgTaxDisplay = Math.Round(AvgTaxDisplay, 2);
             AvgIncomeDisplay = Math.Round(AvgIncomeDisplay, 2);
 
-            // Store original values
-            _originalTotalCost = TotalCost;
-            _originalTotalTax = TotalTax;
-            _originalTotalIncome = TotalIncome;
-            _originalTotalProfit = TotalProfit;
-            _originalTotalMilk = TotalMilk;
-            _originalTotalWool = TotalWool;
-            _originalAvgCostDisplay = AvgCostDisplay;
-            _originalAvgTaxDisplay = AvgTaxDisplay;
-            _originalAvgIncomeDisplay = AvgIncomeDisplay;
-            _originalAvgMilkDisplay = AvgMilkDisplay;
-            _originalAvgWoolDisplay = AvgWoolDisplay;
         }
         #endregion
         #region Private Methods

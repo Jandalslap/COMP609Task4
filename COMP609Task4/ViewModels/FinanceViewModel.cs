@@ -9,6 +9,7 @@ using System.Windows.Input;
 
 namespace COMP609Task4.ViewModels
 {
+    // ViewModel for managing finance overview in the application
     internal class FinanceViewModel : INotifyPropertyChanged
     {
         #region Private Members

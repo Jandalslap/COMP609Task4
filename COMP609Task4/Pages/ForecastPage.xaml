@@ -285,7 +285,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Text="Estimated Profit:" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="0" Text="Est. Daily Profit:" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Label Grid.Column="5" Text="{Binding TotalProfit, StringFormat='{0:C2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </Grid>
                 <!--#endregion-->
