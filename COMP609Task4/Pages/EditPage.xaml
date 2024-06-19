@@ -128,10 +128,10 @@
                                 <Label Text="Stock Type:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
                                 <Label x:Name="TypeLabel" VerticalOptions="Center"/>
                             </StackLayout>
-                            <!-- Colour input field -->
+                            <!-- Colour dropdown menu -->
                             <StackLayout Grid.Column="2" Margin="0,0,10,0">
                                 <Label Text="Colour" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
-                                <Entry x:Name="ColourEntry" Placeholder="Colour"/>
+                                <Picker x:Name="ColourUpdater"/>
                             </StackLayout>
                             <!-- Cost input field -->
                             <StackLayout Grid.Column="3" Margin="0,0,10,0">

@@ -21,6 +21,9 @@ namespace COMP609Task4.Pages
             _database = new Database();         // Instantiates the database
             _viewModel = new EditViewModel();   // Instantiates the view model
             BindingContext = _viewModel;        // Sets the view model as the data context for the page
+
+            // Populate the colour updater
+            ColourUpdater.ItemsSource = new List<string> { "Red", "White", "Black" };
         }
 
         // Constructor with a search ID parameter
@@ -45,7 +48,9 @@ namespace COMP609Task4.Pages
                 IdLabel.Text = stockToEdit.Id.ToString(); // Display the stock ID
                 CostEntry.Text = stockToEdit.Cost.ToString(); // Display the stock cost
                 WeightEntry.Text = stockToEdit.Weight.ToString(); // Display the stock weight
-                ColourEntry.Text = stockToEdit.Colour.ToString(); // Display the stock color
+
+                // Set the selected color in the picker
+                ColourUpdater.SelectedItem = stockToEdit.Colour;
 
                 // Conditional display based on the stock type (Cow or Sheep)
                 if (stockToEdit is Cow cow)
@@ -103,23 +108,12 @@ namespace COMP609Task4.Pages
                     return;
                 }
 
-                // Validate Colour
-                string colourInput = ColourEntry.Text.Trim().ToLower(); // Convert to lowercase and trim whitespace
-                string colour;
-                switch (colourInput)
-                { // Change userinput to match database entries with a capital letter
-                    case "red":
-                        colour = "Red";
-                        break;
-                    case "white":
-                        colour = "White";
-                        break;
-                    case "black":
-                        colour = "Black";
-                        break;
-                    default:
-                        DisplayAlert("Error", "Please enter either Red, White, or Black for Colour.", "OK"); // Display an error alert
-                        return;
+                // Get the selected color from the Picker
+                string selectedColour = ColourUpdater.SelectedItem?.ToString();
+                if (string.IsNullOrEmpty(selectedColour))
+                {
+                    DisplayAlert("Error", "Please select a color.", "OK");
+                    return;
                 }
 
                 // Validate ProduceEntry based on Stock type (Cow or Sheep)
@@ -151,7 +145,7 @@ namespace COMP609Task4.Pages
                 // Update the stock object with validated values
                 updatedStock.Cost = cost;
                 updatedStock.Weight = weight;
-                updatedStock.Colour = colour;
+                updatedStock.Colour = selectedColour;
 
                 // Perform database update
                 int result = _database.UpdateItem(updatedStock);
@@ -290,7 +284,7 @@ namespace COMP609Task4.Pages
             await Navigation.PushAsync(new LivestockPage()); // Navigate to the Livestock page
         }
         #endregion
-        #region Data Validation Methods
+        #region Input Validation Method
         // Method to validate that a given string is a non-negative integer
         private bool ValidateNonNegativeInteger(string input, out int value)
         {
@@ -310,7 +304,7 @@ namespace COMP609Task4.Pages
         {
             TypeLabel.Text = "Type";             // Reset type label
             IdLabel.Text = "ID";                 // Reset ID label
-            ColourEntry.Text = string.Empty;     // Reset colour entry field
+            ColourUpdater.SelectedIndex = -1;    // Reset colour dropdown
             CostEntry.Text = string.Empty;       // Clear cost entry field
             WeightEntry.Text = string.Empty;     // Clear weight entry field
             ProduceLabel.Text = "Produce";       // Reset produce label
