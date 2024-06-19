@@ -173,6 +173,7 @@ public partial class ForecastPage : ContentPage
         AddWeight.Text = string.Empty;
         AddProduce.Text = string.Empty;
         AddQty.Text = string.Empty;
+        AddProduceLabel.Text = "Produce";    // Reset column header to Produce
     }
 
     // Event handler for the Livestock button click event
