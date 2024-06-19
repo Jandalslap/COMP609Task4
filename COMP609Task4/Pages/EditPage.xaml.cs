@@ -310,6 +310,7 @@ namespace COMP609Task4.Pages
             ProduceLabel.Text = "Produce";       // Reset produce label
             ProduceEntry.Text = string.Empty;    // Clear produce entry field
             IdSearchEntry.Text = string.Empty;   // Clear search entry field
+            ProduceLabel.Text = "Produce";       // Reset column header to Produce
         }
 
         // Method to clear the add form fields
@@ -320,6 +321,7 @@ namespace COMP609Task4.Pages
             AddCost.Text = string.Empty;         // Clear cost entry field
             AddWeight.Text = string.Empty;       // Clear weight entry field
             AddProduce.Text = string.Empty;      // Clear produce entry field
+            AddProduceLabel.Text = "Produce";    // Reset column header to Produce
         }
         #endregion
     }
