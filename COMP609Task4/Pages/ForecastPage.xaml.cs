@@ -4,9 +4,13 @@ namespace COMP609Task4.Pages;
 
 public partial class ForecastPage : ContentPage
 {
+    #region Private Members
     private readonly Database _database;
     //private readonly string _searchId;
     private readonly ForecastViewModel _viewModel;
+    #endregion
+    #region Constructor
+    // Constructor
     public ForecastPage()
     {
         InitializeComponent();
@@ -14,6 +18,8 @@ public partial class ForecastPage : ContentPage
         _viewModel = new ForecastViewModel();
         BindingContext = _viewModel;
     }
+    #endregion
+    #region Lifecycle Methods
     // Event handler for when the page appears
     protected override void OnAppearing()
     {
@@ -24,10 +30,9 @@ public partial class ForecastPage : ContentPage
         // Reset the dropdown menus
         StockTypePicker.SelectedIndex = -1;
     }
-    private async void Back_Clicked(object sender, EventArgs e)
-    {
-        await Navigation.PopAsync(); // Go back to the previous page
-    }
+    #endregion
+    #region Event Handlers
+    // Event handler for the Home button click event
     private async void Home_Clicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync("//MainPage");
@@ -38,10 +43,6 @@ public partial class ForecastPage : ContentPage
     {
         await Navigation.PushAsync(new FinancePage());
     }
-
-    //METHODS FROM EDITPAGE.XAML.CS
-    // NEED TO BE CHANGED FOR SPECIFIC IMPLEMENTATION OF FORM
-
     
     // Event handler for the Add New Stock button click event
     private void AddNewStock_Clicked(object sender, EventArgs e)
@@ -91,6 +92,7 @@ public partial class ForecastPage : ContentPage
         }
     }
 
+    // Event handler for the Ave Add New Stock button click event
     private void AveAddNewStock_Clicked(object sender, EventArgs e)
     {
         if (AveStockTypePicker.SelectedItem == null)
@@ -138,6 +140,18 @@ public partial class ForecastPage : ContentPage
         }
     }
 
+    // Event handler for the Livestock button click event
+    private async void Livestock_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new LivestockPage());
+    }
+
+    // Event handler to clear the add new stock fields
+    private void ClearAddNewStock_Clicked(object sender, EventArgs e)
+    {
+        ClearAddForm();
+    }
+
     // Method to clear the add form fields
     private void ClearAddForm()
     {
@@ -149,17 +163,5 @@ public partial class ForecastPage : ContentPage
         AddQty.Text = string.Empty;
         AddProduceLabel.Text = "Produce";    // Reset column header to Produce
     }
-
-    // Event handler for the Livestock button click event
-    private async void Livestock_Clicked(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new LivestockPage());
-    }
-
-
-    // Event handler to clear the add new stock fields
-    private void ClearAddNewStock_Clicked(object sender, EventArgs e)
-    {
-        ClearAddForm();
-    }
+    #endregion
 }
