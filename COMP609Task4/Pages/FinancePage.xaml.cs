@@ -145,8 +145,4 @@ public partial class FinancePage : ContentPage
     }
     #endregion
 
-    public  decimal[] GetAvgs(String stock)
-    {
-        return _viewModel.GetAvgCostWeightProd(stock);
-    }
 }
