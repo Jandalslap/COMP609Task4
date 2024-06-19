@@ -14,7 +14,16 @@ public partial class ForecastPage : ContentPage
         _viewModel = new ForecastViewModel();
         BindingContext = _viewModel;
     }
+    // Event handler for when the page appears
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        Console.WriteLine("OnAppearing triggered");
+        _viewModel.LoadData();
 
+        // Reset the dropdown menus
+        StockTypePicker.SelectedIndex = 0;
+    }
     private async void Back_Clicked(object sender, EventArgs e)
     {
         await Navigation.PopAsync(); // Go back to the previous page
@@ -42,29 +51,14 @@ public partial class ForecastPage : ContentPage
             DisplayAlert("Error", "Please select a stock type", "OK");
             return;
         }
-        if (ColourPicker.SelectedItem == null)
-        {
-            DisplayAlert("Error", "Please select a colour", "OK");
-            return;
-        }
         if (string.IsNullOrWhiteSpace(aveCost.Text))
         {
             DisplayAlert("Error", "Please enter a value for cost", "OK");
             return;
         }
-        if (string.IsNullOrWhiteSpace(AddWeight.Text))
-        {
-            DisplayAlert("Error", "Please enter a value for weight", "OK");
-            return;
-        }
         if (!int.TryParse(aveCost.Text, out int cost))
         {
             DisplayAlert("Error", "Invalid value for cost", "OK");
-            return;
-        }
-        if (!int.TryParse(AddWeight.Text, out int weight))
-        {
-            DisplayAlert("Error", "Invalid value for weight", "OK");
             return;
         }
         if (!int.TryParse(AddQty.Text, out int qty))
@@ -74,7 +68,6 @@ public partial class ForecastPage : ContentPage
         }
 
         string selectedStockType = StockTypePicker.SelectedItem.ToString();
-        string selectedColour = ColourPicker.SelectedItem.ToString();
 
         int additionalField;
         if (!int.TryParse(AddProduce.Text, out additionalField))
@@ -84,7 +77,7 @@ public partial class ForecastPage : ContentPage
         }
 
         // Call the AddNewStock method from the ViewModel
-        int result = _viewModel.AddNewStock(selectedStockType, selectedColour, cost, weight, additionalField, qty);
+        int result = _viewModel.AddNewStock(selectedStockType, cost, additionalField, qty);
 
         if (result > 0)
         {
@@ -96,7 +89,6 @@ public partial class ForecastPage : ContentPage
         {
             DisplayAlert("Error", "Failed to add stock", "OK");
         }
-        _viewModel.GetProfitString();
     }
 
     private void AveAddNewStock_Clicked(object sender, EventArgs e)
@@ -128,7 +120,6 @@ public partial class ForecastPage : ContentPage
         {
             DisplayAlert("Error", "Failed to add stock", "OK");
         }
-        _viewModel.GetProfitString();
     }
 
     // Event handler for the Stock Type Picker selection change event
@@ -147,30 +138,13 @@ public partial class ForecastPage : ContentPage
         }
     }
 
-
-    private void AveStockTypePicker_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (sender is Picker picker && picker.SelectedItem != null)
-        {
-            if (picker.SelectedItem.ToString() == "Cow")
-            {
-                AddProduceLabel.Text = "Milk";
-            }
-            else if (picker.SelectedItem.ToString() == "Sheep")
-            {
-                AddProduceLabel.Text = "Wool";
-            }
-        }
-    }
-
-
     // Method to clear the add form fields
     private void ClearAddForm()
     {
+        AveStockTypePicker.SelectedItem = null;
+        AveAddQty.Text = string.Empty;
         StockTypePicker.SelectedItem = null;
-        ColourPicker.SelectedItem = null;
         aveCost.Text = string.Empty;
-        AddWeight.Text = string.Empty;
         AddProduce.Text = string.Empty;
         AddQty.Text = string.Empty;
         AddProduceLabel.Text = "Produce";    // Reset column header to Produce

@@ -100,8 +100,6 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
                             <!-- Stock Type Dropdown -->
@@ -110,7 +108,7 @@
                             </StackLayout>
                             <StackLayout Grid.Column="1" Margin="0,0,10,0">
                                 <Label Text="Stock Type:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
-                                <Picker x:Name="AveStockTypePicker" SelectedIndexChanged="AveStockTypePicker_SelectedIndexChanged">
+                                <Picker x:Name="AveStockTypePicker">
                                     <Picker.ItemsSource>
                                         <x:Array Type="{x:Type x:String}">
                                             <x:String>Cow</x:String>
@@ -146,8 +144,6 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
                             <StackLayout Grid.Column="0" Margin="0,0,10,0">
@@ -167,45 +163,27 @@
                                 </Picker>
                             </StackLayout>
 
-                            <!-- Colour Dropdown -->
-                            <StackLayout Grid.Column="2" Margin="0,0,10,0">
-                                <Label Text="Colour:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
-                                <Picker x:Name="ColourPicker">
-                                    <Picker.ItemsSource>
-                                        <x:Array Type="{x:Type x:String}">
-                                            <x:String>Red</x:String>
-                                            <x:String>White</x:String>
-                                            <x:String>Black</x:String>
-                                        </x:Array>
-                                    </Picker.ItemsSource>
-                                </Picker>
-                            </StackLayout>
 
                             <!-- Cost -->
-                            <StackLayout Grid.Column="3" Margin="0,0,10,0">
+                            <StackLayout Grid.Column="2" Margin="0,0,10,0">
                                 <Label Text="Cost:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
                                 <Entry x:Name="aveCost" Placeholder="Cost"/>
                             </StackLayout>
 
-                            <!-- Weight -->
-                            <StackLayout Grid.Column="4" Margin="0,0,10,0">
-                                <Label Text="Weight:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
-                                <Entry x:Name="AddWeight" Placeholder="Weight"/>
-                            </StackLayout>
 
                             <!-- Produce field based on stock type -->
-                            <StackLayout Grid.Column="5" Margin="0,0,10,0" x:Name="ProduceStackLayout2">
+                            <StackLayout Grid.Column="3" Margin="0,0,10,0" x:Name="ProduceStackLayout2">
                                 <Label x:Name="AddProduceLabel" Text="Produce" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" VerticalOptions="Center"/>
                                 <Entry x:Name="AddProduce" Placeholder="Produce"/>
                             </StackLayout>
                             <!-- Quantity field -->
-                            <StackLayout Grid.Column="6" Margin="0,0,10,0" x:Name="QtyLayout2">
+                            <StackLayout Grid.Column="4" Margin="0,0,10,0" x:Name="QtyLayout2">
                                 <Label x:Name="AddQtyLabel" Text="Qty" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" VerticalOptions="Center"/>
                                 <Entry x:Name="AddQty" Placeholder="1" />
                             </StackLayout>
 
                             <!-- Add New and Reset Buttons -->
-                            <StackLayout Grid.Column="7" Padding="10" Orientation="Horizontal" VerticalOptions="Start">
+                            <StackLayout Grid.Column="5" Padding="10" Orientation="Horizontal" VerticalOptions="Start">
                                 <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Add New" Clicked="AddNewStock_Clicked" CommandParameter="{Binding .}"/>
                                 <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Reset" Clicked="ClearAddNewStock_Clicked" CommandParameter="{Binding .}"/>
                             </StackLayout>
@@ -222,8 +200,7 @@
                 <!-- Fixed header row for columns -->
                 <Grid Grid.Row="7" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
+                        <!--<ColumnDefinition Width="*" />-->
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -231,14 +208,13 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Text="ID" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="1" Text="Type" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="2" Text="Colour" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="3" Text="Cost" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="4" Text="Milk" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="5" Text="Wool" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="6" Text="Tax" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="7" Text="Income" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="0" Text="Type" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <!--<Label Grid.Column="1" Text="Colour" FontAttributes="Bold" HorizontalOptions="Center"/>-->
+                    <Label Grid.Column="1" Text="Cost" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="2" Text="Milk" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="3" Text="Wool" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="4" Text="Tax" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="5" Text="Income" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </Grid>
 
                 <!-- Divider below headings section -->
@@ -258,22 +234,20 @@
                                     <Grid Padding="10" ColumnSpacing="10">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
+                                            <!--<ColumnDefinition Width="*" />-->
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Text="{Binding Id}" HorizontalOptions="Center"/>
-                                        <Label Grid.Column="1" Text="{Binding Type}" HorizontalOptions="Center"/>
-                                        <Label Grid.Column="2" Text="{Binding Colour}" HorizontalOptions="Center"/>
-                                        <Label Grid.Column="3" Text="{Binding Cost}" HorizontalOptions="Center"/>
-                                        <Label Grid.Column="4" Text="{Binding Milk, TargetNullValue='-'}" HorizontalOptions="Center"/>
-                                        <Label Grid.Column="5" Text="{Binding Wool, TargetNullValue='-'}" HorizontalOptions="Center"/>
-                                        <Label Grid.Column="6" Text="{Binding TaxCalculation}" HorizontalOptions="Center"/>
-                                        <Label Grid.Column="7" Text="{Binding IncomeCalculation}" HorizontalOptions="Center"/>
+                                        <Label Grid.Column="0" Text="{Binding Type}" HorizontalOptions="Center"/>
+                                        <!--<Label Grid.Column="1" Text="{Binding Colour}" HorizontalOptions="Center"/>-->
+                                        <Label Grid.Column="1" Text="{Binding Cost}" HorizontalOptions="Center"/>
+                                        <Label Grid.Column="2" Text="{Binding Milk, TargetNullValue='-'}" HorizontalOptions="Center"/>
+                                        <Label Grid.Column="3" Text="{Binding Wool, TargetNullValue='-'}" HorizontalOptions="Center"/>
+                                        <Label Grid.Column="4" Text="{Binding TaxCalculation}" HorizontalOptions="Center"/>
+                                        <Label Grid.Column="5" Text="{Binding IncomeCalculation}" HorizontalOptions="Center"/>
                                     </Grid>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
@@ -293,42 +267,16 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Text="Total:" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="1" Text="{Binding TotalStockCount}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="2" Text="{Binding TotalColours}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="3" Text="{Binding TotalCost, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="4" Text="{Binding TotalMilk, StringFormat='{0} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="5" Text="{Binding TotalWool, StringFormat='{0} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="6" Text="{Binding TotalTax, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="7" Text="{Binding TotalIncome, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="1" Text="{Binding TotalCost, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="2" Text="{Binding TotalMilk, StringFormat='{0} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="3" Text="{Binding TotalWool, StringFormat='{0} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="4" Text="{Binding TotalTax, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="5" Text="{Binding TotalIncome, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </Grid>
 
-                <!-- Averages -->
-               <!-- <Grid Grid.Row="12" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Text="Avg:" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="1" Text="{Binding AvgStockDisplay}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="2" Text="{Binding AvgColoursDisplay}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="3" Text="{Binding AvgCostDisplay, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="4" Text="{Binding AvgMilkDisplay, StringFormat='{0} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="5" Text="{Binding AvgWoolDisplay, StringFormat='{0} kg'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="6" Text="{Binding AvgTaxDisplay, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="7" Text="{Binding AvgIncomeDisplay, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
-
-
-                </Grid>-->
+             
 
                 <!-- Divider above profit -->
                 <BoxView Grid.Row="13" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
@@ -336,11 +284,12 @@
                 <!-- Profit -->
                 <Grid Grid.Row="14" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="7*" />
+                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Text="{Binding ProfitString}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="1" Text="{Binding TotalProfit, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="1" Text="Estimated profit per day: " FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="2" Text="{Binding TotalProfit, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </Grid>
                 <!--#endregion-->
 
