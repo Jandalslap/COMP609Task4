@@ -8,7 +8,7 @@ using Microsoft.Maui.Controls;
 
 namespace COMP609Task4.ViewModels
 {
-    // ViewModel for managing editing operations
+    // ViewModel for managing forecast operations
     public class ForecastViewModel : INotifyPropertyChanged
     {
         #region Private Members
