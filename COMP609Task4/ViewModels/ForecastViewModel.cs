@@ -31,7 +31,7 @@ namespace COMP609Task4.ViewModels
             LoadData();
             FindStockAve();
             // Just for testing, adds 6 cows to the observable collection
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 2; i++)
             {
                 Stock newStock;
                 newStock = new Cow()
@@ -67,7 +67,7 @@ namespace COMP609Task4.ViewModels
                 stock.IncomeCalculation = CalculateIncome(stock);
             }
             CalculateTotals();
-            _profitString = GetProfitString();
+            ProfitString = GetProfitString();
         }
 
         #region ProfitText
@@ -239,8 +239,13 @@ namespace COMP609Task4.ViewModels
                 //SearchResults.Add(newStock); //?????
 
                 // Update sums at botom of page.
+                foreach (var stock in _forecastLivestock)
+                {
+                    stock.TaxCalculation = CalculateTax(stock);
+                    stock.IncomeCalculation = CalculateIncome(stock);
+                }
                 CalculateTotals();
-                GetProfitString();
+                ProfitString = GetProfitString();
             }
             return 1;
         }
@@ -260,8 +265,13 @@ namespace COMP609Task4.ViewModels
                 }
 
                 // Update sums at botom of page.
+                foreach (var stock in _forecastLivestock)
+                {
+                    stock.TaxCalculation = CalculateTax(stock);
+                    stock.IncomeCalculation = CalculateIncome(stock);
+                }
                 CalculateTotals();
-                GetProfitString();
+                ProfitString = GetProfitString();
             }
             return 1;
         }
@@ -506,6 +516,8 @@ namespace COMP609Task4.ViewModels
             AvgCostDisplay = Math.Round(AvgCostDisplay, 2);
             AvgTaxDisplay = Math.Round(AvgTaxDisplay, 2);
             AvgIncomeDisplay = Math.Round(AvgIncomeDisplay, 2);
+
+            ProfitString = GetProfitString();
 
             // Store original values
             _originalTotalCost = TotalCost;

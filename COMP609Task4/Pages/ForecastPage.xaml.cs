@@ -96,7 +96,7 @@ public partial class ForecastPage : ContentPage
         {
             DisplayAlert("Error", "Failed to add stock", "OK");
         }
-        //_viewModel.GetProfitString();
+        _viewModel.GetProfitString();
     }
 
     private void AveAddNewStock_Clicked(object sender, EventArgs e)
@@ -128,7 +128,7 @@ public partial class ForecastPage : ContentPage
         {
             DisplayAlert("Error", "Failed to add stock", "OK");
         }
-        //_viewModel.GetProfitString();
+        _viewModel.GetProfitString();
     }
 
     // Event handler for the Stock Type Picker selection change event

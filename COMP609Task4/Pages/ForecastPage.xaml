@@ -184,7 +184,7 @@
                             <!-- Cost -->
                             <StackLayout Grid.Column="3" Margin="0,0,10,0">
                                 <Label Text="Cost:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
-                                <Entry x:Name="aveCost" Text="{Binding aveCost}" Placeholder="Cost"/>
+                                <Entry x:Name="aveCost" Placeholder="Cost"/>
                             </StackLayout>
 
                             <!-- Weight -->
@@ -336,17 +336,11 @@
                 <!-- Profit -->
                 <Grid Grid.Row="14" BackgroundColor="#D3D3D380" Padding="10" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <!--<ColumnDefinition Width="0" />
-                        <ColumnDefinition Width="0" />
-                        <ColumnDefinition Width="0" />
-                        <ColumnDefinition Width="0" />
-                        <ColumnDefinition Width="0" />-->
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="7*" />
+                        <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Text="{Binding ProfitString}" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Grid.Column="7" Text="{Binding TotalProfit, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="1" Text="{Binding TotalProfit, StringFormat='${0:F2}'}" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </Grid>
                 <!--#endregion-->
 
