@@ -300,6 +300,7 @@
 
                 <!-- Footer -->
                 <StackLayout Grid.Row="14" Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,10,0,10">
+                    <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Livestock" Clicked="Livestock_Clicked"/>
                     <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Forecast" Clicked="Forecast_Clicked"/>
                     <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" x:Name="EditButton" Text="Edit" Clicked="Edit_Clicked"/>
                 </StackLayout>

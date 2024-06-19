@@ -193,6 +193,12 @@ namespace COMP609Task4.Pages
             await Shell.Current.GoToAsync("//MainPage"); // Navigate to the main page of the app
         }
 
+        // Event handler for the Finance button click event
+        private async void Finance_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new FinancePage());
+        }
+
         // Event handler for the Add New Stock button click event
         private void AddNewStock_Clicked(object sender, EventArgs e)
         {
@@ -227,7 +233,7 @@ namespace COMP609Task4.Pages
             // Validate and parse the additional field (Milk or Wool)
             if (!ValidateNonNegativeInteger(AddProduce.Text, out int additionalField))
             {
-                DisplayAlert("Error", "Invalid value for additional field", "OK");
+                DisplayAlert("Error", "Please enter a valid number for produce", "OK");
                 return;
             }
 

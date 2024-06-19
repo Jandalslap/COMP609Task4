@@ -32,22 +32,29 @@
                 <!-- Header -->
                 <Grid Grid.Row="1" BackgroundColor="#D3D3D380" Padding="10">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>    <!-- Column for Logo -->                      
+                        <ColumnDefinition Width="*"/>       <!-- Column for Title -->                       
+                        <ColumnDefinition Width="Auto"/>    <!-- Spacer Column -->                       
                     </Grid.ColumnDefinitions>
+
                     <!-- Logo Image -->
                     <Image Source="lms_icon.jpg" 
-                           WidthRequest="60" 
-                           HeightRequest="60" 
-                           VerticalOptions="Center" 
-                           HorizontalOptions="Start"/>
+                    WidthRequest="60" 
+                    HeightRequest="60" 
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Start"
+                    Grid.Column="0"/>
+
                     <!-- Page Title -->
                     <Label Text="Livestock Management System" 
-                           FontSize="28" 
-                           FontAttributes="Bold"
-                           VerticalOptions="Center" 
-                           HorizontalOptions="Center" 
-                           Grid.Column="1"/>
+                    FontSize="28" 
+                    FontAttributes="Bold"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" 
+                    Grid.Column="1"/>
+
+                    <!-- Spacer column to push the title towards the center -->
+                    <BoxView Grid.Column="2" WidthRequest="60" Color="#D3D3D380" Opacity="0.1"/>
                 </Grid>
 
                 <!-- Divider below header -->

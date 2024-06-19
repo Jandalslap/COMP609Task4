@@ -244,6 +244,7 @@
                 <!-- Footer section containing navigation buttons -->
                 <StackLayout Grid.Row="10" Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,10,0,10">
                     <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Livestock" Clicked="Livestock_Clicked"/>
+                    <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Finance" Clicked="Finance_Clicked"/>
                 </StackLayout>
             </Grid>
         </Border>
