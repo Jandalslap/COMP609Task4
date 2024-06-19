@@ -42,6 +42,12 @@ public partial class FinancePage : ContentPage
         await Shell.Current.GoToAsync("//MainPage");
     }
 
+    // Event handler for the Livestock button click event
+    private async void Livestock_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new LivestockPage()); // Navigate to the Livestock page
+    }
+
     // Event handler for the Stock Type Picker selection change event
     private void StockTypePicker_SelectedIndexChanged(object sender, EventArgs e)
     {

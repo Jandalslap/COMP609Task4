@@ -128,10 +128,10 @@
                                 <Label Text="Stock Type:" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
                                 <Label x:Name="TypeLabel" VerticalOptions="Center"/>
                             </StackLayout>
-                            <!-- Colour input field -->
+                            <!-- Colour dropdown menu -->
                             <StackLayout Grid.Column="2" Margin="0,0,10,0">
                                 <Label Text="Colour" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" />
-                                <Entry x:Name="ColourEntry" Placeholder="Colour"/>
+                                <Picker x:Name="ColourUpdater"/>
                             </StackLayout>
                             <!-- Cost input field -->
                             <StackLayout Grid.Column="3" Margin="0,0,10,0">
@@ -244,6 +244,7 @@
                 <!-- Footer section containing navigation buttons -->
                 <StackLayout Grid.Row="10" Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,10,0,10">
                     <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Livestock" Clicked="Livestock_Clicked"/>
+                    <Button BackgroundColor="#F0F0F0" FontAttributes="Bold" TextColor="Black" Text="Finance" Clicked="Finance_Clicked"/>
                 </StackLayout>
             </Grid>
         </Border>
