@@ -26,6 +26,7 @@ namespace COMP609Task4.ViewModels
             _forecastLivestock = new ObservableCollection<Stock>(); // Initialize forecastLivestock collection
             _livestock = new ObservableCollection<Stock>(); // Initialize livestock collection
 
+
             // Rates Preferences
             // Initialize preferences with default values if they don't exist
             if (!Preferences.ContainsKey("MilkPrice"))
@@ -150,9 +151,9 @@ namespace COMP609Task4.ViewModels
                         Weight = 1,
                         // Set additional property specific to Cow
                         Milk = additionalField
+
                     };
-                    newStock.TaxCalculation = CalculateTax(newStock);
-                    newStock.IncomeCalculation = CalculateIncome(newStock);
+                    
                 }
                 else // Assume selectedStockType == "Sheep"
                 {
@@ -167,9 +168,11 @@ namespace COMP609Task4.ViewModels
                         Wool = additionalField,
                         
                     };
-                    newStock.TaxCalculation = CalculateTax(newStock);
-                    newStock.IncomeCalculation = CalculateIncome(newStock);
+
                 }
+
+                newStock.TaxCalculation = CalculateTax(newStock);
+                newStock.IncomeCalculation = CalculateIncome(newStock);
 
                 // Insert the new stock into the database
                 _forecastLivestock.Add(newStock);
@@ -192,25 +195,44 @@ namespace COMP609Task4.ViewModels
         {
             for (int i = 0; i < qty; i++)
             {
+                Stock newStock;
+
                 if (selectedStockType == "Cow")
                 {
-                    _forecastLivestock.Add(AveCow);
+                    newStock = new Cow()
+                    {
+                        Type = AveCow.Type, 
+                        Colour = AveCow.Colour,
+                        Cost = AveCow.Cost,
+                        Weight = AveCow.Weight,
+                        Milk = AveCow.Milk 
+                    };
                 }
                 else // Assume selectedStockType == "Sheep"
                 {
-                    _forecastLivestock.Add(AveSheep);
+                    newStock = new Sheep()
+                    {
+                        Type = AveSheep.Type, 
+                        Colour = AveSheep.Colour,
+                        Cost = AveSheep.Cost,
+                        Weight = AveSheep.Weight,
+                        Wool = AveSheep.Wool 
+                    };
                 }
 
-                foreach (var stock in _forecastLivestock)
-                {
-                    stock.TaxCalculation = CalculateTax(stock);
-                    stock.IncomeCalculation = CalculateIncome(stock);
-                }
-                // Update sums at botom of page.
-                CalculateTotals();
+                // Calculate Income and Tax before adding
+                newStock.IncomeCalculation = CalculateIncome(newStock);
+                newStock.TaxCalculation = CalculateTax(newStock);
+
+                // Add the new stock to the collection
+                _forecastLivestock.Add(newStock);
             }
+
+            // Update totals after adding all items
+            CalculateTotals();
             return 1;
         }
+
 
         // INotifyPropertyChanged implementation
         public event PropertyChangedEventHandler PropertyChanged;
