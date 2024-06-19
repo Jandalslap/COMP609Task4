@@ -74,12 +74,6 @@
                 <!-- Divider below header -->
                 <BoxView Grid.Row="2" HeightRequest="1" Color="Black" HorizontalOptions="FillAndExpand"/>
 
-                <!--<Grid Grid.Row="3">
-                    <StackLayout Grid.Row="5" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,10,0,10">
-                        <Label Text="Your stuff goes here" FontSize="24" FontAttributes="Bold"/>
-                    </StackLayout>
-                </Grid>-->
-                
                 <StackLayout Grid.Row="3" Padding="10">
                     <Label Text="" 
                     FontAttributes="Bold"
@@ -121,7 +115,7 @@
                             <!-- Quantity field -->
                             <StackLayout Grid.Column="2" Margin="0,0,10,0" x:Name="AveQtyLayout2">
                                 <Label x:Name="AveAddQtyLabel" Text="Qty" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" VerticalOptions="Center"/>
-                                <Entry x:Name="AveAddQty" Placeholder="1" />
+                                <Entry x:Name="AveAddQty" Placeholder="Qty" />
                             </StackLayout>
 
                             <!-- Add New and Reset Buttons -->
@@ -179,7 +173,7 @@
                             <!-- Quantity field -->
                             <StackLayout Grid.Column="4" Margin="0,0,10,0" x:Name="QtyLayout2">
                                 <Label x:Name="AddQtyLabel" Text="Qty" BackgroundColor="#D3D3D380" Padding="10" FontAttributes="Bold" VerticalOptions="Center"/>
-                                <Entry x:Name="AddQty" Placeholder="1" />
+                                <Entry x:Name="AddQty" Placeholder="Qty" />
                             </StackLayout>
 
                             <!-- Add New and Reset Buttons -->

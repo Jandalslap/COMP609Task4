@@ -23,11 +23,30 @@ namespace COMP609Task4.ViewModels
         public ForecastViewModel()
         {
             _database = new Database(); // Initialize database instance
-            _forecastLivestock = new ObservableCollection<Stock>(); // Initialize search results collection
+            _forecastLivestock = new ObservableCollection<Stock>(); // Initialize forecastLivestock collection
+            _livestock = new ObservableCollection<Stock>(); // Initialize livestock collection
 
-            _milkPrice = 9.4m;
-            _woolPrice = 6.2m;
-            _taxPrice = 0.2m;
+            // Rates Preferences
+            // Initialize preferences with default values if they don't exist
+            if (!Preferences.ContainsKey("MilkPrice"))
+            {
+                Preferences.Set("MilkPrice", 9.4); // Set default MilkPrice
+            }
+
+            if (!Preferences.ContainsKey("WoolPrice"))
+            {
+                Preferences.Set("WoolPrice", 6.2); // Set default WoolPrice
+            }
+
+            if (!Preferences.ContainsKey("TaxPrice"))
+            {
+                Preferences.Set("TaxPrice", 0.02); // Set default TaxPrice
+            }
+            // Load the preferences into the ViewModel
+            _milkPrice = LoadSettings("MilkPrice");
+            _woolPrice = LoadSettings("WoolPrice");
+            _taxPrice = LoadSettings("TaxPrice");
+
             LoadData();
             FindStockAve();
             
@@ -107,10 +126,8 @@ namespace COMP609Task4.ViewModels
                     AveSheep.Cost = (int)Math.Floor((double)Livestock.OfType<Sheep>().Sum(sheep => sheep.Cost) / Livestock.OfType<Sheep>().Count());
                     AveSheep.Wool = (int)Math.Floor((double)Livestock.OfType<Sheep>().Sum(sheep => sheep.Wool.GetValueOrDefault() / Livestock.OfType<Sheep>().Count()));
                 }
-                
-                AveSheep.IncomeCalculation = CalculateIncome(AveSheep);
                 AveCow.TaxCalculation = CalculateTax(AveCow);
-
+                AveSheep.IncomeCalculation = CalculateIncome(AveSheep);
             }
         }
 
@@ -482,6 +499,13 @@ namespace COMP609Task4.ViewModels
             return totalProfit;
         }
 
+        // Method to load new Rates using Xamarin.Forms Preferences (Used Preferences as opposed to altering db)
+        private decimal LoadSettings(string key)
+        {
+            // Retrieve the stored value associated with the specified 'key' from application preferences.
+            return (decimal)Preferences.Get(key, defaultValue: 0.0);
+        }
+
         private decimal _originalTotalCost;
         private decimal _originalTotalTax;
         private decimal _originalTotalIncome;
@@ -495,4 +519,5 @@ namespace COMP609Task4.ViewModels
         private decimal _originalAvgWoolDisplay;
 
     }
+
 }

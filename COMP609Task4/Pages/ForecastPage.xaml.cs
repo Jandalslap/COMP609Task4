@@ -22,7 +22,7 @@ public partial class ForecastPage : ContentPage
         _viewModel.LoadData();
 
         // Reset the dropdown menus
-        StockTypePicker.SelectedIndex = 0;
+        StockTypePicker.SelectedIndex = -1;
     }
     private async void Back_Clicked(object sender, EventArgs e)
     {
