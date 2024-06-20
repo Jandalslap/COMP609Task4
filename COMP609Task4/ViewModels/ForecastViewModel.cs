@@ -270,7 +270,7 @@ namespace COMP609Task4.ViewModels
 
             if (!Preferences.ContainsKey("TaxPrice"))
             {
-                Preferences.Set("TaxPrice", 0.02); // Set default TaxPrice
+                Preferences.Set("TaxPrice", 0.2); // Set default TaxPrice
             }
             // Load the preferences into the ViewModel
             _milkPrice = LoadSettings("MilkPrice");
