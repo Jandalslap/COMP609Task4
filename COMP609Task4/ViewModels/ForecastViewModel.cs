@@ -135,80 +135,6 @@ namespace COMP609Task4.ViewModels
             }
         }
 
-        // Avg properties
-        // Properties for storing avg count, cost, tax, colours, milk, wool and income of ForecastLivestock
-        private string _avgStockDisplay;
-        private decimal _avgCostDisplay;
-        private decimal _avgTaxDisplay;
-        private string _avgColoursDisplay;
-        private decimal _avgMilkDisplay;
-        private decimal _avgWoolDisplay;
-        private decimal _avgIncomeDisplay;
-
-        public string AvgStockDisplay
-        {
-            get => _avgStockDisplay;
-            set
-            {
-                _avgStockDisplay = value;
-                OnPropertyChanged(nameof(AvgStockDisplay));
-            }
-        }
-        public decimal AvgCostDisplay
-        {
-            get => _avgCostDisplay;
-            set
-            {
-                _avgCostDisplay = value;
-                OnPropertyChanged(nameof(AvgCostDisplay));
-            }
-        }
-        public decimal AvgTaxDisplay
-        {
-            get => _avgTaxDisplay;
-            set
-            {
-                _avgTaxDisplay = value;
-                OnPropertyChanged(nameof(AvgTaxDisplay));
-            }
-        }
-        public decimal AvgIncomeDisplay
-        {
-            get => _avgIncomeDisplay;
-            set
-            {
-                _avgIncomeDisplay = value;
-                OnPropertyChanged(nameof(AvgIncomeDisplay));
-            }
-        }
-        public string AvgColoursDisplay
-        {
-            get => _avgColoursDisplay;
-            set
-            {
-                _avgColoursDisplay = value;
-                OnPropertyChanged(nameof(AvgColoursDisplay));
-            }
-        }
-        public decimal AvgMilkDisplay
-        {
-            get => _avgMilkDisplay;
-            set
-            {
-                _avgMilkDisplay = value;
-                OnPropertyChanged(nameof(AvgMilkDisplay));
-            }
-        }
-        public decimal AvgWoolDisplay
-        {
-            get => _avgWoolDisplay;
-            set
-            {
-                _avgWoolDisplay = value;
-                OnPropertyChanged(nameof(AvgWoolDisplay));
-            }
-        }
-
         // Rates properties
         private decimal _milkPrice;
         private decimal _woolPrice;
@@ -370,10 +296,6 @@ namespace COMP609Task4.ViewModels
                 // Insert the new stock into the database
                 _forecastLivestock.Add(newStock);
 
-
-                //// Update search results collection
-                //SearchResults.Add(newStock); //?????
-
                 // Update sums at botom of page.
                 foreach (var stock in _forecastLivestock)
                 {
@@ -450,10 +372,6 @@ namespace COMP609Task4.ViewModels
             TotalTax = Math.Round(TotalTax, 2);
             TotalIncome = Math.Round(TotalIncome, 2);
             TotalProfit = Math.Round(TotalProfit, 2);
-
-            AvgCostDisplay = Math.Round(AvgCostDisplay, 2);
-            AvgTaxDisplay = Math.Round(AvgTaxDisplay, 2);
-            AvgIncomeDisplay = Math.Round(AvgIncomeDisplay, 2);
 
         }
         #endregion
