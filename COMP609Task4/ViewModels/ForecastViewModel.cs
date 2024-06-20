@@ -229,7 +229,8 @@ namespace COMP609Task4.ViewModels
                     AveCow.Milk = 0;
                     AveCow.Cost = 0;
                 }
-                else
+                else    // Values are rounded down with the method: Math.Floor() so that they conform to integer datatypes
+                        // This gives a low estimate for the forcasted profit of average Cows/Sheep.
                 {
                     AveCow.Cost = (int)Math.Floor((double)Livestock.OfType<Cow>().Sum(cow => cow.Cost) / Livestock.OfType<Cow>().Count());
                     AveCow.Milk = (int)Math.Floor((double)(Livestock.OfType<Cow>().Sum(cow => cow.Milk.GetValueOrDefault()) / Livestock.OfType<Cow>().Count()));
